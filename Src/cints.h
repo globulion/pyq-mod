@@ -42,14 +42,27 @@ static double B_term(int i1, int i2, int r1, int r2, int u, int l1, int l2,
 		     int l3, int l4, double Px, double Ax, double Bx,
 		     double Qx, double Cx, double Dx, double gamma1,
 		     double gamma2, double delta);
+
 static double kinetic(double alpha1, int l1, int m1, int n1,
 		      double xa, double ya, double za,
 		      double alpha2, int l2, int m2, int n2,
 		      double xb, double yb, double zb);
+
+static double *kinetic_fder(double alpha1, int l1, int m1, int n1,
+	                    double xa, double ya, double za,
+		            double alpha2, int l2, int m2, int n2,
+		            double xb, double yb, double zb);
+
 static double overlap(double alpha1, int l1, int m1, int n1,
 		      double xa, double ya, double za,
 		      double alpha2, int l2, int m2, int n2,
 		      double xb, double yb, double zb);
+
+static double *overlap_fder(double alpha1, int l1, int m1, int n1,
+		            double xa, double ya, double za,
+		            double alpha2, int l2, int m2, int n2,
+		            double xb, double yb, double zb);
+
 static double multipole(int kx, int ky, int kz,
                         double alpha1, int l1, int m1, int n1,
 		        double xa, double ya, double za,
@@ -110,7 +123,9 @@ static PyObject *fact_ratio2_wrap(PyObject *self,PyObject *args);
 static PyObject *contr_coulomb_wrap(PyObject *self,PyObject *args);
 static PyObject *coulomb_repulsion_wrap(PyObject *self,PyObject *args);
 static PyObject *kinetic_wrap(PyObject *self,PyObject *args);
+static PyObject *kinetic_fder_wrap(PyObject *self,PyObject *args); // adder!
 static PyObject *overlap_wrap(PyObject *self,PyObject *args);
+static PyObject *overlap_fder_wrap(PyObject *self,PyObject *args); // adder!
 static PyObject *multipole_wrap(PyObject *self,PyObject *args); // added!
 static PyObject *nuclear_attraction_wrap(PyObject *self,PyObject *args);
 static PyObject *nuclear_attraction_vec_wrap(PyObject *self,PyObject *args);

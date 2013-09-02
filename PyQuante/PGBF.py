@@ -68,11 +68,24 @@ class PGBF(PrimitiveGTO):
                overlap(self.exp,self.powers,self.origin,
                        other.exp,other.powers,other.origin)
 
+    def overlap_fder(self,other):
+        "Compute overlap derivative element with another PGBF"
+        return self.norm*other.norm*\
+               overlap_fder(self.exp,self.powers,self.origin,
+                            other.exp,other.powers,other.origin)
+
+
     def kinetic(self,other):
         "Overlap between two gaussians. THO eq. 2.14."
         return self.norm*other.norm*\
                kinetic(self.exp,self.powers,self.origin,
                        other.exp,other.powers,other.origin)
+
+    def kinetic_fder(self,other):
+        "Overlap between two gaussians. THO eq. 2.14."
+        return self.norm*other.norm*\
+               kinetic_fder(self.exp,self.powers,self.origin,
+                            other.exp,other.powers,other.origin)
 
     def multipole(self,other,i,j,k):
         "Multipole integral of i,j,k order"
