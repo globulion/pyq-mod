@@ -115,6 +115,14 @@ class Molecule:
         pos = array(pos,float64)
         return pos
 
+    def get_atno(self):
+        """get the atomic number array as ndarray"""
+        atno = [] 
+        for atom in self.atoms: 
+            atno.append(atom.atno)
+        atno = array(atno,float64) 
+        return atno
+
     def translate(self,pos):
         for atom in self.atoms: atom.translate(pos)
         return
