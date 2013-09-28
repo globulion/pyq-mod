@@ -266,34 +266,35 @@ static double overlap_1D(int l1, int l2, double PAx,
   return sum;
 }
 
-static double *overlap_fder(double alpha1, int l1, int m1, int n1,
+static double overlap_1x(double alpha1, int l1, int m1, int n1,
                            double xa, double ya, double za,
                            double alpha2, int l2, int m2, int n2,
                            double xb, double yb, double zb){
   /* case 1: bra depends on atomic position A*/
-  double *der;
+  double der;
   double Aq,Bq,term1,term2;
-  der = (double *)malloc(3*sizeof(double));
+  //der = (double *)malloc(3*sizeof(double));
   // x-component
   Aq =  sqrt((2*l1+1)*alpha1);
   Bq = -sqrt(alpha1/(2*l1-1))*2.*l1;
   term1 = Aq * overlap(alpha1,l1+1,m1,n1,xa,ya,za,
-                        alpha2,l2,m2,n2,xb,yb,zb);
+                       alpha2,l2  ,m2,n2,xb,yb,zb);
   if (l1 > 0) {
       term2 = Bq * overlap(alpha1,l1-1,m1,n1,xa,ya,za,
-                           alpha2,l2,m2,n2,xb,yb,zb);
+                           alpha2,l2  ,m2,n2,xb,yb,zb);
   }
   else term2 = 0.0;
+  /*
   der[0] = term1 + term2;
 
   // y-component
   Aq =  sqrt((2*m1+1)*alpha1);
   Bq = -sqrt(alpha1/(2*m1-1))*2.*m1;
   term1 = Aq * overlap(alpha1,l1,m1+1,n1,xa,ya,za,
-                        alpha2,l2,m2,n2,xb,yb,zb);
+                       alpha2,l2,m2  ,n2,xb,yb,zb);
   if (m1 > 0) {
       term2 = Bq * overlap(alpha1,l1,m1-1,n1,xa,ya,za,
-                           alpha2,l2,m2,n2,xb,yb,zb);
+                           alpha2,l2,m2  ,n2,xb,yb,zb);
   }
   else term2 = 0.0;
   der[1] = term1 + term2;
@@ -302,17 +303,152 @@ static double *overlap_fder(double alpha1, int l1, int m1, int n1,
   Aq =  sqrt((2*n1+1)*alpha1);
   Bq = -sqrt(alpha1/(2*n1-1))*2.*n1;
   term1 = Aq * overlap(alpha1,l1,m1,n1+1,xa,ya,za,
-                        alpha2,l2,m2,n2,xb,yb,zb);
+                       alpha2,l2,m2,n2  ,xb,yb,zb);
   if (n1 > 0) {
       term2 = Bq * overlap(alpha1,l1,m1,n1-1,xa,ya,za,
-                           alpha2,l2,m2,n2,xb,yb,zb);
+                           alpha2,l2,m2,n2  ,xb,yb,zb);
   }
   else term2 = 0.0;
   der[2] = term1 + term2;
+  */
+  der = term1 + term2;
+  return der;
+}
+
+static double overlap_1y(double alpha1, int l1, int m1, int n1,
+                           double xa, double ya, double za,
+                           double alpha2, int l2, int m2, int n2,
+                           double xb, double yb, double zb){
+  /* case 1: bra depends on atomic position A*/
+  double der;
+  double Aq,Bq,term1,term2;
+  // y-component
+  Aq =  sqrt((2*m1+1)*alpha1);
+  Bq = -sqrt(alpha1/(2*m1-1))*2.*m1;
+  term1 = Aq * overlap(alpha1,l1,m1+1,n1,xa,ya,za,
+                       alpha2,l2,m2  ,n2,xb,yb,zb);
+  if (m1 > 0) {
+      term2 = Bq * overlap(alpha1,l1,m1-1,n1,xa,ya,za,
+                           alpha2,l2,m2  ,n2,xb,yb,zb);
+  }
+  else term2 = 0.0;
+  der = term1 + term2;
 
   return der;
 }
 
+static double overlap_1z(double alpha1, int l1, int m1, int n1,
+                         double xa, double ya, double za,
+                         double alpha2, int l2, int m2, int n2,
+                         double xb, double yb, double zb){
+  /* case 1: bra depends on atomic position A*/
+  double der;
+  double Aq,Bq,term1,term2;
+  // z-component
+  Aq =  sqrt((2*n1+1)*alpha1);
+  Bq = -sqrt(alpha1/(2*n1-1))*2.*n1;
+  term1 = Aq * overlap(alpha1,l1,m1,n1+1,xa,ya,za,
+                       alpha2,l2,m2,n2  ,xb,yb,zb);
+  if (n1 > 0) {
+      term2 = Bq * overlap(alpha1,l1,m1,n1-1,xa,ya,za,
+                           alpha2,l2,m2,n2  ,xb,yb,zb);
+  }
+  else term2 = 0.0;
+  der = term1 + term2;
+  return der;
+}
+
+static double kinetic_1x(double alpha1, int l1, int m1, int n1,
+                           double xa, double ya, double za,
+                           double alpha2, int l2, int m2, int n2,
+                           double xb, double yb, double zb){
+  /* case 1: bra depends on atomic position A*/
+  double der;
+  double Aq,Bq,term1,term2;
+  //der = (double *)malloc(3*sizeof(double));
+  // x-component
+  Aq =  sqrt((2*l1+1)*alpha1);
+  Bq = -sqrt(alpha1/(2*l1-1))*2.*l1;
+  term1 = Aq * kinetic(alpha1,l1+1,m1,n1,xa,ya,za,
+                       alpha2,l2  ,m2,n2,xb,yb,zb);
+  if (l1 > 0) {
+      term2 = Bq * kinetic(alpha1,l1-1,m1,n1,xa,ya,za,
+                           alpha2,l2  ,m2,n2,xb,yb,zb);
+  }
+  else term2 = 0.0;
+  /*
+  der[0] = term1 + term2;
+
+  // y-component
+  Aq =  sqrt((2*m1+1)*alpha1);
+  Bq = -sqrt(alpha1/(2*m1-1))*2.*m1;
+  term1 = Aq * overlap(alpha1,l1,m1+1,n1,xa,ya,za,
+                       alpha2,l2,m2  ,n2,xb,yb,zb);
+  if (m1 > 0) {
+      term2 = Bq * overlap(alpha1,l1,m1-1,n1,xa,ya,za,
+                           alpha2,l2,m2  ,n2,xb,yb,zb);
+  }
+  else term2 = 0.0;
+  der[1] = term1 + term2;
+
+  // z-component
+  Aq =  sqrt((2*n1+1)*alpha1);
+  Bq = -sqrt(alpha1/(2*n1-1))*2.*n1;
+  term1 = Aq * overlap(alpha1,l1,m1,n1+1,xa,ya,za,
+                       alpha2,l2,m2,n2  ,xb,yb,zb);
+  if (n1 > 0) {
+      term2 = Bq * overlap(alpha1,l1,m1,n1-1,xa,ya,za,
+                           alpha2,l2,m2,n2  ,xb,yb,zb);
+  }
+  else term2 = 0.0;
+  der[2] = term1 + term2;
+  */
+  der = term1 + term2;
+  return der;
+}
+
+static double kinetic_1y(double alpha1, int l1, int m1, int n1,
+                           double xa, double ya, double za,
+                           double alpha2, int l2, int m2, int n2,
+                           double xb, double yb, double zb){
+  /* case 1: bra depends on atomic position A*/
+  double der;
+  double Aq,Bq,term1,term2;
+  // y-component
+  Aq =  sqrt((2*m1+1)*alpha1);
+  Bq = -sqrt(alpha1/(2*m1-1))*2.*m1;
+  term1 = Aq * kinetic(alpha1,l1,m1+1,n1,xa,ya,za,
+                       alpha2,l2,m2  ,n2,xb,yb,zb);
+  if (m1 > 0) {
+      term2 = Bq * kinetic(alpha1,l1,m1-1,n1,xa,ya,za,
+                           alpha2,l2,m2  ,n2,xb,yb,zb);
+  }
+  else term2 = 0.0;
+  der = term1 + term2;
+
+  return der;
+}
+
+static double kinetic_1z(double alpha1, int l1, int m1, int n1,
+                         double xa, double ya, double za,
+                         double alpha2, int l2, int m2, int n2,
+                         double xb, double yb, double zb){
+  /* case 1: bra depends on atomic position A*/
+  double der;
+  double Aq,Bq,term1,term2;
+  // z-component
+  Aq =  sqrt((2*n1+1)*alpha1);
+  Bq = -sqrt(alpha1/(2*n1-1))*2.*n1;
+  term1 = Aq * kinetic(alpha1,l1,m1,n1+1,xa,ya,za,
+                       alpha2,l2,m2,n2  ,xb,yb,zb);
+  if (n1 > 0) {
+      term2 = Bq * kinetic(alpha1,l1,m1,n1-1,xa,ya,za,
+                           alpha2,l2,m2,n2  ,xb,yb,zb);
+  }
+  else term2 = 0.0;
+  der = term1 + term2;
+  return der;
+}
 static double *kinetic_fder(double alpha1, int l1, int m1, int n1,
                            double xa, double ya, double za,
                            double alpha2, int l2, int m2, int n2,
@@ -325,10 +461,10 @@ static double *kinetic_fder(double alpha1, int l1, int m1, int n1,
   Aq =  sqrt((2*l1+1)*alpha1);
   Bq = -sqrt(alpha1/(2*l1-1))*2.*l1;
   term1 = Aq * kinetic(alpha1,l1+1,m1,n1,xa,ya,za,
-                        alpha2,l2,m2,n2,xb,yb,zb);
+                       alpha2,l2  ,m2,n2,xb,yb,zb);
   if (l1 > 0) {
       term2 = Bq * kinetic(alpha1,l1-1,m1,n1,xa,ya,za,
-                           alpha2,l2,m2,n2,xb,yb,zb);
+                           alpha2,l2  ,m2,n2,xb,yb,zb);
   }
   else term2 = 0.0;
   der[0] = term1 + term2;
@@ -337,10 +473,10 @@ static double *kinetic_fder(double alpha1, int l1, int m1, int n1,
   Aq =  sqrt((2*m1+1)*alpha1);
   Bq = -sqrt(alpha1/(2*m1-1))*2.*m1;
   term1 = Aq * kinetic(alpha1,l1,m1+1,n1,xa,ya,za,
-                        alpha2,l2,m2,n2,xb,yb,zb);
+                       alpha2,l2,m2  ,n2,xb,yb,zb);
   if (m1 > 0) {
       term2 = Bq * kinetic(alpha1,l1,m1-1,n1,xa,ya,za,
-                           alpha2,l2,m2,n2,xb,yb,zb);
+                           alpha2,l2,m2  ,n2,xb,yb,zb);
   }
   else term2 = 0.0;
   der[1] = term1 + term2;
@@ -349,10 +485,10 @@ static double *kinetic_fder(double alpha1, int l1, int m1, int n1,
   Aq =  sqrt((2*n1+1)*alpha1);
   Bq = -sqrt(alpha1/(2*n1-1))*2.*n1;
   term1 = Aq * kinetic(alpha1,l1,m1,n1+1,xa,ya,za,
-                        alpha2,l2,m2,n2,xb,yb,zb);
+                       alpha2,l2,m2,n2  ,xb,yb,zb);
   if (n1 > 0) {
       term2 = Bq * kinetic(alpha1,l1,m1,n1-1,xa,ya,za,
-                           alpha2,l2,m2,n2,xb,yb,zb);
+                           alpha2,l2,m2,n2  ,xb,yb,zb);
   }
   else term2 = 0.0;
   der[2] = term1 + term2;
@@ -979,7 +1115,7 @@ static PyObject *kinetic_fder_wrap(PyObject *self,PyObject *args){
   ok = PyArg_ParseTuple(B,"ddd",&xb,&yb,&zb);
   if (!ok) return NULL;
 
-  return Py_BuildValue("ddd",
+  return Py_BuildValue("(ddd)",
 		       kinetic_fder(alpha1,l1,m1,n1,xa,ya,za,
 				    alpha2,l2,m2,n2,xb,yb,zb));
 }
@@ -1027,10 +1163,155 @@ static PyObject *overlap_fder_wrap(PyObject *self,PyObject *args){
   ok = PyArg_ParseTuple(B,"ddd",&xb,&yb,&zb);
   if (!ok) return NULL;
 
-  return Py_BuildValue("ddd",
+  return Py_BuildValue("d",
 		       overlap_fder(alpha1,l1,m1,n1,xa,ya,za,
 				    alpha2,l2,m2,n2,xb,yb,zb));
 }
+
+static PyObject *overlap_1x_wrap(PyObject *self,PyObject *args){
+  int ok=0,l1,m1,n1,l2,m2,n2;
+  double xa,ya,za,xb,yb,zb,alpha1,alpha2;
+  PyObject *A,*B,*powa,*powb;
+
+  ok = PyArg_ParseTuple(args,"dOOdOO",&alpha1,&powa,&A,&alpha2,
+			&powb,&B);
+  if (!ok) return NULL;
+
+  ok = PyArg_ParseTuple(powa,"iii",&l1,&m1,&n1);
+  if (!ok) return NULL;
+  ok = PyArg_ParseTuple(powb,"iii",&l2,&m2,&n2);
+  if (!ok) return NULL;
+
+  ok = PyArg_ParseTuple(A,"ddd",&xa,&ya,&za);
+  if (!ok) return NULL;
+  ok = PyArg_ParseTuple(B,"ddd",&xb,&yb,&zb);
+  if (!ok) return NULL;
+
+  return Py_BuildValue("d",
+		       overlap_1x(alpha1,l1,m1,n1,xa,ya,za,
+			          alpha2,l2,m2,n2,xb,yb,zb));
+}
+
+static PyObject *overlap_1y_wrap(PyObject *self,PyObject *args){
+  int ok=0,l1,m1,n1,l2,m2,n2;
+  double xa,ya,za,xb,yb,zb,alpha1,alpha2;
+  PyObject *A,*B,*powa,*powb;
+
+  ok = PyArg_ParseTuple(args,"dOOdOO",&alpha1,&powa,&A,&alpha2,
+			&powb,&B);
+  if (!ok) return NULL;
+
+  ok = PyArg_ParseTuple(powa,"iii",&l1,&m1,&n1);
+  if (!ok) return NULL;
+  ok = PyArg_ParseTuple(powb,"iii",&l2,&m2,&n2);
+  if (!ok) return NULL;
+
+  ok = PyArg_ParseTuple(A,"ddd",&xa,&ya,&za);
+  if (!ok) return NULL;
+  ok = PyArg_ParseTuple(B,"ddd",&xb,&yb,&zb);
+  if (!ok) return NULL;
+
+  return Py_BuildValue("d",
+		       overlap_1y(alpha1,l1,m1,n1,xa,ya,za,
+			          alpha2,l2,m2,n2,xb,yb,zb));
+}
+
+static PyObject *overlap_1z_wrap(PyObject *self,PyObject *args){
+  int ok=0,l1,m1,n1,l2,m2,n2;
+  double xa,ya,za,xb,yb,zb,alpha1,alpha2;
+  PyObject *A,*B,*powa,*powb;
+
+  ok = PyArg_ParseTuple(args,"dOOdOO",&alpha1,&powa,&A,&alpha2,
+			&powb,&B);
+  if (!ok) return NULL;
+
+  ok = PyArg_ParseTuple(powa,"iii",&l1,&m1,&n1);
+  if (!ok) return NULL;
+  ok = PyArg_ParseTuple(powb,"iii",&l2,&m2,&n2);
+  if (!ok) return NULL;
+
+  ok = PyArg_ParseTuple(A,"ddd",&xa,&ya,&za);
+  if (!ok) return NULL;
+  ok = PyArg_ParseTuple(B,"ddd",&xb,&yb,&zb);
+  if (!ok) return NULL;
+
+  return Py_BuildValue("d",
+		       overlap_1z(alpha1,l1,m1,n1,xa,ya,za,
+			          alpha2,l2,m2,n2,xb,yb,zb));
+}
+
+static PyObject *kinetic_1x_wrap(PyObject *self,PyObject *args){
+  int ok=0,l1,m1,n1,l2,m2,n2;
+  double xa,ya,za,xb,yb,zb,alpha1,alpha2;
+  PyObject *A,*B,*powa,*powb;
+
+  ok = PyArg_ParseTuple(args,"dOOdOO",&alpha1,&powa,&A,&alpha2,
+			&powb,&B);
+  if (!ok) return NULL;
+
+  ok = PyArg_ParseTuple(powa,"iii",&l1,&m1,&n1);
+  if (!ok) return NULL;
+  ok = PyArg_ParseTuple(powb,"iii",&l2,&m2,&n2);
+  if (!ok) return NULL;
+
+  ok = PyArg_ParseTuple(A,"ddd",&xa,&ya,&za);
+  if (!ok) return NULL;
+  ok = PyArg_ParseTuple(B,"ddd",&xb,&yb,&zb);
+  if (!ok) return NULL;
+
+  return Py_BuildValue("d",
+		       kinetic_1x(alpha1,l1,m1,n1,xa,ya,za,
+			          alpha2,l2,m2,n2,xb,yb,zb));
+}
+
+static PyObject *kinetic_1y_wrap(PyObject *self,PyObject *args){
+  int ok=0,l1,m1,n1,l2,m2,n2;
+  double xa,ya,za,xb,yb,zb,alpha1,alpha2;
+  PyObject *A,*B,*powa,*powb;
+
+  ok = PyArg_ParseTuple(args,"dOOdOO",&alpha1,&powa,&A,&alpha2,
+			&powb,&B);
+  if (!ok) return NULL;
+
+  ok = PyArg_ParseTuple(powa,"iii",&l1,&m1,&n1);
+  if (!ok) return NULL;
+  ok = PyArg_ParseTuple(powb,"iii",&l2,&m2,&n2);
+  if (!ok) return NULL;
+
+  ok = PyArg_ParseTuple(A,"ddd",&xa,&ya,&za);
+  if (!ok) return NULL;
+  ok = PyArg_ParseTuple(B,"ddd",&xb,&yb,&zb);
+  if (!ok) return NULL;
+
+  return Py_BuildValue("d",
+		       kinetic_1y(alpha1,l1,m1,n1,xa,ya,za,
+			          alpha2,l2,m2,n2,xb,yb,zb));
+}
+
+static PyObject *kinetic_1z_wrap(PyObject *self,PyObject *args){
+  int ok=0,l1,m1,n1,l2,m2,n2;
+  double xa,ya,za,xb,yb,zb,alpha1,alpha2;
+  PyObject *A,*B,*powa,*powb;
+
+  ok = PyArg_ParseTuple(args,"dOOdOO",&alpha1,&powa,&A,&alpha2,
+			&powb,&B);
+  if (!ok) return NULL;
+
+  ok = PyArg_ParseTuple(powa,"iii",&l1,&m1,&n1);
+  if (!ok) return NULL;
+  ok = PyArg_ParseTuple(powb,"iii",&l2,&m2,&n2);
+  if (!ok) return NULL;
+
+  ok = PyArg_ParseTuple(A,"ddd",&xa,&ya,&za);
+  if (!ok) return NULL;
+  ok = PyArg_ParseTuple(B,"ddd",&xb,&yb,&zb);
+  if (!ok) return NULL;
+
+  return Py_BuildValue("d",
+		       kinetic_1z(alpha1,l1,m1,n1,xa,ya,za,
+			          alpha2,l2,m2,n2,xb,yb,zb));
+}
+
 // GLOBULION ADD
 static PyObject *multipole_wrap(PyObject *self,PyObject *args){
   int ok=0,kx,ky,kz,l1,m1,n1,l2,m2,n2;
@@ -1174,9 +1455,13 @@ static PyMethodDef cints_methods[] = {
   {"contr_coulomb",contr_coulomb_wrap,METH_VARARGS},
   {"coulomb_repulsion",coulomb_repulsion_wrap,METH_VARARGS},
   {"kinetic",kinetic_wrap,METH_VARARGS}, 
-  {"kinetic_fder",kinetic_fder_wrap,METH_VARARGS},   // Added for COULOMB.py!
   {"overlap",overlap_wrap,METH_VARARGS}, 
-  {"overlap_fder",overlap_fder_wrap,METH_VARARGS},  // Added for COULOMB.py!
+  {"kinetic_1x",kinetic_1x_wrap,METH_VARARGS}, // Added for COULOMB.py!
+  {"overlap_1x",overlap_1x_wrap,METH_VARARGS}, // Added for COULOMB.py!
+  {"kinetic_1y",kinetic_1y_wrap,METH_VARARGS}, // Added for COULOMB.py!
+  {"overlap_1y",overlap_1y_wrap,METH_VARARGS}, // Added for COULOMB.py!
+  {"kinetic_1z",kinetic_1z_wrap,METH_VARARGS}, // Added for COULOMB.py!
+  {"overlap_1z",overlap_1z_wrap,METH_VARARGS}, // Added for COULOMB.py!
   {"multipole",multipole_wrap,METH_VARARGS},    // Added for COULOMB.py!
   {"nuclear_attraction",nuclear_attraction_wrap,METH_VARARGS},
   {"nuclear_attraction_vec",nuclear_attraction_vec_wrap,METH_VARARGS},

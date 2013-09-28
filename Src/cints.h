@@ -48,20 +48,36 @@ static double kinetic(double alpha1, int l1, int m1, int n1,
 		      double alpha2, int l2, int m2, int n2,
 		      double xb, double yb, double zb);
 
-static double *kinetic_fder(double alpha1, int l1, int m1, int n1,
-	                    double xa, double ya, double za,
-		            double alpha2, int l2, int m2, int n2,
-		            double xb, double yb, double zb);
+static double kinetic_1x(double alpha1, int l1, int m1, int n1,
+	                 double xa, double ya, double za,
+		         double alpha2, int l2, int m2, int n2,
+		         double xb, double yb, double zb);
+static double kinetic_1y(double alpha1, int l1, int m1, int n1,
+	                 double xa, double ya, double za,
+		         double alpha2, int l2, int m2, int n2,
+		         double xb, double yb, double zb);
+static double kinetic_1z(double alpha1, int l1, int m1, int n1,
+	                 double xa, double ya, double za,
+		         double alpha2, int l2, int m2, int n2,
+		         double xb, double yb, double zb);
 
 static double overlap(double alpha1, int l1, int m1, int n1,
 		      double xa, double ya, double za,
 		      double alpha2, int l2, int m2, int n2,
 		      double xb, double yb, double zb);
 
-static double *overlap_fder(double alpha1, int l1, int m1, int n1,
-		            double xa, double ya, double za,
-		            double alpha2, int l2, int m2, int n2,
-		            double xb, double yb, double zb);
+static double overlap_1x(double alpha1, int l1, int m1, int n1,
+                         double xa, double ya, double za,
+		         double alpha2, int l2, int m2, int n2,
+		         double xb, double yb, double zb);
+static double overlap_1y(double alpha1, int l1, int m1, int n1,
+                         double xa, double ya, double za,
+		         double alpha2, int l2, int m2, int n2,
+		         double xb, double yb, double zb);
+static double overlap_1z(double alpha1, int l1, int m1, int n1,
+                         double xa, double ya, double za,
+		         double alpha2, int l2, int m2, int n2,
+		         double xb, double yb, double zb);
 
 static double multipole(int kx, int ky, int kz,
                         double alpha1, int l1, int m1, int n1,

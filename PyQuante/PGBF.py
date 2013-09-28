@@ -32,10 +32,12 @@
 """
 
 from math import sqrt,pi,pow,exp
-from NumWrap import array
+from NumWrap import array, float64
 
 from PyQuante.cints import kinetic,overlap,nuclear_attraction,fact2,dist2,multipole
 from PyQuante.cints import binomial, three_center_1D
+from PyQuante.cints import kinetic_1x, kinetic_1y, kinetic_1z
+from PyQuante.cints import overlap_1x, overlap_1y, overlap_1z
 from PyQuante.chgp import coulomb_repulsion
 
 #added 2/8/07 by Hatem Helal hhh23@cam.ac.uk
@@ -68,12 +70,15 @@ class PGBF(PrimitiveGTO):
                overlap(self.exp,self.powers,self.origin,
                        other.exp,other.powers,other.origin)
 
-    def overlap_fder(self,other):
-        "Compute overlap derivative element with another PGBF"
+    def overlap_1(self,other):
+        "Overlap derivative integral between two gaussians. THO eq. 2.14."
         return self.norm*other.norm*\
-               overlap_fder(self.exp,self.powers,self.origin,
-                            other.exp,other.powers,other.origin)
-
+         array([overlap_1x(self.exp,self.powers,self.origin,
+                           other.exp,other.powers,other.origin),
+                overlap_1y(self.exp,self.powers,self.origin,
+                           other.exp,other.powers,other.origin),
+                overlap_1z(self.exp,self.powers,self.origin,
+                           other.exp,other.powers,other.origin)],'d')
 
     def kinetic(self,other):
         "Overlap between two gaussians. THO eq. 2.14."
@@ -81,11 +86,15 @@ class PGBF(PrimitiveGTO):
                kinetic(self.exp,self.powers,self.origin,
                        other.exp,other.powers,other.origin)
 
-    def kinetic_fder(self,other):
-        "Overlap between two gaussians. THO eq. 2.14."
+    def kinetic_1(self,other):
+        "Kinetic derivative integral between two gaussians. THO eq. 2.14."
         return self.norm*other.norm*\
-               kinetic_fder(self.exp,self.powers,self.origin,
-                            other.exp,other.powers,other.origin)
+         array([kinetic_1x(self.exp,self.powers,self.origin,
+                           other.exp,other.powers,other.origin),
+                kinetic_1y(self.exp,self.powers,self.origin,
+                           other.exp,other.powers,other.origin),
+                kinetic_1z(self.exp,self.powers,self.origin,
+                           other.exp,other.powers,other.origin)],'d')
 
     def multipole(self,other,i,j,k):
         "Multipole integral of i,j,k order"
@@ -154,7 +163,8 @@ class PGBF(PrimitiveGTO):
 
     def prim_str(self,topnorm=1):
         return "    <prim exp=\"%6.4f\" coeff=\"%6.4f\" ncoeff=\"%6.4f\"/>\n" \
-               % (self.exp(),self.coef,topnorm*self.norm*self.coef)
+               % (self.exp,self.coef,topnorm*self.norm*self.coef)  
+        # zmienilem z self.exp()
 
     def laplacian(self,pos):
         amp = self.amp(pos[0],pos[1],pos[2])

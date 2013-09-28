@@ -89,12 +89,28 @@ class CGBF(ContractedGTO):
                 Sij = Sij + ipbf.coef*jpbf.coef*ipbf.overlap(jpbf)
         return self.norm*other.norm*Sij
 
+    def overlap_1(self,other):
+        "Overlap matrix element with another CGBF"
+        Sij = zeros(3,'d')
+        for ipbf in self.prims:
+            for jpbf in other.prims:
+                Sij = Sij + ipbf.coef*jpbf.coef*ipbf.overlap_1(jpbf)
+        return self.norm*other.norm*Sij
+
     def kinetic(self,other):
         "KE matrix element with another CGBF"
         Tij = 0.
         for ipbf in self.prims:
             for jpbf in other.prims:
                 Tij = Tij + ipbf.coef*jpbf.coef*ipbf.kinetic(jpbf)
+        return self.norm*other.norm*Tij
+
+    def kinetic_1(self,other):
+        "KE matrix element with another CGBF"
+        Tij = zeros(3,'d')
+        for ipbf in self.prims:
+            for jpbf in other.prims:
+                Tij = Tij + ipbf.coef*jpbf.coef*ipbf.kinetic_1(jpbf)
         return self.norm*other.norm*Tij
 
     def multipole(self,other,i,j,k):

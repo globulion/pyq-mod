@@ -12,7 +12,7 @@
 
 from CGBF import CGBF,coulomb
 #from contracted_gto import coulomb
-from NumWrap import zeros,dot,reshape
+from NumWrap import zeros,dot,reshape,array
 from PyQuante.cints import ijkl2intindex as intindex
 from PyQuante.cints import ijkl2intindexBTF as intindexBTF  # ADDED FOR COULOMB.py!
 from PyQuante.Basis.Tools import get_basis_data
@@ -115,6 +115,61 @@ def getS(bfs):
             bfj = bfs[j]
             S[i,j] = bfi.overlap(bfj)
     return S
+
+def getSAB(bfsA,bfsB):
+    """get the S_ij between two molecules A and B"""
+    nbfA = len(bfsA)
+    nbfB = len(bfsB)
+    S = zeros((nbfA,nbfB),'d')
+    
+    for i in xrange(nbfA):
+        bfi = bfsA[i]
+        for j in xrange(nbfB):
+            bfj = bfsB[j]
+            S[i,j] = bfi.overlap(bfj)
+    return S
+
+def getTAB(bfsA,bfsB):
+    """get the T_ij between two molecules A and B"""
+    nbfA = len(bfsA)
+    nbfB = len(bfsB)
+    T = zeros((nbfA,nbfB),'d')
+    
+    for i in xrange(nbfA):
+        bfi = bfsA[i]
+        for j in xrange(nbfB):
+            bfj = bfsB[j]
+            T[i,j] = bfi.kinetic(bfj)
+    return T
+
+
+def getSA1B(bfsA,bfsB):
+    """get the derivatives of S_ij between two molecules A and B.
+The derivative refers to molecule A basis functions"""
+    nbfA = len(bfsA)
+    nbfB = len(bfsB)
+    S = zeros((nbfA,nbfB,3),'d')
+    
+    for i in xrange(nbfA):
+        bfi = bfsA[i]
+        for j in xrange(nbfB):
+            bfj = bfsB[j]
+            S[i,j,:] =  bfi.overlap_1(bfj)
+    return S
+
+def getTA1B(bfsA,bfsB):
+    """get the derivatives of T_ij between two molecules A and B.
+The derivative refers to molecule A basis functions"""
+    nbfA = len(bfsA)
+    nbfB = len(bfsB)
+    T = zeros((nbfA,nbfB,3),'d')
+    
+    for i in xrange(nbfA):
+        bfi = bfsA[i]
+        for j in xrange(nbfB):
+            bfj = bfsB[j]
+            T[i,j,:] = array( bfi.kinetic_1(bfj) , 'd' )
+    return T
 
 #  GLOBULION ADD
 def getM(bfs):
