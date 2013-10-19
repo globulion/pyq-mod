@@ -18,6 +18,7 @@ from PyQuante.Element import sym2no
 from PyQuante.Constants import bohr2ang,ang2bohr
 
 from PyQuante.settings import openbabel_enabled
+from PyQuante.Ints import getbasis
 
 if openbabel_enabled:
     from PyQuante.IO.OpenBabelBackend import BabelFileHandler as FileHandler
@@ -55,6 +56,9 @@ class Molecule:
         if atomlist: self.add_atuples(atomlist)
         self.charge = int(opts.get('charge',0))
         self.multiplicity = int(opts.get('multiplicity',1))
+        # basis set
+        self.bfs = None
+        if 'basis' in opts.keys(): self.bfs = getbasis(self,opts['basis'])
         return
     # Alternative constructors
     # @classmethod <- python2.4
@@ -122,6 +126,10 @@ class Molecule:
             atno.append(atom.atno)
         atno = array(atno,float64) 
         return atno
+
+    def get_bfs(self):
+        """return basis set object"""
+        return self.bfs
 
     def translate(self,pos):
         for atom in self.atoms: atom.translate(pos)
