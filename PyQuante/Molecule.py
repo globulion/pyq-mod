@@ -138,6 +138,14 @@ class Molecule:
         atno = array(atno,float64) 
         return atno
 
+    def get_atms(self):
+        """get the atomic mass array as ndarray"""
+        atms = [] 
+        for atom in self.atoms: 
+            atms.append(atom.mass())
+        atms = array(atms,float64) 
+        return atms
+
     def get_bfs(self):
         """return basis set object"""
         return self.bfs
