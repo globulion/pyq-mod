@@ -58,7 +58,14 @@ class Molecule:
         self.multiplicity = int(opts.get('multiplicity',1))
         # basis set
         self.bfs = None
-        if 'basis' in opts.keys(): self.bfs = getbasis(self,opts['basis'])
+        self.basis_name = None
+        if 'basis' in opts.keys(): 
+            self.bfs = getbasis(self,opts['basis'])
+            self.basis_name = opts['basis']
+        # method 
+        self.method = None
+        if 'method' in opts.keys():
+            self.method = opts['method']
         return
     # Alternative constructors
     # @classmethod <- python2.4
@@ -130,6 +137,10 @@ class Molecule:
     def get_bfs(self):
         """return basis set object"""
         return self.bfs
+
+    def get_method(self):
+        """return method"""
+        return self.method
 
     def translate(self,pos):
         for atom in self.atoms: atom.translate(pos)
