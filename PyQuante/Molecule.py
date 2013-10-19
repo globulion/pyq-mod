@@ -118,6 +118,10 @@ class Molecule:
             self.atoms[i].update_coords(coords[3*i:3*i+3])
         return
 
+    def get_name(self):
+        """return my name!"""
+        return self.name
+
     def get_pos(self):
         """get the position array in bohr as ndarray"""
         pos = []
@@ -137,6 +141,10 @@ class Molecule:
     def get_bfs(self):
         """return basis set object"""
         return self.bfs
+
+    def get_basis(self):
+        """return basis set name"""
+        return self.basis_name
 
     def get_method(self):
         """return method"""
