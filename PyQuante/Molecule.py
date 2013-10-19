@@ -135,7 +135,7 @@ class Molecule:
         atno = [] 
         for atom in self.atoms: 
             atno.append(atom.atno)
-        atno = array(atno,float64) 
+        atno = array(atno,int) 
         return atno
 
     def get_atms(self):
