@@ -7,6 +7,18 @@ from PyQuante.CGBF import CGBF
 
 class BasisSet(object):
     """
+----------------------------------------------
+                 Basis set 
+----------------------------------------------
+
+Usage:
+
+bfs = BasisSet(mol,basis_name)
+
+Notes:
+
+1) mol is a Molecule instance
+2) basis_name is standarized in ...
     """
     def __init__(self, atoms, basis_data = None, **opts):
         """
@@ -54,6 +66,13 @@ class BasisSet(object):
         self.LIST1 = LIST1                                       # GLOBULION ADD
         #for index,func in enumerate(self.__iter__()):
         #    func.index = index
+
+    def set_center(self,structure):
+        """sets the new center for all the basis functions"""
+        for i,b in enumerate(self.bfs):
+            b.set_center( structure[ self.LIST1[i] ] )         
+        return
+
     def __len__(self):
         return len(self.bfs)
     def __iter__(self):
