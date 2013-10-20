@@ -60,3 +60,10 @@ class BasisSet(object):
         return self.bfs
     def __getitem__(self, item):
         return self.bfs[item]
+    def __repr__(self):
+        """print me!"""
+        log = '\n'
+        for b in self.bfs:
+            log+= '%s' % str(b)
+        log+= '\n'
+        return str(log)

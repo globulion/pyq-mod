@@ -141,6 +141,13 @@ class CGBF(ContractedGTO):
         for prim in self.prims: prim.move_center(dx,dy,dz)
         return
 
+    def set_center(self,origin):
+        "Set the new center for a basis function"
+        self.origin = origin
+        for prim in self.prims: prim.set_center(origin)
+        return
+
+
     def doverlap(self,other,dir):
         "Overlap of func with derivative of another"
         dSij = 0.

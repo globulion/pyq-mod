@@ -137,8 +137,15 @@ class PGBF(PrimitiveGTO):
                exp(-self.exp*dist2((x,y,z),(x0,y0,z0)))
 
     def move_center(self,dx,dy,dz):
+        """move center of primitive GTO to a new point by vector [dx,dy,dz]"""
         self.origin = (self.origin[0]+dx,self.origin[1]+dy,self.origin[2]+dz)
         return
+
+    def set_center(self,origin):
+        """Set the new center for a primitive GTO"""
+        self.origin = origin
+        return
+
 
     # Private
     def normalize(self):
