@@ -72,6 +72,10 @@ Notes:
         for i,b in enumerate(self.bfs):
             b.set_center( structure[ self.LIST1[i] ] )         
         return
+    
+    def get_bfsl(self):
+        """return list of atom numbers in bfs order (atom numbers are in Python N-1 onvention)"""
+        return self.LIST1
 
     def __len__(self):
         return len(self.bfs)
