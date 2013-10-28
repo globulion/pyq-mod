@@ -4,6 +4,7 @@ from PyQuante.Ints import sym2powerlist
 from PyQuante.Basis.Tools import get_basis_data
 
 from PyQuante.CGBF import CGBF
+from numpy import array
 
 class BasisSet(object):
     """
@@ -38,11 +39,14 @@ Notes:
         shells = []# Shell list
         n = 0
         LIST1  = []# list of atoms and basis function number      # GLOBULION ADD
+        LIST2  = []# list of atoms and basis function type        # GLOBULION ADD
         for atom in atoms:
             bs = basis_data[atom.atno]
             for sym,prims in bs: # Shell Symbol S,P,D,F
+                A = sym2powerlist[sym]                            # GLOBULION ADD
                 for ni in xrange(len(sym2powerlist[sym])):        # GLOBULION ADD
                     LIST1.append(n)                  # GLOBULION ADD
+                    LIST2.append(A[ni])
                 if omit_f and sym == "F": continue
                 shell = Shell(sym)
                 for power in sym2powerlist[sym]:
@@ -64,6 +68,7 @@ Notes:
         self.bfs = bfs
         self.shells = shells
         self.LIST1 = LIST1                                       # GLOBULION ADD
+        self.LIST2 = LIST2                                       # GLOBULION ADD
         #for index,func in enumerate(self.__iter__()):
         #    func.index = index
 
@@ -75,7 +80,11 @@ Notes:
     
     def get_bfsl(self):
         """return list of atom numbers in bfs order (atom numbers are in Python N-1 onvention)"""
-        return self.LIST1
+        return array(self.LIST1,int)
+
+    def get_bfst(self):
+        """return list of AO types as tuples"""
+        return array(self.LIST2,int)
 
     def __len__(self):
         return len(self.bfs)
