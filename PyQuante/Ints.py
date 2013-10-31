@@ -262,6 +262,20 @@ def getV(bfs,atoms):
                 V[i,j] = V[i,j] + atom.atno*bfi.nuclear(bfj,atom.pos())
     return V
 
+def getVEFP(bfs1,bfs2,q,r):
+    """potential matrix elements. q - charges, r - their positions"""
+    nbf1 = len(bfs1)
+    nbf2 = len(bfs2)
+    V = zeros((nbf1,nbf2),'d')
+    for i in xrange(nbf1):
+        bfi = bfs1[i]
+        for j in xrange(nbf2):
+            bfj = bfs2[j]
+            v = 0
+            for a in xrange(len(q)):
+                v += q[a] * bfi.nuclear(bfj,tuple(r[a]))
+            V[i,j] = v
+    return V
 
 if settings.libint_enabled == True:
     # Libint Integrals
