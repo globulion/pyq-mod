@@ -27,7 +27,8 @@ else:
     from PyQuante.IO.PyQuanteBackend import PyQuanteStringHandler as StringHandler
     from PyQuante.IO.PyQuanteBackend import PyQuanteFileHandler as FileHandler
 
-from numpy import array, float64
+from numpy import array, float64, cross, arctan2
+from math  import sqrt as msqrt, acos as macos, pi as mPi, fabs as mabs
 
 allowed_units = ['bohr','angs']
 
@@ -319,6 +320,56 @@ class Molecule:
             lines.append("%s %15.10f %15.10f %15.10f" % (atom.symbol(),x,y,z))
         open(fname,'w').write("\n".join(lines))
         return
+
+    def bond(self,n1,n2,unit='bohr'):
+        """compute bond length between atoms n1 and n2. Provide real atom numbers"""
+        r1 = array(self.atoms[n1-1].pos())
+        r2 = array(self.atoms[n2-1].pos())
+        bond = msqrt(sum((r1-r2)**2))
+        conv = 0.5291772086
+        if unit.lower().startswith('a'):
+           bond*=conv
+        return bond
+ 
+    def angle(self,n1,n2,n3,unit='radian'):
+        """compute angle n1-n2-n3. Provide real atom numbers"""
+        r1 = array(self.atoms[n1-1].pos())
+        r2 = array(self.atoms[n2-1].pos())
+        r3 = array(self.atoms[n3-1].pos())
+        P1 = r1-r2
+        P2 = r3-r2
+        P1n= msqrt(sum(P1*P1))
+        P2n= msqrt(sum(P2*P2))
+        angle = macos(sum(P1*P2)/(P1n*P2n))
+        conv = 180./mPi
+        if unit=='deg':
+           angle*=conv
+        return angle
+
+    def dihedral(self,n1,n2,n3,n4,unit='radian'):
+        """compute dihedral angle n1-n2-n3-n4. Provide real atom numbers. 
+The dihedral evaluated by this code gave opposite signs as compared with MOLDEN for a test NMA molecule"""
+        r1 = array(self.atoms[n1-1].pos())
+        r2 = array(self.atoms[n2-1].pos())
+        r3 = array(self.atoms[n3-1].pos())
+        r4 = array(self.atoms[n4-1].pos())
+        P1 = r2-r1
+        P2 = r3-r2
+        P3 = r4-r3
+        N1 = cross(P1,P2)
+        N2 = cross(P2,P3)
+        N1/= msqrt(sum(N1*N1))
+        N2/= msqrt(sum(N2*N2))
+        #angle = macos(mabs(sum(N1*N2)))
+        P2/= msqrt(sum(P2*P2))
+        M1 = cross(N1,P2)
+        x = sum(N1*N2)
+        y = sum(M1*N2)
+        angle = arctan2(y,x)
+        conv = 180./mPi
+        if unit=='deg':
+           angle*=conv
+        return angle
 
 def toBohr(*args):
     if len(args) == 1: return ang2bohr*args[0]
