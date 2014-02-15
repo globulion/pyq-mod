@@ -530,7 +530,30 @@ static double nuclear_attraction(double x1, double y1, double z1, double norm1,
   return -norm1*norm2*
     2*M_PI/gamma*exp(-alpha1*alpha2*rab2/gamma)*sum;
 }
-    
+
+static double potential_integral(double x1, double y1, double z1, double norm1,
+                                 int l1, int m1, int n1, double alpha1,
+                                 double x2, double y2, double z2, double norm2,
+                                 int l2, int m2, int n2, double alpha2, 
+                                 double *qi, double *ri, int ni){
+
+  int i;
+  double sum = 0.;
+  double xi,yi,zi;
+
+  for (i=0; i<ni; i++)
+      xi = ri[i*3+0];
+      yi = ri[i*3+1]; 
+      zi = ri[i*3+2];
+      sum += nuclear_attraction(x1,y1,z1,norm1,
+                                l1,m1,n1,alpha1,
+                                x2,y2,z2,norm2,
+                                l2,m2,n2,alpha2,
+                                xi,yi,zi) * qi[i] ;
+
+  return sum;
+} 
+
 static double A_term(int i, int r, int u, int l1, int l2,
 		     double PAx, double PBx, double CPx, double gamma){
   /* THO eq. 2.18 */
@@ -1370,6 +1393,40 @@ static PyObject *nuclear_attraction_wrap(PyObject *self,PyObject *args){
 			x2,y2,z2,norm2,l2,m2,n2,alpha2,
 			x3,y3,z3));
 }
+/*
+static PyObject *potential_integral_wrap(PyObject *self,PyObject *args){
+  int ok=0,l1,m1,n1,l2,m2,n2,ni,i;
+  double x1,y1,z1,x2,y2,z2,x3,y3,z3,norm1,alpha1,norm2,alpha2;
+  PyObject *A,*B,*C,*powa,*powb,*charges,*pos;
+  string I,J;
+  I="i";
+  J="i";
+  for (i=0,i<ni,i++)
+       I+=I;
+       J+=J;J+=J;J+=J;
+
+  ok = PyArg_ParseTuple(args,"OdOdOdOdOOOi",&A,&norm1,&powa,&alpha1,
+			&B,&norm2,&powb,&alpha2,&charges,&pos,&ni);
+  if (!ok) return NULL;
+
+  ok = PyArg_ParseTuple(A,"ddd",&x1,&y1,&z1);
+  if (!ok) return NULL;
+  ok = PyArg_ParseTuple(B,"ddd",&x2,&y2,&z2);
+  if (!ok) return NULL;
+  ok = PyArg_ParseTuple(powa,"iii",&l1,&m1,&n1);
+  if (!ok) return NULL;
+  ok = PyArg_ParseTuple(powb,"iii",&l2,&m2,&n2);
+  if (!ok) return NULL;
+  ok = PyArg_ParseTuple(charges,I,&l2,&m2,&n2);
+  if (!ok) return NULL;
+
+
+  return Py_BuildValue("d",
+     nuclear_attraction(x1,y1,z1,norm1,l1,m1,n1,alpha1,
+			x2,y2,z2,norm2,l2,m2,n2,alpha2,
+			x3,y3,z3));
+}
+*/
 
 static PyObject *three_center_1D_wrap(PyObject *self,PyObject *args){
 
