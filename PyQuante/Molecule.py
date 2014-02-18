@@ -151,6 +151,10 @@ class Molecule:
         """return basis set object"""
         return self.bfs
 
+    def get_bfsl(self):
+        """return basis set list"""
+        return self.bfs.get_bfsl()
+
     def get_basis(self):
         """return basis set name"""
         return self.basis_name
