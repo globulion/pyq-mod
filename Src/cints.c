@@ -275,8 +275,10 @@ static double overlap_1x(double alpha1, int l1, int m1, int n1,
   double Aq,Bq,term1,term2;
   //der = (double *)malloc(3*sizeof(double));
   // x-component
-  Aq =  sqrt((2*l1+1)*alpha1);
-  Bq = -sqrt(alpha1/(2*l1-1))*2.*l1;
+  //Aq =  sqrt((2*l1+1)*alpha1);
+  //Bq = -sqrt(alpha1/(2*l1-1))*2.*l1;
+  Aq = 2.000*alpha1;
+  Bq = -l1;
   term1 = Aq * overlap(alpha1,l1+1,m1,n1,xa,ya,za,
                        alpha2,l2  ,m2,n2,xb,yb,zb);
   if (l1 > 0) {
@@ -323,8 +325,10 @@ static double overlap_1y(double alpha1, int l1, int m1, int n1,
   double der;
   double Aq,Bq,term1,term2;
   // y-component
-  Aq =  sqrt((2*m1+1)*alpha1);
-  Bq = -sqrt(alpha1/(2*m1-1))*2.*m1;
+  // Aq =  sqrt((2*m1+1)*alpha1);
+  // Bq = -sqrt(alpha1/(2*m1-1))*2.*m1;
+  Aq = 2.00 * alpha1;
+  Bq = -l1;
   term1 = Aq * overlap(alpha1,l1,m1+1,n1,xa,ya,za,
                        alpha2,l2,m2  ,n2,xb,yb,zb);
   if (m1 > 0) {
@@ -345,8 +349,10 @@ static double overlap_1z(double alpha1, int l1, int m1, int n1,
   double der;
   double Aq,Bq,term1,term2;
   // z-component
-  Aq =  sqrt((2*n1+1)*alpha1);
-  Bq = -sqrt(alpha1/(2*n1-1))*2.*n1;
+  // Aq =  sqrt((2*n1+1)*alpha1);
+  // Bq = -sqrt(alpha1/(2*n1-1))*2.*n1;
+  Aq = 2.000 * alpha1;
+  Bq = -l1;
   term1 = Aq * overlap(alpha1,l1,m1,n1+1,xa,ya,za,
                        alpha2,l2,m2,n2  ,xb,yb,zb);
   if (n1 > 0) {
@@ -367,8 +373,10 @@ static double kinetic_1x(double alpha1, int l1, int m1, int n1,
   double Aq,Bq,term1,term2;
   //der = (double *)malloc(3*sizeof(double));
   // x-component
-  Aq =  sqrt((2*l1+1)*alpha1);
-  Bq = -sqrt(alpha1/(2*l1-1))*2.*l1;
+  // Aq =  sqrt((2*l1+1)*alpha1);
+  // Bq = -sqrt(alpha1/(2*l1-1))*2.*l1;
+  Aq = 2.000 * alpha1;
+  Bq = -l1;
   term1 = Aq * kinetic(alpha1,l1+1,m1,n1,xa,ya,za,
                        alpha2,l2  ,m2,n2,xb,yb,zb);
   if (l1 > 0) {
@@ -415,8 +423,10 @@ static double kinetic_1y(double alpha1, int l1, int m1, int n1,
   double der;
   double Aq,Bq,term1,term2;
   // y-component
-  Aq =  sqrt((2*m1+1)*alpha1);
-  Bq = -sqrt(alpha1/(2*m1-1))*2.*m1;
+  // Aq =  sqrt((2*m1+1)*alpha1);
+  // Bq = -sqrt(alpha1/(2*m1-1))*2.*m1;
+  Aq = 2.000 * alpha1;
+  Bq = -l1;
   term1 = Aq * kinetic(alpha1,l1,m1+1,n1,xa,ya,za,
                        alpha2,l2,m2  ,n2,xb,yb,zb);
   if (m1 > 0) {
@@ -437,8 +447,10 @@ static double kinetic_1z(double alpha1, int l1, int m1, int n1,
   double der;
   double Aq,Bq,term1,term2;
   // z-component
-  Aq =  sqrt((2*n1+1)*alpha1);
-  Bq = -sqrt(alpha1/(2*n1-1))*2.*n1;
+  // Aq =  sqrt((2*n1+1)*alpha1);
+  // Bq = -sqrt(alpha1/(2*n1-1))*2.*n1;
+  Aq = 2.000 * alpha1;
+  Bq = -l1;
   term1 = Aq * kinetic(alpha1,l1,m1,n1+1,xa,ya,za,
                        alpha2,l2,m2,n2  ,xb,yb,zb);
   if (n1 > 0) {
