@@ -20,7 +20,8 @@ basis_map = {
     '6-31g(d,p)':'p631ss',
     '6-31g**++':'p631ppss',
     '6-31g+(d,p)':'p631pss', #RWG ADD
-    '6-31g++**':'p631ppss',
+    '6-31g+**':'p631pss', #RWG ADD
+    '6-31g++**':'p631ppss', #RWG CORRECTED
     '6-311g**':'p6311ss',
     '6-311g+(2d,p)':'p6311p_2d_1p', # RWG ADD
     '6-311g++(2d,2p)':'p6311pp_2d_2p',
