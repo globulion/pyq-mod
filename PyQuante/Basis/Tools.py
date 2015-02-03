@@ -35,6 +35,7 @@ basis_map = {
     'sto-6g':'sto6g',
     'lacvp':'lacvp',
     'ccpvdz':'ccpvdz',
+    'ccpvdz-g09':'ccpvdz_g09',
     'cc-pvdz':'ccpvdz',
     'ccpvtz':'ccpvtz',
     'cc-pvtz':'ccpvtz',
