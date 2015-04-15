@@ -176,12 +176,12 @@ The derivative refers to molecule A basis functions"""
     return T
 
 #  GLOBULION ADD
-def getM(bfs):
-    "Form the overlap matrix"
+def getM(bfs, hexadecapoles=False):
+    "Form the multipole intragral supermatrixes"
     nbf = len(bfs)
-    D = zeros((3,nbf,nbf),'d')
-    Q = zeros((3,3,nbf,nbf),'d')
-    O = zeros((3,3,3,nbf,nbf),'d')
+    D = zeros((3,      nbf,nbf),'d')
+    Q = zeros((3,3,    nbf,nbf),'d')
+    O = zeros((3,3,3,  nbf,nbf),'d')
     H = zeros((3,3,3,3,nbf,nbf),'d')
 
     for i in xrange(nbf):
@@ -251,6 +251,199 @@ def getM(bfs):
             O[2,0,1,i,j] = a
             O[2,1,0,i,j] = a
             O[:,:,:,j,i] = O[:,:,:,i,j]
+
+            if hexadecapoles:
+               a = bfi.multipole(bfj,1,0,3)
+               # XZZZ
+               H[0,2,2,2,i,j] = a
+               # ZXZZ
+               H[2,0,2,2,i,j] = a
+               # ZZXZ
+               H[2,2,0,2,i,j] = a
+               # ZZZX
+               H[2,2,2,0,i,j] = a
+               
+               a = bfi.multipole(bfj,2,0,2)
+               # XXZZ
+               H[0,0,2,2,i,j] = a
+               # XZXZ
+               H[0,2,0,2,i,j] = a
+               # XZZX
+               H[0,2,2,0,i,j] = a
+               # ZXXZ
+               H[2,0,0,2,i,j] = a
+               # ZXZX
+               H[2,0,2,0,i,j] = a
+               # ZZXX
+               H[2,2,0,0,i,j] = a
+               
+               a = bfi.multipole(bfj,0,4,0)
+               # YYYY
+               H[1,1,1,1,i,j] = a
+               
+               a = bfi.multipole(bfj,1,2,1)
+               # XYYZ
+               H[0,1,1,2,i,j] = a
+               # XYZY
+               H[0,1,2,1,i,j] = a
+               # XZYY
+               H[0,2,1,1,i,j] = a
+               # YXYZ
+               H[1,0,1,2,i,j] = a
+               # YXZY
+               H[1,0,2,1,i,j] = a
+               # YYXZ
+               H[1,1,0,2,i,j] = a
+               # YYZX
+               H[1,1,2,0,i,j] = a
+               # YZXY
+               H[1,2,0,1,i,j] = a
+               # YZYX
+               H[1,2,1,0,i,j] = a
+               # ZXYY
+               H[2,0,1,1,i,j] = a
+               # ZYXY
+               H[2,1,0,1,i,j] = a
+               # ZYYX
+               H[2,1,1,0,i,j] = a
+               
+               a = bfi.multipole(bfj,3,1,0)
+               # XXXY
+               H[0,0,0,1,i,j] = a
+               # XXYX
+               H[0,0,1,0,i,j] = a
+               # XYXX
+               H[0,1,0,0,i,j] = a
+               # YXXX
+               H[1,0,0,0,i,j] = a
+               
+               a = bfi.multipole(bfj,0,1,3)
+               # YZZZ
+               H[1,2,2,2,i,j] = a
+               # ZYZZ
+               H[2,1,2,2,i,j] = a
+               # ZZYZ
+               H[2,2,1,2,i,j] = a
+               # ZZZY
+               H[2,2,2,1,i,j] = a
+               
+               a = bfi.multipole(bfj,1,3,0)
+               # XYYY
+               H[0,1,1,1,i,j] = a
+               # YXYY
+               H[1,0,1,1,i,j] = a
+               # YYXY
+               H[1,1,0,1,i,j] = a
+               # YYYX
+               H[1,1,1,0,i,j] = a
+               
+               a = bfi.multipole(bfj,0,3,1)
+               # YYYZ
+               H[1,1,1,2,i,j] = a
+               # YYZY
+               H[1,1,2,1,i,j] = a
+               # YZYY
+               H[1,2,1,1,i,j] = a
+               # ZYYY
+               H[2,1,1,1,i,j] = a
+               
+               a = bfi.multipole(bfj,1,1,2)
+               # XYZZ
+               H[0,1,2,2,i,j] = a
+               # XZYZ
+               H[0,2,1,2,i,j] = a
+               # XZZY
+               H[0,2,2,1,i,j] = a
+               # YXZZ
+               H[1,0,2,2,i,j] = a
+               # YZXZ
+               H[1,2,0,2,i,j] = a
+               # YZZX
+               H[1,2,2,0,i,j] = a
+               # ZXYZ
+               H[2,0,1,2,i,j] = a
+               # ZXZY
+               H[2,0,2,1,i,j] = a
+               # ZYXZ
+               H[2,1,0,2,i,j] = a
+               # ZYZX
+               H[2,1,2,0,i,j] = a
+               # ZZXY
+               H[2,2,0,1,i,j] = a
+               # ZZYX
+               H[2,2,1,0,i,j] = a
+               
+               a = bfi.multipole(bfj,0,2,2)
+               # YYZZ
+               H[1,1,2,2,i,j] = a
+               # YZYZ
+               H[1,2,1,2,i,j] = a
+               # YZZY
+               H[1,2,2,1,i,j] = a
+               # ZYYZ
+               H[2,1,1,2,i,j] = a
+               # ZYZY
+               H[2,1,2,1,i,j] = a
+               # ZZYY
+               H[2,2,1,1,i,j] = a
+               
+               a = bfi.multipole(bfj,4,0,0)
+               # XXXX
+               H[0,0,0,0,i,j] = a
+               
+               a = bfi.multipole(bfj,2,1,1)
+               # XXYZ
+               H[0,0,1,2,i,j] = a
+               # XXZY
+               H[0,0,2,1,i,j] = a
+               # XYXZ
+               H[0,1,0,2,i,j] = a
+               # XYZX
+               H[0,1,2,0,i,j] = a
+               # XZXY
+               H[0,2,0,1,i,j] = a
+               # XZYX
+               H[0,2,1,0,i,j] = a
+               # YXXZ
+               H[1,0,0,2,i,j] = a
+               # YXZX
+               H[1,0,2,0,i,j] = a
+               # YZXX
+               H[1,2,0,0,i,j] = a
+               # ZXXY
+               H[2,0,0,1,i,j] = a
+               # ZXYX
+               H[2,0,1,0,i,j] = a
+               # ZYXX
+               H[2,1,0,0,i,j] = a
+               
+               a = bfi.multipole(bfj,2,2,0)
+               # XXYY
+               H[0,0,1,1,i,j] = a
+               # XYXY
+               H[0,1,0,1,i,j] = a
+               # XYYX
+               H[0,1,1,0,i,j] = a
+               # YXXY
+               H[1,0,0,1,i,j] = a
+               # YXYX
+               H[1,0,1,0,i,j] = a
+               # YYXX
+               H[1,1,0,0,i,j] = a
+               
+               a = bfi.multipole(bfj,0,0,4)
+               # ZZZZ
+               H[2,2,2,2,i,j] = a
+               
+               a = bfi.multipole(bfj,3,0,1)
+               # XXXZ
+               H[0,0,0,2,i,j] = a
+               # XXZX
+               H[0,0,2,0,i,j] = a
+               # XZXX
+               H[0,2,0,0,i,j] = a
+               # ZXXX
+               H[2,0,0,0,i,j] = a
 
     return D,Q,O,H
 
