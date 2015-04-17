@@ -445,6 +445,9 @@ def getM(bfs, hexadecapoles=False):
                # ZXXX
                H[2,0,0,0,i,j] = a
 
+               H[:,:,:,:,j,i] = H[:,:,:,:,i,j]
+
+
     return D,Q,O,H
 
 def getV(bfs,atoms):
