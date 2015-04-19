@@ -86,6 +86,16 @@ Notes:
         """return list of AO types as tuples"""
         return array(self.LIST2,int)
 
+    def get_gtos(self):
+        """Return the M x N array of each total M primitive GTOs in the form:
+x_i y_i z_i alpha_i c_i
+...
+where the three first are position (in Bohr) of GTO centre,
+      alpha_i is GTO exponent
+      c_i is (unnormalized) contraction coefficient
+"""
+        return
+
     def __len__(self):
         return len(self.bfs)
     def __iter__(self):
