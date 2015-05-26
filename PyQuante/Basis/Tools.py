@@ -26,6 +26,12 @@ basis_map = {
     '6-311g+(2d,p)':'p6311p_2d_1p', # RWG ADD
     '6-311g++(2d,2p)':'p6311pp_2d_2p',
     '6-311g++(3d,3p)':'p6311pp_3d_3p',
+    '6-311g++(3df,2p)':'p6311pp_3df_2p', # GLOBULION ADD
+    '6-311++g(3df,2p)':'p6311pp_3df_2p', # GLOBULION ADD
+    '6-311g++(3df,3p)':'p6311pp_3df_3p', # GLOBULION ADD
+    '6-311++g(3df,3p)':'p6311pp_3df_3p', # GLOBULION ADD
+    '6-311g++(3d,2p)':'p6311pp_3d_2p', # GLOBULION ADD
+    '6-311++g(3d,2p)':'p6311pp_3d_2p', # GLOBULION ADD
     '6-311g++(3df,3pd)':'p6311pp_3df_3pd',
     '6-311g++(d,p)':'p6311pp_1d_1p',    # GLOBULION ADD
     '6-311++g**':'p6311pp_1d_1p',    # GLOBULION ADD
