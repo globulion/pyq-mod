@@ -43,7 +43,7 @@ List of modifications:
                                            Last Revision: 14 Nov 2014
 """
 
-__version__ = '1.0.2-BBG'
+__version__ = '1.0.3-BBG'
 
 # Starting to think about making modules available from main-level
 # import. These are good candidates
