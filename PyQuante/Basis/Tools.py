@@ -49,6 +49,8 @@ basis_map = {
     'def2-svp':'def2svp', #RWG
     'def2svp':'def2svp',  #RWG
     'dzvp':'dzvp',
+    'augccpvdz-g09':'augccpvdz_g09', # GLOBULION ADD
+    'augccpvtz-g09':'augccpvtz_g09', # GLOBULION ADD
     }
 
 def importname(modulename, name):
