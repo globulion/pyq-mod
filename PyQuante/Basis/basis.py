@@ -109,3 +109,7 @@ where the three first are position (in Bohr) of GTO centre,
             log+= '%s' % str(b)
         log+= '\n'
         return str(log)
+    def __add__(self, other):
+        bfs = self.bfs + other.bfs
+        print " BasisSet Warning: Only .bfs is added ! Finish it!"
+        return bfs
