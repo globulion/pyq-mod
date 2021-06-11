@@ -59,9 +59,9 @@ def CISMatrix(Ints,orbs,Ehf,orbe,nocc,nvirt):
     # Build the CI matrix using the Slater Condon rules
     # see Szabo/Ostlund Table 4.1
     CIMatrix = zeros((nex,nex),'d')
-    for ar in xrange(nex):
+    for ar in range(nex):
         a,r = singles[ar]
-        for bs in xrange(nex):
+        for bs in range(nex):
             b,s = singles[bs]
             rabs = ijkl2intindex(r,a,b,s)
             rsba = ijkl2intindex(r,s,b,a)
@@ -83,9 +83,9 @@ def CISDMatrix(Ints,orbs,Ehf,orbe,occs):
 
     # see Szabo/Ostlund Table 4.1
     CIMatrix = zeros((nex,nex),'d')
-    for ar in xrange(nsin):
+    for ar in range(nsin):
         a,r = singles[ar]
-        for bs in xrange(nsin):
+        for bs in range(nsin):
             b,s = singles[bs]
             rabs = ijkl2intindex(r,a,b,s)
             rsba = ijkl2intindex(r,s,b,a)
@@ -141,10 +141,10 @@ def TransformInts(Ints,orbs):
     # Transform mu -> i and repack integrals:
     MOInts = zeros(totlen,'d')
     for i in mos:
-        for j in xrange(i+1):
+        for j in range(i+1):
             ij = i*(i+1)/2+j
             for k in mos:
-                for l in xrange(k+1):
+                for l in range(k+1):
                     kl = k*(k+1)/2+l
                     if ij >= kl:
                         ijkl = ijkl2intindex(i,j,k,l)

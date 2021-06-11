@@ -90,7 +90,7 @@ def S(dens,gamma=None):
     dfxdgaa = zeros(npts,'d')
     dfxdgab = zeros(npts,'d')
     dfxdgbb = zeros(npts,'d')
-    for i in xrange(npts):
+    for i in range(npts):
         na = float(dens[0][i]) # Density of the alpha spin
         nb = float(dens[1][i]) # Density of the beta spin
         fxa,vxa = xs(na)
@@ -121,7 +121,7 @@ def VWN(dens,gamma=None):
     dfcdgaa = zeros(npts,'d')
     dfcdgab = zeros(npts,'d')
     dfcdgbb = zeros(npts,'d')
-    for i in xrange(npts):
+    for i in range(npts):
         na = float(dens[0][i]) # Density of the alpha spin
         nb = float(dens[1][i]) # Density of the beta spin
         fcab,vca,vcb = cvwn(na,nb)
@@ -150,7 +150,7 @@ def PW(dens,gamma=None):
     dfcdgaa = zeros(npts,'d')
     dfcdgab = zeros(npts,'d')
     dfcdgbb = zeros(npts,'d')
-    for i in xrange(npts):
+    for i in range(npts):
         na = float(dens[0][i]) # Density of the alpha spin
         nb = float(dens[1][i]) # Density of the beta spin
         fcab,vca,vcb = pw(na,nb)
@@ -178,7 +178,7 @@ def B(dens,gamma):
     dfxdgaa = zeros(npts,'d')
     dfxdgab = zeros(npts,'d')
     dfxdgbb = zeros(npts,'d')
-    for i in xrange(npts):
+    for i in range(npts):
         na = float(dens[0][i])  # Density of the alpha spin
         nb = float(dens[1][i])  # Density of the beta spin
         gamaa = gamma[0][i]
@@ -209,7 +209,7 @@ def LYP(dens,gamma):
     dfcdgaa = zeros(npts,'d')
     dfcdgab = zeros(npts,'d')
     dfcdgbb = zeros(npts,'d')
-    for i in xrange(npts):
+    for i in range(npts):
         na = float(dens[0][i]) # Density of the alpha spin
         nb = float(dens[1][i]) # Density of the beta spin
         gamaa = gamma[0][i]
@@ -231,7 +231,7 @@ def XPBE(dens,gamma):
     assert len(gamma) == npts
     ex = zeros(npts,'d')
     vx = zeros(npts,'d')
-    for i in xrange(npts):
+    for i in range(npts):
         rho = 0.5*float(dens[i])  # Density of the alpha spin
         gam = 0.25*gamma[i]
         exa,vxa = xpbe(rho,gam)
@@ -244,7 +244,7 @@ def CPBE(dens,gamma):
     npts = len(dens)
     ec = zeros(npts,'d')
     vc = zeros(npts,'d')
-    for i in xrange(npts):
+    for i in range(npts):
         rho = 0.5*float(dens[i]) # Density of the alpha spin
         gam = 0.25*gamma[i]
         ecab,vca,vcb = cpbe(rho,rho,gam,gam,gam)
@@ -265,7 +265,7 @@ def EXXC1(dens,gamma):
     dfcdgaa = zeros(npts,'d')
     dfcdgab = zeros(npts,'d')
     dfcdgbb = zeros(npts,'d')
-    for i in xrange(npts):
+    for i in range(npts):
         rho = float(dens[0][i]+dens[1][i]) # Total density 
         gam = gamma[0][i]+gamma[2][i] + 2.0*gamma[1][i] # Total gamma
         fcpnt,dfdrho,dfdgamma = c1(rho,gam)
@@ -293,7 +293,7 @@ def AM05(dens,gamma):
     dfxcdgaa = zeros(npts,'d')
     dfxcdgab = zeros(npts,'d')
     dfxcdgbb = zeros(npts,'d')
-    for i in xrange(npts):
+    for i in range(npts):
         rho = float(dens[0][i]+dens[1][i]) # Total density 
         gam = gamma[0][i]+gamma[2][i] + 2.0*gamma[1][i] # Total gamma
         fpnt,dfdrho,dfdgamma = am05xc(rho,gam)
@@ -697,7 +697,7 @@ def am05_lambertw(z):
           # Series expansion about -1/e to first order
           result = sqrt(2.0*e*z + 2.0) - 1.0
        # Find result through iteration
-       for i in xrange(1,11):
+       for i in range(1,11):
           p = exp(result)
           t = result*p - z
           if (result != -1.0):

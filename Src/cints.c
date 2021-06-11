@@ -1480,7 +1480,6 @@ static PyObject *nuclear_attraction_vec_wrap(PyObject *self,PyObject *args){
 
 
 /* Python interface */
-#if PY_MAJOR_VERSION >= 3
 static PyMethodDef cints_methods[] = {
   {"fact",fact_wrap,METH_VARARGS},
   {"fact2",fact2_wrap,METH_VARARGS},
@@ -1510,22 +1509,55 @@ static PyMethodDef cints_methods[] = {
   {"three_center_1D",three_center_1D_wrap,METH_VARARGS},
   {NULL,NULL} /* Sentinel */
 };
-#else
+
+//static void module_init(char* name)
+//{
+//#if PY_MAJOR_VERSION >= 3
+//         PyModule_Create(&cints_methods);
+//#else
+//  (void) Py_InitModule(name,cints_methods);
+//#endif
+//}
+
+#if PY_MAJOR_VERSION >= 3
+  static struct PyModuleDef cints_def = {
+    PyModuleDef_HEAD_INIT,
+    "cints", /* m_name */
+    NULL,      /* m_doc */
+    -1,                  /* m_size */
+    cints_methods,    /* m_methods */
+    NULL,                /* m_reload */
+    NULL,                /* m_traverse */
+    NULL,                /* m_clear */
+    NULL,                /* m_free */
+  };
 #endif
 
-static void module_init(char* name)
+static PyObject* module_init(char* name)
 {
-  (void) Py_InitModule(name,cints_methods);
+       PyObject* m;
+       m = PyModule_Create(&cints_def);
+       return m;
 }
 
+#if PY_MAJOR_VERSION >= 3
+    #define MODINIT(name) PyMODINIT_FUNC PyInit_##name(void)
+#else
+    #define MODINIT(name) PyMODINIT_FUNC init##name(void)
+#endif
+
+MODINIT(cints)
+{
 #if defined(_WIN32)
 __declspec(dllexport)
 #endif
 #if defined(PYQUANTE_FULLY_QUALIFIED_MODULE_NAME)
 void initpyquante_cints_ext(){module_init("pyquante_cints_ext");}
 #else
-void initcints(){module_init("cints");}
+//void initcints(){module_init("cints");}
+module_init("cints");
 #endif
+}
 
 #undef ITMAX
 #undef EPS

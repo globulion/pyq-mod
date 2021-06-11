@@ -65,14 +65,14 @@ class MG2:
         # Compute the amplitudes of the basis functions over the grid
         self.nbf = len(bfs)
         self.bfgrid = zeros((self.ng,self.nbf),'d')
-        for ibf in xrange(self.nbf):
-            for ig in xrange(self.ng):
+        for ibf in range(self.nbf):
+            for ig in range(self.ng):
                 x,y,z,w = self.xyzw[ig,:]
                 self.bfgrid[ig,ibf] = bfs[ibf].amp(x,y,z)
         if self.do_grad_dens:
             self.bfgrads = zeros((self.ng,self.nbf,3),'d')
-            for ibf in xrange(self.nbf):
-                for ig in xrange(self.ng):
+            for ibf in range(self.nbf):
+                for ig in range(self.ng):
                     x,y,z,w = self.xyzw[ig,:]
                     self.bfgrads[ig,ibf,:] = bfs[ibf].grad(x,y,z)
         return
@@ -110,15 +110,15 @@ class MG2:
         the normalization that is in eq 22 of that reference."""
         from PyQuante.MolecularGrid import becke_atomic_grid_p
         nat = len(self.atoms)
-        for iat in xrange(nat):
+        for iat in range(nat):
             ati = self.atoms[iat]
             npts = len(atomgrids[iat])
-            for i in xrange(npts):
+            for i in range(npts):
                 point = atomgrids[iat].points[i]
                 xp,yp,zp,wp = point.xyzw()
                 Pnum = 1
                 Pdenom = 0
-                for jat in xrange(nat):
+                for jat in range(nat):
                     bap = becke_atomic_grid_p(jat,(xp,yp,zp),self.atoms,**opts)
                     Pdenom += bap
                     if iat == jat: P_iat = bap
@@ -133,9 +133,9 @@ class MG2:
         #self.iatom = zeros(self.ng,'l') # Can also keep the atom index, if desired
         ig = 0
         nat = len(atomgrids)
-        for iat in xrange(nat):
+        for iat in range(nat):
             npts = len(atomgrids[iat])
-            for i in xrange(npts):
+            for i in range(npts):
                 point = atomgrids[iat].points[i]
                 self.xyzw[ig,:] = point.xyzw()
                 #self.iatom[ig] = iat
@@ -146,7 +146,7 @@ class MG2:
     def grad_bf_prod(self,a,b):
         "Form grad(chia,chib)."
         gab = zeros((self.ng,3),'d')
-        for i in xrange(3):
+        for i in range(3):
             gab[:,i] = self.bfgrid[:,a]*self.bfgrads[:,b,i] \
                      + self.bfgrid[:,b]*self.bfgrads[:,a,i]
         return gab
@@ -229,7 +229,7 @@ def bdg(b,d,g):
     n,m = b.shape
     _bdg = zeros((n,3),'d')
     db = dot(b,d)
-    for j in xrange(3):
+    for j in range(3):
         _bdg[:,j] = abdot(db,g[:,:,j])
     return _bdg
 
@@ -280,7 +280,7 @@ def test_distance(old,new):
     from PyQuante.cints import dist2
     points = old.points()
     s = 0
-    for i in xrange(new.ng):
+    for i in range(new.ng):
         x1,y1,z1,w1 = points[i].xyzw()
         x2,y2,z2,w2 = new[i]
         s += dist2((x1,y1,z1),(x2,y2,z2))

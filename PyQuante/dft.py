@@ -60,9 +60,9 @@ def getXC(gr,nel,**kwargs):
     # First do the part that doesn't depend upon gamma
     nbf = gr.get_nbf()
     Fxca = zeros((nbf,nbf),'d')
-    for i in xrange(nbf):
+    for i in range(nbf):
         wva_i = wva*gr.bfgrid[:,i] 
-        for j in xrange(nbf):
+        for j in range(nbf):
             Fxca[i,j] = dot(wva_i,gr.bfgrid[:,j])
 
     # Now do the gamma-dependent part.
@@ -77,8 +77,8 @@ def getXC(gr,nel,**kwargs):
     if do_grad_dens:
         # A,B are dimensioned (npts,3)
         A = transpose(0.5*transpose(gr.grad())*(weight*(2*dfxcdgaa+dfxcdgab)))
-        for a in xrange(nbf):
-            for b in xrange(a+1):
+        for a in range(nbf):
+            for b in range(a+1):
                 B = gr.grad_bf_prod(a,b)
                 Fxca[a,b] += sum(ravel(A*B))
                 Fxca[b,a] = Fxca[a,b]
@@ -88,9 +88,9 @@ def getXC(gr,nel,**kwargs):
 
     # First do the part that doesn't depend upon gamma
     Fxcb = zeros((nbf,nbf),'d')
-    for i in xrange(nbf):
+    for i in range(nbf):
         wvb_i = wvb*gr.bfgrid[:,i] 
-        for j in xrange(nbf):
+        for j in range(nbf):
             Fxcb[i,j] = dot(wvb_i,gr.bfgrid[:,j])
 
     # Now do the gamma-dependent part.
@@ -105,8 +105,8 @@ def getXC(gr,nel,**kwargs):
     if do_grad_dens:
         # A,B are dimensioned (npts,3)
         A = transpose(0.5*transpose(gr.grad())*(weight*(2*dfxcdgbb+dfxcdgab)))
-        for a in xrange(nbf):
-            for b in xrange(a+1):
+        for a in range(nbf):
+            for b in range(a+1):
                 B = gr.grad_bf_prod(a,b)
                 Fxcb[a,b] += sum(ravel(A*B))
                 Fxcb[b,a] = Fxcb[a,b]
@@ -195,7 +195,7 @@ def dft(atoms,**kwargs):
 
     # Converge the LDA density for the system:
     if verbose: print("Optimization of DFT density")
-    for i in xrange(MaxIter):
+    for i in range(MaxIter):
         if ETemp:
             efermi = get_efermi(nel,orbe,ETemp)
             occs = get_fermi_occs(efermi,orbe,ETemp)
@@ -303,7 +303,7 @@ def udft(atoms,**kwargs):
 
     # Converge the LDA density for the system:
     if verbose: print("Optimization of DFT density")
-    for i in xrange(MaxIter):
+    for i in range(MaxIter):
         Da = mkdens(orbsa,0,nalpha)
         Db = mkdens(orbsb,0,nbeta)
 
@@ -339,7 +339,7 @@ def mk_auger_dens(c, occ):
     #count how many states we were given
     nstates = occ.shape[0]
     D = 0.0
-    for i in xrange(nstates):
+    for i in range(nstates):
         D += occ[i]*dot( c[:,i:i+1], transpose(c[:,i:i+1]))
     #pad_out(D)
     return D
@@ -428,7 +428,7 @@ def dft_fixed_occ(atoms,occs,**kwargs):
 
     # Converge the LDA density for the system:
     if verbose: print("Optimization of DFT density")
-    for i in xrange(MaxIter):
+    for i in range(MaxIter):
         #print "SCF Iteration:",i,"Starting Energy:",eold
         #save the starting orbitals
         oldorbs=orbs
@@ -554,7 +554,7 @@ def udft_fixed_occ(atoms,occa, occb, **kwargs):
 
     # Converge the LDA density for the system:
     print("Optimization of DFT density")
-    for i in xrange(MaxIter):
+    for i in range(MaxIter):
         Da = mk_auger_dens(orbsa, occa)
         Db = mk_auger_dens(orbsb, occb)
         Dab = Da + Db
