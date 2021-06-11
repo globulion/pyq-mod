@@ -29,7 +29,7 @@ def get_os_dens(orbs,f,noccsh):
     nsh = len(f)
     Ds = [ ]
     assert len(f) == len(noccsh)
-    for ish in xrange(nsh):
+    for ish in range(nsh):
         iend += noccsh[ish]
         Ds.append(mkdens(orbs,istart,iend))
         istart = iend
@@ -61,7 +61,7 @@ def get_os_fock(ish,nsh,f,a,b,h,Hs,**kwargs):
         F = h
     else:
         F = f[ish]*h
-    for jsh in xrange(nsh):
+    for jsh in range(nsh):
         if nof:
             F += a[ish,jsh]*Hs[2*jsh]/f[ish]+b[ish,jsh]*Hs[2*jsh+1]/f[ish]
         else:
@@ -83,7 +83,7 @@ def ocbse(orbs,h,Hs,f,a,b,noccsh):
     nsh = len(noccsh)
     nbf = norb = h.shape[0]
     orbe = zeros(norb,'d')
-    for ish in xrange(nsh):
+    for ish in range(nsh):
         orbs_in_shell = get_orbs_in_shell(ish,noccsh,norb)
         F = get_os_fock(ish,nsh,f,a,b,h,Hs)
         # form the orbital space of all of the orbs in ish plus the virts
@@ -110,9 +110,9 @@ def rotion(orbs,h,Hs,f,a,b,noccsh):
     nocc = sum(noccsh)
     if nsh == 1: return orbs # No effect for closed shell systems
     rot = get_rot(h,Hs,f,a,b,noccsh)
-    print "Rotation matrix:\n",rot
+    print("Rotation matrix:\n",rot)
     erot = expmat(rot)
-    print "Exp rotation matrix:\n",erot
+    print("Exp rotation matrix:\n",erot)
     T = matrixmultiply(orbs[:,:nocc],erot)
     orbs[:,:nocc] = T
     return orbs
@@ -127,20 +127,20 @@ def expmat(A,**kwargs):
     cut = kwargs.get('cut',1e-8)
     E = identity(A.shape[0],'d')
     D = E
-    for i in xrange(1,nmax):
+    for i in range(1,nmax):
         D = matrixmultiply(D,A)/i
         E += D
         maxel = D.max()
         if abs(maxel) < cut:
             break
     else:
-        print "Warning: expmat unconverged after %d iters: %g" % (nmax,maxel)
+        print("Warning: expmat unconverged after %d iters: %g" % (nmax,maxel))
     return E
 
 def get_sh(i,noccsh):
     nsh = len(noccsh)
     isum = 0
-    for ish in xrange(nsh):
+    for ish in range(nsh):
         isum += noccsh[ish]
         if i < isum:
             return i
@@ -150,15 +150,15 @@ def get_rot(h,Hs,f,a,b,noccsh):
     nocc = sum(noccsh)
     nsh = len(noccsh)
     rot = zeros((nocc,nocc),'d')
-    for i in xrange(nocc):
+    for i in range(nocc):
         ish = get_sh(i,noccsh)
-        for j in xrange(nocc):
+        for j in range(nocc):
             jsh = get_sh(j,noccsh)
             if jsh == ish: continue
             Wij = -0.5*(h[i,j]+Hs[0][i,j])
             Wii = -0.5*(h[i,i]+Hs[0][i,i])
             Wjj = -0.5*(h[j,j]+Hs[0][j,j])
-            for k in xrange(nsh):
+            for k in range(nsh):
                 Wij = Wij - 0.5*Hs[2*i+1][i,j]
                 Wii = Wij - 0.5*Hs[2*i+1][i,i]
                 Wjj = Wij - 0.5*Hs[2*i+1][j,j]
@@ -193,8 +193,8 @@ def get_fab(nclosed,nopen):
     a = zeros((nsh,nsh),'d')
     b = zeros((nsh,nsh),'d')
 
-    for i in xrange(nsh):
-        for j in xrange(nsh):
+    for i in range(nsh):
+        for j in range(nsh):
             a[i,j] = 2.*f[i]*f[j]
             b[i,j] = -f[i]*f[j]
 
@@ -244,32 +244,32 @@ def rohf_wag(atoms,noccsh=None,f=None,a=None,b=None,**kwargs):
         f,a,b = get_fab(nclosed,nopen)
 
     if verbose:
-        print "ROHF calculation"
-        print "nsh = ",nsh
-        print "noccsh = ",noccsh
-        print "f = ",f
-        print "a_ij: "
-        for i in xrange(nsh):
-            for j in xrange(i+1):
-                print a[i,j],
-            print
-        print "b_ij: "
-        for i in xrange(nsh):
-            for j in xrange(i+1):
-                print b[i,j],
-            print
+        print ("ROHF calculation")
+        print ("nsh = ",nsh)
+        print ("noccsh = ",noccsh)
+        print ("f = ",f)
+        print ("a_ij: ")
+        for i in range(nsh):
+            for j in range(i+1):
+                print(a[i,j], end="")
+            print()
+        print("b_ij: ")
+        for i in range(nsh):
+            for j in range(i+1):
+                print(b[i,j], end="")
+            print()
     enuke = atoms.get_enuke()
     energy = eold = 0.
-    for i in xrange(MaxIter):
+    for i in range(MaxIter):
         Ds = get_os_dens(orbs,f,noccsh)
         Hs = get_os_hams(Ints,Ds)
         orbs = rotion(orbs,h,Hs,f,a,b,noccsh)
         orbe,orbs = ocbse(orbs,h,Hs,f,a,b,noccsh)
         orthogonalize(orbs,S)
         # Compute the energy
-        eone = sum(f[ish]*trace2(Ds[ish],h) for ish in xrange(nsh))
+        eone = sum(f[ish]*trace2(Ds[ish],h) for ish in range(nsh))
         energy = enuke+eone+sum(orbe[:nocc])
-        print energy,eone
+        print(energy,eone)
         if abs(energy-eold) < ConvCriteria: break
         eold = energy
     return energy,orbe,orbs
@@ -311,15 +311,15 @@ def rohf(atoms,**opts):
     enuke = atoms.get_enuke()
     eold = 0.
 
-    if verbose: print "ROHF calculation on %s" % atoms.name
-    if verbose: print "Nbf = %d" % nbf
-    if verbose: print "Nalpha = %d" % nalpha
-    if verbose: print "Nbeta = %d" % nbeta
-    if verbose: print "Averaging = %s" % DoAveraging
-    print "Optimization of HF orbitals"
+    if verbose: print ("ROHF calculation on %s" % atoms.name)
+    if verbose: print ("Nbf = %d" % nbf)
+    if verbose: print ("Nalpha = %d" % nalpha)
+    if verbose: print ("Nbeta = %d" % nbeta)
+    if verbose: print ("Averaging = %s" % DoAveraging)
+    print("Optimization of HF orbitals")
 
-    for i in xrange(MaxIter):
-        if verbose: print "SCF Iteration:",i,"Starting Energy:",eold
+    for i in range(MaxIter):
+        if verbose: print("SCF Iteration:",i,"Starting Energy:",eold)
         Da = mkdens(orbs,0,nalpha)
         Db = mkdens(orbs,0,nbeta)
         if DoAveraging:
@@ -341,7 +341,7 @@ def rohf(atoms,**opts):
         eone = (trace2(Da,h) + trace2(Db,h))/2
         etwo = (trace2(Da,Fa) + trace2(Db,Fb))/2
         energy = (energya+energyb)/2 + enuke
-        print i,energy,eone,etwo,enuke
+        print(i,energy,eone,etwo,enuke)
         if abs(energy-eold) < ConvCriteria: break
         eold = energy
 
@@ -374,7 +374,7 @@ def rohf(atoms,**opts):
         orbs = matrixmultiply(orbs,mo_orbs)
         
     if verbose:
-        print "Final ROHF energy for system %s is %f" % (atoms.name,energy)
+        print("Final ROHF energy for system %s is %f" % (atoms.name,energy))
     return energy,orbe,orbs
 
 def ao2mo(M,C): return simx(M,C)
@@ -390,20 +390,20 @@ def printmat(mat,name='mat',**kwargs):
     jstart = kwargs.get('jstart',0)
     jstop = kwargs.get('jstop',4)
     suppress = kwargs.get('suppress',True)
-    print name,'\n',mat[istart:istop,jstart:jstop]
+    print(name,'\n',mat[istart:istop,jstart:jstop])
     return
 
 def orthogonalize(orbs,S):
     nbf,norb = orbs.shape
     Smax = 0
-    for i in xrange(norb):
-        for j in xrange(i):
+    for i in range(norb):
+        for j in range(i):
             Sij = dot(orbs[:,j],dot(S,orbs[:,i]))
             Smax = max(Smax,abs(Sij))
             orbs[:,i] -= Sij*orbs[:,j]
         Sii = dot(orbs[:,i],dot(S,orbs[:,i]))
         orbs[:,i] /= sqrt(Sii)
-    print "Max orthogonalized element = ",Smax
+    print("Max orthogonalized element = ",Smax)
     return 
 
 if __name__ == '__main__': 
@@ -414,12 +414,12 @@ if __name__ == '__main__':
     li = Molecule('Li',[(3,(0,0,0))],multiplicity=2)
     be = Molecule('Be',[(4,(0,0,0))],multiplicity=3)
     mol = li
-    print "HF results (for comparison)"
+    print("HF results (for comparison)")
     energy,orbe,orbs = rohf(mol)
-    print "ROHF Energy = ",energy
-    print "ROHF spectrum: \n",orbe
+    print("ROHF Energy = ",energy)
+    print("ROHF spectrum: \n",orbe)
     #energy,orbe,orbs = rohf_wag(mol,orbs=orbs)
     energy,orbe,orbs = rohf_wag(mol)
-    print "ROHF Energy = ",energy
-    print "ROHF spectrum: \n",orbe
+    print("ROHF Energy = ",energy)
+    print("ROHF spectrum: \n",orbe)
     

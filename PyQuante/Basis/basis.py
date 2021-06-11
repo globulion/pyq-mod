@@ -44,7 +44,7 @@ Notes:
             bs = basis_data[atom.atno]
             for sym,prims in bs: # Shell Symbol S,P,D,F
                 A = sym2powerlist[sym]                            # GLOBULION ADD
-                for ni in xrange(len(sym2powerlist[sym])):        # GLOBULION ADD
+                for ni in range(len(sym2powerlist[sym])):        # GLOBULION ADD
                     LIST1.append(n)                  # GLOBULION ADD
                     LIST2.append(A[ni])
                 if omit_f and sym == "F": continue
@@ -111,5 +111,5 @@ where the three first are position (in Bohr) of GTO centre,
         return str(log)
     def __add__(self, other):
         bfs = self.bfs + other.bfs
-        print " BasisSet Warning: Only .bfs is added ! Finish it!"
+        print(" BasisSet Warning: Only .bfs is added ! Finish it!")
         return bfs

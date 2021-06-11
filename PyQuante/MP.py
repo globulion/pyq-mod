@@ -93,11 +93,11 @@ def MP2(aoints,orbs,orbe,nclosed,nvirt):
                     Epairs[a,b] += arbs*(2*arbs-asbr)/\
                                    (orbe[a]+orbe[b]-orbe[r]-orbe[s])
     if VERBOSE:
-        print "MP2 pair energies"
-        for a in xrange(nocc):
-            for b in xrange(a):
-                print a,b,Epairs[a,b]+Epairs[b,a]
-            print a,a,Epairs[a,a]
+        print("MP2 pair energies")
+        for a in range(nocc):
+            for b in range(a):
+                print(a,b,Epairs[a,b]+Epairs[b,a])
+            print(a,a,Epairs[a,a])
     return sum(sum(Epairs))
 
 def EN2(aoints,orbs,orbe,nclosed,nvirt):
@@ -118,11 +118,11 @@ def EN2(aoints,orbs,orbe,nclosed,nvirt):
                     Epairs[a,b] += arbs*(2*arbs-asbr)/\
                                    (orbe[a]+orbe[b]-orbe[r]-orbe[s])
     if VERBOSE:
-        print "EN2 pair energies"
-        for a in xrange(nocc):
-            for b in xrange(a):
-                print a,b,Epairs[a,b]+Epairs[b,a]
-            print a,a,Epairs[a,a]
+        print("EN2 pair energies")
+        for a in range(nocc):
+            for b in range(a):
+                print(a,b,Epairs[a,b]+Epairs[b,a])
+            print(a,a,Epairs[a,a])
     return sum(sum(Epairs))
 
 def test():
@@ -136,11 +136,11 @@ def test():
     bfs = getbasis(atoms)
     S,h,Ints = getints(bfs,atoms)
     en,orbe,orbs = scf(atoms,S,h,Ints,0,0.0001,10)
-    print "SCF completed, E = ",en
+    print("SCF completed, E = ",en)
 
     emp2 = MP2(Ints,orbs,orbe,1,9)
-    print "MP2 correction = ",emp2
-    print "Final energy = ",en+emp2
+    print("MP2 correction = ",emp2)
+    print("Final energy = ",en+emp2)
     return
 
 if __name__ == '__main__': test()

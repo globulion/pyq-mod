@@ -83,9 +83,9 @@ class AbstractDMP:
     def print_init_info(self): return
 
     # Functions that must be overloaded
-    def initialize(self): print "AbstractDMP.initialize()"
-    def update(self): print "AbstractDMP.update()"
-    def converged(self): print "AbstractDMP.converged()"
+    def initialize(self): print("AbstractDMP.initialize()")
+    def update(self): print("AbstractDMP.update()")
+    def converged(self): print("AbstractDMP.converged()")
 
 class NOTCP:
     "Nonorthogonal version of Niklasson Trace Correcting Purification"
@@ -330,12 +330,12 @@ def lanczos_minmax(F,S=None,**kwargs):
 
 def test():
     from PyQuante.PyQuante2 import SCF,DmatSolver
-    print "Target energy: ",-1.130501
+    print("Target energy: ",-1.130501)
     h2 = Molecule('H2',atomlist=[(1,(0.35,0,0)),(1,(-0.35,0,0))],
                   units='Angs')
     h2_hf = SCF(h2,method='HF',SolverConstructor=DmatSolver)
     h2_hf.iterate()
-    print "Energy:        ",h2_hf.energy
+    print("Energy:        ",h2_hf.energy)
     
 if __name__ == '__main__': test()
 

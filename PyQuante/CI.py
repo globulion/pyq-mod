@@ -173,8 +173,8 @@ def test():
     en,orbe,orbs = rhf(h2,
                        integrals=(S,h,Ints)
                        )
-    print "SCF completed, E = ",en
-    print " orbital energies ",orbe
+    print("SCF completed, E = ",en)
+    print(" orbital energies ",orbe)
 
     # Compute the occupied and unoccupied orbitals, used in the
     # CIS program to generate the excitations
@@ -185,7 +185,7 @@ def test():
 
     # Call the CI program:
     Ecis = CIS(Ints,orbs,orbe,nocc,nvirt,en)
-    print "Ecis = ",Ecis
+    print("Ecis = ",Ecis)
 
 if __name__ == '__main__':
     test()

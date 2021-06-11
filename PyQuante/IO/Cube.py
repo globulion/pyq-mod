@@ -42,12 +42,12 @@ def mesh_orb(atoms,bfs,orbs,index):
     ppb = 2.0 # Points per bohr
     spacing = 1.0/ppb
     nx,ny,nz = int(dx*ppb),int(dy*ppb),int(dz*ppb)
-    print "CUBE FILE"
-    print "OUTER LOOP: X, MIDDLE LOOP: Y, INNER LOOP: Z"
-    print "%5i %11.6f %11.6f %11.6f" %  (len(atoms),xmin,ymin,zmin)
-    print "%5i %11.6f %11.6f %11.6f" %  (nx,spacing,0,0)
-    print "%5i %11.6f %11.6f %11.6f" %  (ny,0,spacing,0)
-    print "%5i %11.6f %11.6f %11.6f" %  (nz,0,0,spacing)
+    print ("CUBE FILE")
+    print ("OUTER LOOP: X, MIDDLE LOOP: Y, INNER LOOP: Z")
+    print ("%5i %11.6f %11.6f %11.6f" %  (len(atoms),xmin,ymin,zmin))
+    print ("%5i %11.6f %11.6f %11.6f" %  (nx,spacing,0,0))
+    print ("%5i %11.6f %11.6f %11.6f" %  (ny,0,spacing,0))
+    print ("%5i %11.6f %11.6f %11.6f" %  (nz,0,0,spacing))
 
     # The second record here is the nuclear charge, which differs from the
     #  atomic number when a ppot is used. Since I don't have that info, I'll
@@ -55,19 +55,19 @@ def mesh_orb(atoms,bfs,orbs,index):
     for atom in atoms:
         atno = atom.atno
         x,y,z = atom.pos()
-        print "%5i %11.6f %11.6f %11.6f %11.6f" %  (atno,atno,x,y,z)
+        print("%5i %11.6f %11.6f %11.6f %11.6f" %  (atno,atno,x,y,z))
     nbf = len(bfs)
-    print " ",
-    for i in xrange(nx):
+    print(" ", end="")
+    for i in range(nx):
         xg = xmin + i*spacing
-        for j in xrange(ny):
+        for j in range(ny):
             yg = ymin + j*spacing
-            for k in xrange(nz):
+            for k in range(nz):
                 zg = zmin + k*spacing
                 amp = 0
-                for ibf in xrange(nbf):
+                for ibf in range(nbf):
                     amp += bfs[ibf].amp(xg,yg,zg)*orbs[ibf,index]
                 if abs(amp) < 1e-12: amp = 0
-                print " %11.5e" % amp,
-                if k % 6 == 5: print "\n ",
-            print "\n ",
+                print(" %11.5e" % amp, end="")
+                if k % 6 == 5: print("\n ", end="")
+            print("\n ", end="")

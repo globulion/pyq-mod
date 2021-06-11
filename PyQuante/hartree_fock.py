@@ -43,13 +43,13 @@ def get_guess(h,S):
     return evecs
 
 def get_nel(atoms,charge=0):
-    print "Warning, hartree_fock.get_nel deprecated"
-    print "Use the Molecular instance function"
+    print("Warning, hartree_fock.get_nel deprecated")
+    print("Use the Molecular instance function")
     return atoms.get_nel(charge)
 
 def get_enuke(atoms):
-    print "Warning, hartree_fock.get_enuke deprecated"
-    print "Use the Molecular instance function"
+    print("Warning, hartree_fock.get_enuke deprecated")
+    print("Use the Molecular instance function")
     return atoms.get_enuke()
 
 def hf(atoms,**opts):
@@ -207,7 +207,7 @@ def uhf(atoms,**opts):
     logger.info("Averaging = %s" % DoAveraging)
     logging.debug("Optimization of HF orbitals")
     for i in xrange(MaxIter):
-        if verbose: print "SCF Iteration:",i,"Starting Energy:",eold
+        if verbose: print("SCF Iteration:",i,"Starting Energy:",eold)
         if ETemp:
             # We have to multiply nalpha and nbeta by 2
             #  to get the Fermi energies to come out correct:
@@ -320,19 +320,19 @@ def uhf_fixed_occ(atoms,occa, occb,**opts):
     
     #print "A Trial Orbital Energies:\n", orbea
 
-    print "A Trial Orbitals:\n"
+    print("A Trial Orbitals:\n")
     pad_out(orbsa)
 
     #print "B Trial Orbital Energies:\n",orbeb
 
-    print "B Trial Orbitals:\n"
+    print("B Trial Orbitals:\n")
     pad_out(orbsb)
     
     enuke = atoms.get_enuke()
     eold = 0.
 
     for i in xrange(MaxIter):
-        print "SCF Iteration:",i,"Starting Energy:",eold
+        print("SCF Iteration:",i,"Starting Energy:",eold)
         #save the starting orbitals
         oldorbs_a=orbsa
         oldorbs_b=orbsb
@@ -378,7 +378,7 @@ def uhf_fixed_occ(atoms,occa, occb,**opts):
         if abs(energy-eold) < ConvCriteria: break
         eold = energy
         if i==(MaxIter-1):
-            print "Warning: Reached maximum number of SCF cycles may want to rerun calculation with more SCF cycles"
+            print("Warning: Reached maximum number of SCF cycles may want to rerun calculation with more SCF cycles")
     logger.info("Final UHF energy for system %s is %f" % (atoms.name,energy))
     return energy,(orbea,orbeb),(orbsa,orbsb)
 
@@ -387,4 +387,4 @@ if __name__ == '__main__':
     from Molecule import Molecule
     h2 = Molecule('H2',atomlist=[(1,(1.,0,0)),(1,(-1.,0,0))])
     en = rhf(h2)
-    print en
+    print(en)

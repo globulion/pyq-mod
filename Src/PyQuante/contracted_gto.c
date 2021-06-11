@@ -2060,7 +2060,11 @@ static PyObject* __Pyx_Method_ClassMethod(PyObject *method) {
     /* if (!PyObject_TypeCheck(method, &PyMethodDescr_Type)) { */ 
     if (__Pyx_StrEq(Py_TYPE(method)->tp_name, "method_descriptor")) { /* cdef classes */
         PyMethodDescrObject *descr = (PyMethodDescrObject *)method;
+#if PY_MAJOR_VERSION >= 3
+        return PyDescr_NewClassMethod(descr->d_common.d_type, descr->d_method);
+#else
         return PyDescr_NewClassMethod(descr->d_type, descr->d_method);
+#endif
     }
     else if (PyMethod_Check(method)) {                                /* python classes */
         return PyClassMethod_New(PyMethod_GET_FUNCTION(method));

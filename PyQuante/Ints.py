@@ -86,9 +86,9 @@ def get1ints(bfs,atoms):
     S = zeros((nbf,nbf),'d')
     h = zeros((nbf,nbf),'d')
 
-    for i in xrange(nbf):
+    for i in range(nbf):
         bfi = bfs[i]
-        for j in xrange(nbf):
+        for j in range(nbf):
             bfj = bfs[j]
             S[i,j] = bfi.overlap(bfj)
             h[i,j] = bfi.kinetic(bfj)
@@ -101,9 +101,9 @@ def getT(bfs):
     nbf = len(bfs)
     T = zeros((nbf,nbf),'d')
 
-    for i in xrange(nbf):
+    for i in range(nbf):
         bfi = bfs[i]
-        for j in xrange(nbf):
+        for j in range(nbf):
             bfj = bfs[j]
             T[i,j] = bfi.kinetic(bfj)
     return T
@@ -113,9 +113,9 @@ def getS(bfs):
     nbf = len(bfs)
     S = zeros((nbf,nbf),'d')
 
-    for i in xrange(nbf):
+    for i in range(nbf):
         bfi = bfs[i]
-        for j in xrange(nbf):
+        for j in range(nbf):
             bfj = bfs[j]
             S[i,j] = bfi.overlap(bfj)
     return S
@@ -126,9 +126,9 @@ def getSAB(bfsA,bfsB):
     nbfB = len(bfsB)
     S = zeros((nbfA,nbfB),'d')
     
-    for i in xrange(nbfA):
+    for i in range(nbfA):
         bfi = bfsA[i]
-        for j in xrange(nbfB):
+        for j in range(nbfB):
             bfj = bfsB[j]
             S[i,j] = bfi.overlap(bfj)
     return S
@@ -139,9 +139,9 @@ def getTAB(bfsA,bfsB):
     nbfB = len(bfsB)
     T = zeros((nbfA,nbfB),'d')
     
-    for i in xrange(nbfA):
+    for i in range(nbfA):
         bfi = bfsA[i]
-        for j in xrange(nbfB):
+        for j in range(nbfB):
             bfj = bfsB[j]
             T[i,j] = bfi.kinetic(bfj)
     return T
@@ -154,9 +154,9 @@ The derivative refers to molecule A basis functions"""
     nbfB = len(bfsB)
     S = zeros((nbfA,nbfB,3),'d')
     
-    for i in xrange(nbfA):
+    for i in range(nbfA):
         bfi = bfsA[i]
-        for j in xrange(nbfB):
+        for j in range(nbfB):
             bfj = bfsB[j]
             S[i,j,:] =  bfi.overlap_1(bfj)
     return S
@@ -168,9 +168,9 @@ The derivative refers to molecule A basis functions"""
     nbfB = len(bfsB)
     T = zeros((nbfA,nbfB,3),'d')
     
-    for i in xrange(nbfA):
+    for i in range(nbfA):
         bfi = bfsA[i]
-        for j in xrange(nbfB):
+        for j in range(nbfB):
             bfj = bfsB[j]
             T[i,j,:] = array( bfi.kinetic_1(bfj) , 'd' )
     return T
@@ -184,9 +184,9 @@ def getM(bfs, hexadecapoles=False):
     O = zeros((3,3,3,  nbf,nbf),'d')
     H = zeros((3,3,3,3,nbf,nbf),'d')
 
-    for i in xrange(nbf):
+    for i in range(nbf):
         bfi = bfs[i]
-        for j in xrange(i+1):
+        for j in range(i+1):
             bfj = bfs[j]
             # dipole integral matrix
             D[0,i,j] = bfi.multipole(bfj,1,0,0)
@@ -454,9 +454,9 @@ def getV(bfs,atoms):
     "Form the nuclear attraction matrix V"
     nbf = len(bfs)
     V = zeros((nbf,nbf),'d')
-    for i in xrange(nbf):
+    for i in range(nbf):
         bfi = bfs[i]
-        for j in xrange(nbf):
+        for j in range(nbf):
             bfj = bfs[j]
             for atom in atoms:
                 V[i,j] = V[i,j] + atom.atno*bfi.nuclear(bfj,atom.pos())
@@ -467,12 +467,12 @@ def getVEFP(bfs1,bfs2,q,r):
     nbf1 = len(bfs1)
     nbf2 = len(bfs2)
     V = zeros((nbf1,nbf2),'d')
-    for i in xrange(nbf1):
+    for i in range(nbf1):
         bfi = bfs1[i]
-        for j in xrange(nbf2):
+        for j in range(nbf2):
             bfj = bfs2[j]
             v = 0
-            for a in xrange(len(q)):
+            for a in range(len(q)):
                 v += q[a] * bfi.nuclear(bfj,tuple(r[a]))
             V[i,j] = v
     return V
@@ -530,11 +530,11 @@ else:
         totlen = nbf*(nbf+1)*(nbf*nbf+nbf+2)/8
         Ints = array('d',[0]*totlen)
 
-        for i in xrange(nbf):
-            for j in xrange(i+1):
+        for i in range(nbf):
+            for j in range(i+1):
                 ij = i*(i+1)/2+j
-                for k in xrange(nbf):
-                    for l in xrange(k+1):
+                for k in range(nbf):
+                    for l in range(k+1):
                         kl = k*(k+1)/2+l
                         if ij <= kl:
                             Ints[intindex(i,j,k,l)] = coulomb(bfs[i],bfs[j],
@@ -545,24 +545,24 @@ else:
         return Ints
 
 def sortints(nbf,Ints):
-    for i in xrange(nbf):
-        for j in xrange(i+1):
+    for i in range(nbf):
+        for j in range(i+1):
             jints[i,j] = fetch_jints(Ints,i,j,nbf)
             kints[i,j] = fetch_kints(Ints,i,j,nbf)
     return
 
 # THIS FUNCTION IS ADDED FOR COULOMB.py PURPOSES
 def sortintsBTF_12(nbf1,nbf2,Ints):
-    for i in xrange(nbf1):
-        for j in xrange(i+1):
+    for i in range(nbf1):
+        for j in range(i+1):
             jintsBTF_12[i,j] = fetch_jintsBTF_12(Ints,i,j,nbf1,nbf2)
             kintsBTF_12[i,j] = fetch_kintsBTF_12(Ints,i,j,nbf1,nbf2)
     return
 
 # THIS FUNCTION IS ADDED FOR COULOMB.py PURPOSES
 def sortintsBTF_21(nbf1,nbf2,Ints):
-    for i in xrange(nbf2):
-        for j in xrange(i+1):
+    for i in range(nbf2):
+        for j in range(i+1):
             jintsBTF_21[i,j] = fetch_jintsBTF_21(Ints,i,j,nbf1,nbf2)
             kintsBTF_21[i,j] = fetch_kintsBTF_21(Ints,i,j,nbf1,nbf2)
     return
@@ -571,8 +571,8 @@ def sortintsBTF_21(nbf1,nbf2,Ints):
 def fetch_jintsBTF_12(Ints,i,j,nbf1,nbf2):
     temp = zeros(nbf2*nbf2,'d')
     kl = 0
-    for k in xrange(nbf2):
-        for l in xrange(nbf2):
+    for k in range(nbf2):
+        for l in range(nbf2):
             index = intindexBTF(i,j,k,l)
             temp[kl] = Ints[index]
             kl+=1
@@ -582,8 +582,8 @@ def fetch_jintsBTF_12(Ints,i,j,nbf1,nbf2):
 def fetch_kintsBTF_12(Ints,i,j,nbf1,nbf2):
     temp = zeros(nbf2*nbf2,'d')
     kl = 0
-    for k in xrange(nbf2):
-        for l in xrange(nbf2):
+    for k in range(nbf2):
+        for l in range(nbf2):
             index = intindexBTF(i,k,j,l)
             temp[kl] = Ints[index]
             kl+=1
@@ -593,8 +593,8 @@ def fetch_kintsBTF_12(Ints,i,j,nbf1,nbf2):
 def fetch_jintsBTF_21(Ints,i,j,nbf1,nbf2):
     temp = zeros(nbf1*nbf1,'d')
     kl = 0
-    for k in xrange(nbf1):
-        for l in xrange(nbf1):
+    for k in range(nbf1):
+        for l in range(nbf1):
             index = intindexBTF(i,j,k,l)
             temp[kl] = Ints[index]
             kl+=1
@@ -604,8 +604,8 @@ def fetch_jintsBTF_21(Ints,i,j,nbf1,nbf2):
 def fetch_kintsBTF_21(Ints,i,j,nbf1,nbf2):
     temp = zeros(nbf1*nbf1,'d')
     kl = 0
-    for k in xrange(nbf1):
-        for l in xrange(nbf1):
+    for k in range(nbf1):
+        for l in range(nbf1):
             index = intindexBTF(i,k,j,l)
             temp[kl] = Ints[index]
             kl+=1
@@ -614,8 +614,8 @@ def fetch_kintsBTF_21(Ints,i,j,nbf1,nbf2):
 def fetch_jints(Ints,i,j,nbf):
     temp = zeros(nbf*nbf,'d')
     kl = 0
-    for k in xrange(nbf):
-        for l in xrange(nbf):
+    for k in range(nbf):
+        for l in range(nbf):
             index = intindex(i,j,k,l)
             temp[kl] = Ints[index]
             kl += 1
@@ -624,8 +624,8 @@ def fetch_jints(Ints,i,j,nbf):
 def fetch_kints(Ints,i,j,nbf):
     temp = zeros(nbf*nbf,'d')
     kl = 0
-    for k in xrange(nbf):
-        for l in xrange(nbf):
+    for k in range(nbf):
+        for l in range(nbf):
             temp[kl] = Ints[intindex(i,k,j,l)]
             kl += 1
     return temp
@@ -634,8 +634,8 @@ def fetch_kints(Ints,i,j,nbf):
 def fetch_jintsBTF(Ints,i,j,nbf1,nbf2):
     temp = zeros(nbf1*nbf1,'d')
     kl = 0
-    for k in xrange(nbf2):
-        for l in xrange(nbf2):
+    for k in range(nbf2):
+        for l in range(nbf2):
             index = intindexBTF(i,j,k,l)
             temp[kl] = Ints[index]
             kl+=1
@@ -645,8 +645,8 @@ def fetch_jintsBTF(Ints,i,j,nbf1,nbf2):
 def fetch_kintsBTF(Ints,i,j,nbf1,nbf2):
     temp = zeros(nbf1*nbf1,'d')
     kl = 0
-    for k in xrange(nbf1):
-        for l in xrange(nbf1):
+    for k in range(nbf1):
+        for l in range(nbf1):
             index = intindexBTF(i,k,j,l)
             temp[kl] = Ints[index]
             kl+=1
@@ -657,8 +657,8 @@ def getJ(Ints,D):
     nbf = D.shape[0]
     D1d = reshape(D,(nbf*nbf,)) #1D version of Dens
     J = zeros((nbf,nbf),'d')
-    for i in xrange(nbf):
-        for j in xrange(i+1):
+    for i in range(nbf):
+        for j in range(i+1):
             if sorted:
                 temp = jints[i,j]
             else:
@@ -672,8 +672,8 @@ def getJ_BTF(Ints,D,nbf1,nbf2,frag_number):
     if frag_number == 1:
        D1d = reshape(D,(nbf2*nbf2,)) #1D version of Dens
        J = zeros((nbf1,nbf1),'d')
-       for i in xrange(nbf1):
-           for j in xrange(i+1):
+       for i in range(nbf1):
+           for j in range(i+1):
                if sorted:
                   temp = jintsBTF_12[i,j]
                else:
@@ -683,8 +683,8 @@ def getJ_BTF(Ints,D,nbf1,nbf2,frag_number):
     elif frag_number == 2:
        D1d = reshape(D,(nbf1*nbf1,)) #1D version of Dens
        J = zeros((nbf2,nbf2),'d')
-       for i in xrange(nbf2):
-           for j in xrange(i+1):
+       for i in range(nbf2):
+           for j in range(i+1):
                if sorted:
                   temp = jintsBTF_21[i,j]
                else:
@@ -698,8 +698,8 @@ def getK_BTF(Ints,D,nbf1,nbf2,frag_number):
     if frag_number == 1:
        D1d = reshape(D,(nbf2*nbf2,)) #1D version of Dens
        K = zeros((nbf1,nbf1),'d')
-       for i in xrange(nbf1):
-           for j in xrange(i+1):
+       for i in range(nbf1):
+           for j in range(i+1):
                if sorted:
                   temp = kintsBTF_12[i,j]
                else:
@@ -709,8 +709,8 @@ def getK_BTF(Ints,D,nbf1,nbf2,frag_number):
     elif frag_number == 2:
        D1d = reshape(D,(nbf1*nbf1,)) #1D version of Dens
        K = zeros((nbf2,nbf2),'d')
-       for i in xrange(nbf2):
-           for j in xrange(i+1):
+       for i in range(nbf2):
+           for j in range(i+1):
                if sorted:
                   temp = kintsBTF_21[i,j]
                else:
@@ -724,8 +724,8 @@ def getK(Ints,D):
     nbf = D.shape[0]
     D1d = reshape(D,(nbf*nbf,)) #1D version of Dens
     K = zeros((nbf,nbf),'d')
-    for i in xrange(nbf):
-        for j in xrange(i+1):
+    for i in range(nbf):
+        for j in range(i+1):
             if sorted:
                 temp = kints[i,j]
             else:
@@ -739,8 +739,8 @@ def get2JmK(Ints,D):
     nbf = D.shape[0]
     D1d = reshape(D,(nbf*nbf,)) #1D version of Dens
     G = zeros((nbf,nbf),'d')
-    for i in xrange(nbf):
-        for j in xrange(i+1):
+    for i in range(nbf):
+        for j in range(i+1):
             if sorted:
                 temp = 2*jints[i,j]-kints[i,j]
             else:

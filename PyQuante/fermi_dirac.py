@@ -49,14 +49,14 @@ def mkdens_occs(c,occs,**opts):
         if fi < tol: break
         norb += 1
     if verbose:
-        print "mkdens_occs: %d occupied orbitals found" % norb
+        print("mkdens_occs: %d occupied orbitals found" % norb)
     # Determine how many doubly occupied orbitals we have
     nclosed = 0
     for i in xrange(norb):
         if abs(1.-occs[i]) > tol: break
         nclosed += 1
     if verbose:
-        print "mkdens_occs: %d closed-shell orbitals found" % nclosed
+        print("mkdens_occs: %d closed-shell orbitals found" % nclosed)
     D = mkdens(c,0,nclosed)
     for i in xrange(nclosed,norb):
         D = D + occs[i]*matrixmultiply(c[:,i:i+1],transpose(c[:,i:i+1]))
@@ -120,6 +120,6 @@ def get_efermi(nel,orbe,temp,**opts):
         else:
             ehigh = efermi
     else:
-        print "get_fd_occs: Too many iterations"
+        print("get_fd_occs: Too many iterations")
     return efermi
 

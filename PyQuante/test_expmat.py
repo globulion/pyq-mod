@@ -10,8 +10,8 @@ I = identity(n,'d')
 #A = array([[-49,24],[-64,31]],'d') # Example from Moler/Van Loan, doesn't work
 #A = array([[0,0.5],[0.5,0]],'d')
 A = array([[1,0.5],[0.5,1]],'d')
-print A
+print(A)
 
 E = expmat(A,nmax=20)
-print E
-print expm(A)
+print(E)
+print(expm(A))

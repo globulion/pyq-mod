@@ -18,7 +18,9 @@ from numpy.linalg import *
 matrixmultiply = dot
     
 # still need to kill these two, which are used by Optimize:
-import numpy.oldnumeric.mlab as MLab
-from numpy.oldnumeric import NewAxis
+#import numpy.oldnumeric.mlab as MLab
+#from numpy.oldnumeric import NewAxis
 import numpy as Numeric
+MLab = Numeric
+from numpy import newaxis as NewAxis
 

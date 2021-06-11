@@ -184,8 +184,8 @@ class MG2:
     def renormalize(self,nel):
         factor = nel/dot(self.xyzw[:,3],self.density.sum(1))
         if abs(factor-1) > 1e-2:
-            print "Warning: large renormalization factor found in grid renormalization"
-            print factor
+            print("Warning: large renormalization factor found in grid renormalization")
+            print(factor)
         # Don't know whether it makes more sense to rescale the weights or the dens.
         # The density seems to make more sense, I guess
         #self.scale_weights(factor)
@@ -248,13 +248,13 @@ def new_grid_tester():
     mol = h2
     gr = MolecularGrid(mol,do_grad_dens=True)
     gr2 = MG2(mol,do_grad_dens=True)
-    print "test_length: ",test_length(gr,gr2)
-    print "test_distance: ",test_distance(gr,gr2)
+    print("test_length: ",test_length(gr,gr2))
+    print("test_distance: ",test_distance(gr,gr2))
 
     bfs = getbasis(mol)
     gr.set_bf_amps(bfs)
     gr2.add_basis(bfs)
-    print "test_bfgrid: ",test_bfgrid(gr,gr2)
+    print("test_bfgrid: ",test_bfgrid(gr,gr2))
 
     # This is a little weird, but now use the hf density matrix to
     #  test whether the densities are the same
@@ -262,8 +262,8 @@ def new_grid_tester():
     hf.iterate()
     gr.setdens(hf.dmat)
     gr2.set_density(hf.dmat)
-    print "test_density: ",test_density(gr,gr2)
-    print "test_gamma: ",test_gamma(gr,gr2)
+    print("test_density: ",test_density(gr,gr2))
+    print("test_gamma: ",test_gamma(gr,gr2))
 
 def test_density(old,new):
     d = old.dens()-new.density[:,0]-new.density[:,1]

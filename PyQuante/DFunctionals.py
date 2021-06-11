@@ -43,30 +43,24 @@ def XC(dens,gamma,**opts):
     dfxcdgbb = zeros(npts,'d')
     if xfuncs[functional]:
         if derivative == 'analyt' and analyt[functional]:
-            fx,dfxdna,dfxdnb,dfxdgaa,dfxdgab,dfxdgbb = \
-	                      xfuncs[functional](dens,gamma)
+            fx,dfxdna,dfxdnb,dfxdgaa,dfxdgab,dfxdgbb = xfuncs[functional](dens,gamma)
         else:
-	    fx,dfxdna,dfxdnb,dfxdgaa,dfxdgab,dfxdgbb = \
-	                      xfuncs[functional](dens,gamma)	
-	    dfxdna,dfxdnb,dfxdgaa,dfxdgab,dfxdgbb = \
-	                      numder('x',functional,dens,gamma)
+            fx,dfxdna,dfxdnb,dfxdgaa,dfxdgab,dfxdgbb = xfuncs[functional](dens,gamma)
+            dfxdna,dfxdnb,dfxdgaa,dfxdgab,dfxdgbb = numder('x',functional,dens,gamma)
         fxc = fxc + fx
-	dfxcdna = dfxcdna + dfxdna
+        dfxcdna = dfxcdna + dfxdna
         dfxcdnb = dfxcdnb + dfxdnb
         dfxcdgaa = dfxcdgaa + dfxdgaa
         dfxcdgab = dfxcdgab + dfxdgab
         dfxcdgbb = dfxcdgbb + dfxdgbb
     if cfuncs[functional]:
         if derivative == 'analyt' and analyt[functional]:
-            fc,dfcdna,dfcdnb,dfcdgaa,dfcdgab,dfcdgbb = \
-	                      cfuncs[functional](dens,gamma)
+            fc,dfcdna,dfcdnb,dfcdgaa,dfcdgab,dfcdgbb = cfuncs[functional](dens,gamma)
         else:
-            fc,dfcdna,dfcdnb,dfcdgaa,dfcdgab,dfcdgbb = \
-	                      cfuncs[functional](dens,gamma)
-	    dfcdna,dfcdnb,dfcdgaa,dfcdgab,dfcdgbb = \
-	                      numder('c',functional,dens,gamma)
+            fc,dfcdna,dfcdnb,dfcdgaa,dfcdgab,dfcdgbb = cfuncs[functional](dens,gamma)
+            dfcdna,dfcdnb,dfcdgaa,dfcdgab,dfcdgbb = numder('c',functional,dens,gamma)
         fxc = fxc + fc
-	dfxcdna = dfxcdna + dfcdna
+        dfxcdna = dfxcdna + dfcdna
         dfxcdnb = dfxcdnb + dfcdnb
         dfxcdgaa = dfxcdgaa + dfcdgaa
         dfxcdgab = dfxcdgab + dfcdgab
@@ -98,12 +92,12 @@ def S(dens,gamma=None):
     dfxdgbb = zeros(npts,'d')
     for i in xrange(npts):
         na = float(dens[0][i]) # Density of the alpha spin
-	nb = float(dens[1][i]) # Density of the beta spin
+        nb = float(dens[1][i]) # Density of the beta spin
         fxa,vxa = xs(na)
-	fxb,vxb = xs(nb)
+        fxb,vxb = xs(nb)
         fx[i] = fxa + fxb
         dfxdna[i] = vxa
-	dfxdnb[i] = vxb
+        dfxdnb[i] = vxb
     return fx,dfxdna,dfxdnb,dfxdgaa,dfxdgab,dfxdgbb
 
 def VWN(dens,gamma=None):
@@ -129,10 +123,10 @@ def VWN(dens,gamma=None):
     dfcdgbb = zeros(npts,'d')
     for i in xrange(npts):
         na = float(dens[0][i]) # Density of the alpha spin
-	nb = float(dens[1][i]) # Density of the beta spin
+        nb = float(dens[1][i]) # Density of the beta spin
         fcab,vca,vcb = cvwn(na,nb)
         fc[i] = fcab
-	dfcdna[i] = vca
+        dfcdna[i] = vca
         dfcdnb[i] = vcb
     return fc,dfcdna,dfcdnb,dfcdgaa,dfcdgab,dfcdgbb
 
@@ -158,10 +152,10 @@ def PW(dens,gamma=None):
     dfcdgbb = zeros(npts,'d')
     for i in xrange(npts):
         na = float(dens[0][i]) # Density of the alpha spin
-	nb = float(dens[1][i]) # Density of the beta spin
+        nb = float(dens[1][i]) # Density of the beta spin
         fcab,vca,vcb = pw(na,nb)
         fc[i] = fcab
-	dfcdna[i] = vca
+        dfcdna[i] = vca
         dfcdnb[i] = vcb
     return fc,dfcdna,dfcdnb,dfcdgaa,dfcdgab,dfcdgbb
 
@@ -186,14 +180,14 @@ def B(dens,gamma):
     dfxdgbb = zeros(npts,'d')
     for i in xrange(npts):
         na = float(dens[0][i])  # Density of the alpha spin
-	nb = float(dens[1][i])  # Density of the beta spin
+        nb = float(dens[1][i])  # Density of the beta spin
         gamaa = gamma[0][i]
-	gambb = gamma[2][i]
+        gambb = gamma[2][i]
         fxa,fxna,fxgaa = xb(na,gamaa,return_flag = 1)
-	fxb,fxnb,fxgbb = xb(nb,gambb,return_flag = 1)
+        fxb,fxnb,fxgbb = xb(nb,gambb,return_flag = 1)
         fx[i] = fxa + fxb
         dfxdna[i] = fxna
-	dfxdnb[i] = fxnb
+        dfxdnb[i] = fxnb
         dfxdgaa[i] = fxgaa
         dfxdgbb[i] = fxgbb
     return fx,dfxdna,dfxdnb,dfxdgaa,dfxdgab,dfxdgbb
@@ -217,17 +211,17 @@ def LYP(dens,gamma):
     dfcdgbb = zeros(npts,'d')
     for i in xrange(npts):
         na = float(dens[0][i]) # Density of the alpha spin
-	nb = float(dens[1][i]) # Density of the beta spin
+        nb = float(dens[1][i]) # Density of the beta spin
         gamaa = gamma[0][i]
-	gamab = gamma[1][i]
+        gamab = gamma[1][i]
         gambb = gamma[2][i]
         fcab,fcna,fcnb,fcgaa,fcgab,fcgbb = clyp(na,nb,gamaa,gamab,gambb,
                                                 return_flag=1)
         fc[i] = fcab
-	dfcdna[i] = fcna
+        dfcdna[i] = fcna
         dfcdnb[i] = fcnb
         dfcdgaa[i] = fcgaa
-	dfcdgab[i] = fcgab
+        dfcdgab[i] = fcgab
         dfcdgbb[i] = fcgbb
     return fc,dfcdna,dfcdnb,dfcdgaa,dfcdgab,dfcdgbb
 
@@ -277,9 +271,9 @@ def EXXC1(dens,gamma):
         fcpnt,dfdrho,dfdgamma = c1(rho,gam)
         fc[i] = fcpnt
         dfcdna[i] = dfdrho 
-	dfcdnb[i] = dfdrho
-	dfcdgaa[i] = dfdgamma
-	dfcdgab[i] = 2.0*dfdgamma
+        dfcdnb[i] = dfdrho
+        dfcdgaa[i] = dfdgamma
+        dfcdgab[i] = 2.0*dfdgamma
         dfcdgbb[i] = dfdgamma
     return fc,dfcdna,dfcdnb,dfcdgaa,dfcdgab,dfcdgbb
 
@@ -305,9 +299,9 @@ def AM05(dens,gamma):
         fpnt,dfdrho,dfdgamma = am05xc(rho,gam)
         fxc[i] = fpnt
         dfxcdna[i] = dfdrho 
-	dfxcdnb[i] = dfdrho
-	dfxcdgaa[i] = dfdgamma
-	dfxcdgab[i] = 2.0*dfdgamma
+        dfxcdnb[i] = dfdrho
+        dfxcdgaa[i] = dfdgamma
+        dfxcdgab[i] = 2.0*dfdgamma
         dfxcdgbb[i] = dfdgamma
     return fxc,dfxcdna,dfxcdnb,dfxcdgaa,dfxcdgab,dfxcdgbb    
 
@@ -405,7 +399,7 @@ def clyp(rhoa,rhob,gamaa,gamab,gambb,**opts):
 
         fcgamaa = -a*b*w*((1./9.)*rhoa*rhob*(1-3*dl-(dl-11)*rhoa/rho)-rhob*rhob)
         fcgamab = -a*b*w*((1./9.)*rhoa*rhob*(47-7*dl)-(4./3.)*rho*rho)
-	fcgambb = -a*b*w*((1./9.)*rhoa*rhob*(1-3*dl-(dl-11)*rhob/rho)-rhoa*rhoa)
+        fcgambb = -a*b*w*((1./9.)*rhoa*rhob*(1-3*dl-(dl-11)*rhob/rho)-rhoa*rhoa)
 
         fc = -4*a/(1+d*rhom3)*rhoa*rhob/rho \
              -pow(2,11./3.)*0.3*pow(3*pi*pi,2./3.)*a*b*w \
@@ -425,11 +419,11 @@ def clyp(rhoa,rhob,gamaa,gamab,gambb,**opts):
         d2f_dradgab = dw/w*fcgamab-a*b*w*(
             (1./9)*rhob*(47-7*dl)-(7./9.)*rhoa*rhob*ddl-(8./3.)*rho)
 
-	d2f_drbdgaa = dw/w*fcgamaa - a*b*w*(
+        d2f_drbdgaa = dw/w*fcgamaa - a*b*w*(
             (1./9.)*rhoa*(1-3*dl-(dl-11)*rhoa/rho)
             -(1./9.)*rhoa*rhob*((3+rhoa/rho)*ddl-(dl-11)*rhoa/rho/rho)
             -2*rhob)
-	d2f_drbdgbb = dw/w*fcgambb - a*b*w*(
+        d2f_drbdgbb = dw/w*fcgambb - a*b*w*(
             (1./9.)*rhoa*(1-3*dl-(dl-11)*rhob/rho)
             -(1./9.)*rhoa*rhob*((3+rhob/rho)*ddl+(dl-11)*rhoa/rho/rho))
         d2f_drbdgab = dw/w*fcgamab-a*b*w*(
@@ -530,17 +524,17 @@ def c1(rho,gam,**opts):
     g2 = 0.04108
     t = 0.3123
     if rho > tol:
-	rs = pow(3./(4.*pi*rho),1./3.)
-	snorm2 = (4.*pow(3.*pi**2,2./3.)*pow(rho,8./3.))
-	s2 = gam / snorm2
-	X = 2.*exp(-s2/t)/(1.+exp(-s2/t))
-    	eps,vc0a,vc0b = cpbe_lsd(0.5*rho,0.5*rho)
-    	fc = rho*eps*(X + (1. - X)*(g1 + g2*rs))
-	#derivatives
-	dXds2 = -X/t/(1.+exp(-s2/t))
-	dfcdrho = vc0a*(X + (1. - X)*(g1 + g2*rs)) - \
-		eps/3.*(g2*(1. - X)*rs + 8*(1.-g1-g2*rs)*s2*dXds2)
-	dfcdgamma = eps*(1.-g1-g2*rs)*rho/snorm2*dXds2
+        rs = pow(3./(4.*pi*rho),1./3.)
+        snorm2 = (4.*pow(3.*pi**2,2./3.)*pow(rho,8./3.))
+        s2 = gam / snorm2
+        X = 2.*exp(-s2/t)/(1.+exp(-s2/t))
+        eps,vc0a,vc0b = cpbe_lsd(0.5*rho,0.5*rho)
+        fc = rho*eps*(X + (1. - X)*(g1 + g2*rs))
+        #derivatives
+        dXds2 = -X/t/(1.+exp(-s2/t))
+        dfcdrho = vc0a*(X + (1. - X)*(g1 + g2*rs)) - \
+          eps/3.*(g2*(1. - X)*rs + 8*(1.-g1-g2*rs)*s2*dXds2)
+        dfcdgamma = eps*(1.-g1-g2*rs)*rho/snorm2*dXds2
     return fc,dfcdrho,dfcdgamma
 
 def pw(rhoa,rhob,**opts):
@@ -647,44 +641,43 @@ def am05xc(rho,gam,**opts):
     a = 2.804
     c = 0.7168
     if rho > tol:
-	snorm2 = (4.*pow(3.*pi**2,2./3.)*pow(rho,8./3.))
-	s2 = abs(gam) / snorm2
-	s = pow(s2,1./2.)
-	# LDAPW exchange and correlation
-	fx0,vxlda = xs(0.5*rho) # xs(na) = fx(na) = na*ex(2*na)
-	fxlda = 2.0*fx0
-    	fclda,vclda,vc0b = pw(0.5*rho,0.5*rho)
-	assert vclda == vc0b
-	# Interpolation index
-	X = 1.0/(1.0 + a*s2)
-	w = am05_lambertw(pow(s,3./2.)/sqrt(24.0))
-	if (s < 1.e-14):     # am05_lambertw give back argument if it is < 1.0e-20
-              zosn = 1.0     # (1.0e-14)^{3/2} = 1.0e-21 => give  low s limit for z/s
-      	else:
-              zosn = 24.**(1./3.)*pow(w,2./3.)/s   # zosn = normalized z/s
-      	zfac = s2*(zosn*27./32./pi**2)**2
-	denom = 1.0 + c*s2*zosn*pow(1.0 + zfac,1./4.) # denom = denominator of Airy LAA refinement function
-      	F = (c*s2 + 1.0)/denom   # Airy LAA refinement function
-	# Refinement functions
-	Hx = X + (1.0 - X)*F 
-	Hc = X + g*(1.0 - X)
-	# Exchange-correlation energy density, Exc = Integrate[fxc]
-	fxc = fxlda*Hx + fclda*Hc
-	# Derivatives
-	# Interpolation index derivatives: 1/s dX/ds
-      	Xsos = -2.0*a*X**2
-      	szsoz = 1.0/(1.0 + w)  # szsoz = s*(dz/ds)/z 
-	Fsos = c/denom**2*(2.0 - zosn*     # Airy LAA refinement function derivatives, 1/s dF/ds
+        snorm2 = (4.*pow(3.*pi**2,2./3.)*pow(rho,8./3.))
+        s2 = abs(gam) / snorm2
+        s = pow(s2,1./2.)
+        # LDAPW exchange and correlation
+        fx0,vxlda = xs(0.5*rho) # xs(na) = fx(na) = na*ex(2*na)
+        fxlda = 2.0*fx0
+        fclda,vclda,vc0b = pw(0.5*rho,0.5*rho)
+        assert vclda == vc0b
+        # Interpolation index
+        X = 1.0/(1.0 + a*s2)
+        w = am05_lambertw(pow(s,3./2.)/sqrt(24.0))
+        if (s < 1.e-14):     # am05_lambertw give back argument if it is < 1.0e-20
+            zosn = 1.0     # (1.0e-14)^{3/2} = 1.0e-21 => give  low s limit for z/s
+        else:
+            zosn = 24.**(1./3.)*pow(w,2./3.)/s   # zosn = normalized z/s
+        zfac = s2*(zosn*27./32./pi**2)**2
+        denom = 1.0 + c*s2*zosn*pow(1.0 + zfac,1./4.) # denom = denominator of Airy LAA refinement function
+        F = (c*s2 + 1.0)/denom   # Airy LAA refinement function
+        # Refinement functions
+        Hx = X + (1.0 - X)*F 
+        Hc = X + g*(1.0 - X)
+        # Exchange-correlation energy density, Exc = Integrate[fxc]
+        fxc = fxlda*Hx + fclda*Hc
+        # Derivatives
+        # Interpolation index derivatives: 1/s dX/ds
+        Xsos = -2.0*a*X**2
+        szsoz = 1.0/(1.0 + w)  # szsoz = s*(dz/ds)/z 
+        Fsos = c/denom**2*(2.0 - zosn*     # Airy LAA refinement function derivatives, 1/s dF/ds
                  ((1.0 - c*s2)*pow(1.0 + zfac,1./4.) +
                   (1.0 + c*s2)*(1.0 + 3./2.*zfac)/
                            pow(1.0 + zfac,3./4.)*szsoz)) 
-	# Refinement function derivatives, 1/s dH{x,c}/ds
-	Hxsos = (1.0 - X)*Fsos - (F - 1.0)*Xsos
-      	Hcsos = Xsos*(1.0 - g)
-	# Exchange-correlation energy density derivatives
-	dfxcdrho = vxlda*Hx + vclda*Hc - 4./3.*s2/rho*(Hcsos*fclda +
-			Hxsos*fxlda)
-	dfxcdgamma = 1./2./snorm2*(Hcsos*fclda + Hxsos*fxlda)
+        # Refinement function derivatives, 1/s dH{x,c}/ds
+        Hxsos = (1.0 - X)*Fsos - (F - 1.0)*Xsos
+        Hcsos = Xsos*(1.0 - g)
+        # Exchange-correlation energy density derivatives
+        dfxcdrho = vxlda*Hx + vclda*Hc - 4./3.*s2/rho*(Hcsos*fclda + Hxsos*fxlda)
+        dfxcdgamma = 1./2./snorm2*(Hcsos*fclda + Hxsos*fxlda)
     return fxc,dfxcdrho,dfxcdgamma
 
 def am05_lambertw(z):
@@ -720,80 +713,80 @@ def am05_lambertw(z):
 def numder(xc,functional,dens,gamma):
         """\
         Since numerical derivatives will not be used for production
-	I do not care if this routine is fast or not. AEM June 2006.
+        I do not care if this routine is fast or not. AEM June 2006.
         """
-	maxdelta = 1.e-5
-	mindelta = 1.e-14
-	npts = len(dens[0]) #that npts is the same for all 5 vectors should be checked elsewhere
-    	dfdna = zeros(npts,'d')
-    	dfdnb = zeros(npts,'d')
-    	dfdgaa = zeros(npts,'d')
-    	dfdgab = zeros(npts,'d')
-    	dfdgbb = zeros(npts,'d')
-	delta1 = dens[0]/1000.0 #spin up
-	delta = where(delta1 > maxdelta, maxdelta, delta1)
-	dens1 = zeros(dens.shape,'d')
-	dens1[0] = dens[0] + delta
-	dens1[1] = dens[1]
-	f1 = getf(xc,functional,dens1,gamma)
-	dens1[0] = dens[0] - delta
-	f2 = getf(xc,functional,dens1,gamma)
-	delta1 = delta
-	delta =  where(delta1 < mindelta, mindelta, delta1) # to avoid division by zero
-	dfdna = (f1 - f2)/2.0/delta
-	delta1 = dens[1]/1000.0 # spin down
-	delta = where(delta1 > maxdelta, maxdelta, delta1)
-	dens1[0] = dens[0] 
-	dens1[1] = dens[1] + delta
-	f1 = getf(xc,functional,dens1,gamma)
-	dens1[1] = dens[1] - delta
-	f2 = getf(xc,functional,dens1,gamma)
-	delta1 = delta
-	delta =  where(delta1 < mindelta, mindelta, delta1) # to avoid division by zero
-	dfdnb = (f1 - f2)/2.0/delta
+        maxdelta = 1.e-5                                                                         
+        mindelta = 1.e-14
+        npts = len(dens[0]) #that npts is the same for all 5 vectors should be checked elsewhere
+        dfdna = zeros(npts,'d')
+        dfdnb = zeros(npts,'d')
+        dfdgaa = zeros(npts,'d')
+        dfdgab = zeros(npts,'d')
+        dfdgbb = zeros(npts,'d')
+        delta1 = dens[0]/1000.0 #spin up
+        delta = where(delta1 > maxdelta, maxdelta, delta1)
+        dens1 = zeros(dens.shape,'d')
+        dens1[0] = dens[0] + delta
+        dens1[1] = dens[1]
+        f1 = getf(xc,functional,dens1,gamma)
+        dens1[0] = dens[0] - delta
+        f2 = getf(xc,functional,dens1,gamma)
+        delta1 = delta
+        delta =  where(delta1 < mindelta, mindelta, delta1) # to avoid division by zero
+        dfdna = (f1 - f2)/2.0/delta
+        delta1 = dens[1]/1000.0 # spin down
+        delta = where(delta1 > maxdelta, maxdelta, delta1)
+        dens1[0] = dens[0] 
+        dens1[1] = dens[1] + delta
+        f1 = getf(xc,functional,dens1,gamma)
+        dens1[1] = dens[1] - delta
+        f2 = getf(xc,functional,dens1,gamma)
+        delta1 = delta
+        delta =  where(delta1 < mindelta, mindelta, delta1) # to avoid division by zero
+        dfdnb = (f1 - f2)/2.0/delta
         delta1 = gamma[0]/1000.0 #grad spin up*grad spin up
-	delta = where(delta1 > maxdelta, maxdelta, delta1)
-	gamma1 = zeros(gamma.shape,'d')
-	gamma1[0] = gamma[0] + delta
-	gamma1[1] = gamma[1]
-	gamma1[2] = gamma[2]
-	f1 = getf(xc,functional,dens,gamma1)
-	gamma1[0] = gamma[0] - delta
-	f2 = getf(xc,functional,dens,gamma1)
-	delta1 = delta
-	delta =  where(delta1 < mindelta, mindelta, delta1) # to avoid division by zero
-	dfdgaa = (f1 - f2)/2.0/delta
+        delta = where(delta1 > maxdelta, maxdelta, delta1)
+        gamma1 = zeros(gamma.shape,'d')
+        gamma1[0] = gamma[0] + delta
+        gamma1[1] = gamma[1]
+        gamma1[2] = gamma[2]
+        f1 = getf(xc,functional,dens,gamma1)
+        gamma1[0] = gamma[0] - delta
+        f2 = getf(xc,functional,dens,gamma1)
+        delta1 = delta
+        delta =  where(delta1 < mindelta, mindelta, delta1) # to avoid division by zero
+        dfdgaa = (f1 - f2)/2.0/delta
         delta1 = gamma[1]/1000.0 #grad spin up*grad spin down
-	delta = where(delta1 > maxdelta, maxdelta, delta1)
-	gamma1[0] = gamma[0] 
-	gamma1[1] = gamma[1] + delta
-	gamma1[2] = gamma[2]
-	f1 = getf(xc,functional,dens,gamma1)
-	gamma1[1] = gamma[1] - delta
-	f2 = getf(xc,functional,dens,gamma1)
-	delta1 = delta
-	delta =  where(delta1 < mindelta, mindelta, delta1) # to avoid division by zero
-	dfdgab = (f1 - f2)/2.0/delta
+        delta = where(delta1 > maxdelta, maxdelta, delta1)
+        gamma1[0] = gamma[0] 
+        gamma1[1] = gamma[1] + delta
+        gamma1[2] = gamma[2]
+        f1 = getf(xc,functional,dens,gamma1)
+        gamma1[1] = gamma[1] - delta
+        f2 = getf(xc,functional,dens,gamma1)
+        delta1 = delta
+        delta =  where(delta1 < mindelta, mindelta, delta1) # to avoid division by zero
+        dfdgab = (f1 - f2)/2.0/delta
         delta1 = gamma[2]/1000.0 #grad spin down*grad spin down
-	delta = where(delta1 > maxdelta, maxdelta, delta1)
-	gamma1[0] = gamma[0] 
-	gamma1[1] = gamma[1]
-	gamma1[2] = gamma[2] + delta
-	f1 = getf(xc,functional,dens,gamma1)
-	gamma1[2] = gamma[2] - delta
-	f2 = getf(xc,functional,dens,gamma1)
-	delta1 = delta
-	delta =  where(delta1 < mindelta, mindelta, delta1) # to avoid division by zero
-	dfdgbb = (f1 - f2)/2.0/delta
-	return dfdna,dfdnb,dfdgaa,dfdgab,dfdgbb
+        delta = where(delta1 > maxdelta, maxdelta, delta1)
+        gamma1[0] = gamma[0] 
+        gamma1[1] = gamma[1]
+        gamma1[2] = gamma[2] + delta
+        f1 = getf(xc,functional,dens,gamma1)
+        gamma1[2] = gamma[2] - delta
+        f2 = getf(xc,functional,dens,gamma1)
+        delta1 = delta
+        delta =  where(delta1 < mindelta, mindelta, delta1) # to avoid division by zero
+        dfdgbb = (f1 - f2)/2.0/delta
+        return dfdna,dfdnb,dfdgaa,dfdgab,dfdgbb
 
 def getf(xc,functional,dens,gamma):
-	# AEM June, 2006.
-	if (xc == 'x'):
-		f,t1,t2,t3,t4,t5 = xfuncs[functional](dens,gamma)
-	elif (xc == 'c'):
-		f,t1,t2,t3,t4,t5 = cfuncs[functional](dens,gamma)	
-	return f
+        # AEM June, 2006.
+        if (xc == 'x'):
+            f,t1,t2,t3,t4,t5 = xfuncs[functional](dens,gamma)
+        elif (xc == 'c'):
+            f,t1,t2,t3,t4,t5 = cfuncs[functional](dens,gamma)	
+        return f
 	
 # Table mapping functional names into functions etc.
 # LDA -> SVWN, GGA -> PBE

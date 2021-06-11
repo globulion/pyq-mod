@@ -81,7 +81,7 @@ def SymOrth(S):
     val,vec = eigh(S)
     n = vec.shape[0]
     shalf = identity(n,'d')
-    for i in xrange(n):
+    for i in range(n):
         shalf[i,i] /= sqrt(val[i])
     X = simx(shalf,vec,'T')
     return X
@@ -98,7 +98,7 @@ def SymOrthCutoff(S,scut=1e-5):
     val,vec = eigh(S)
     n = vec.shape[0]
     shalf = identity(n,'d')
-    for i in xrange(n):
+    for i in range(n):
         if val[i] > scut:
             shalf[i,i] /= sqrt(val[i])
         else:
@@ -111,7 +111,7 @@ def CanOrth(S):
     U(1/sqrt(lambda)), where lambda,U are the eigenvalues/vectors."""
     val,vec = eigh(S)
     n = vec.shape[0]
-    for i in xrange(n):
+    for i in range(n):
         vec[:,i] = vec[:,i] / sqrt(val[i])
     return vec
 
@@ -140,7 +140,7 @@ def pad_out(matrix):
     #this will make debugging matrix operations easier by getting rid of 
     #matrix elements which are ridiculously tiny
     
-    print array2string(matrix,max_line_width=200,precision=7,suppress_small=True);    print "\n\n"
+    print(array2string(matrix,max_line_width=200,precision=7,suppress_small=True));    print("\n\n")
 
     return 0
 
@@ -152,7 +152,7 @@ def diagonal_mat(vector):
     matrix = zeros((len,len),'d')
     
     i=0
-    for i in xrange(len):
+    for i in range(len):
         matrix[i][i]=vector[i]
 
     return matrix    

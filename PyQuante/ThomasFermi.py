@@ -89,7 +89,8 @@ def chi_rk2(tend):
         if X < 0: break
     return ts,Xs
 
-def F((x,v),t):
+def F(x_v,t):
+    (x,v) = x_v
     if t < 1e-5: return array((v,0))
     return array((v,pow(x,1.5)/sqrt(t)))
 
@@ -146,13 +147,13 @@ def test():
     rho_h = [rho(r,1.0) for r in R]
     rho_he = [rho(r,2.0) for r in R]
     rho_li = [rho(r,3.0) for r in R]
-    print sum(rho_h),sum(rho_he),sum(rho_li)
-    print norm(rho_h,R),norm(rho_he,R),norm(rho_li,R)
+    print(sum(rho_h),sum(rho_he),sum(rho_li))
+    print(norm(rho_h,R),norm(rho_he,R),norm(rho_li,R))
 
 def test_yint():
     dx = 0.001
     y = arange(0.001,100,dx)
-    print sum(sqrt(y)/(1+y)**3)*dx
-    print pi/8
+    print(sum(sqrt(y)/(1+y)**3)*dx)
+    print(pi/8)
     
 if __name__ == '__main__': test()

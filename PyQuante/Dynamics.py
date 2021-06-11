@@ -33,7 +33,7 @@ def Dynamics(atoms,EnergyForces,nsteps=1000,Ti=298,dt=1e-3):
         try:
             Ev,F = EnergyForces(atoms)
         except:
-            print "Using averaging to try and converge"
+            print("Using averaging to try and converge")
             Ev,F = EnergyForces(atoms,0.5)
         set_forces(atoms,F)
         LeapFrogUpdate(atoms,dt)
@@ -42,7 +42,7 @@ def Dynamics(atoms,EnergyForces,nsteps=1000,Ti=298,dt=1e-3):
         T = get_temperature(atoms)
         #rescale_velocities(atoms,Ti) # uncomment for iso-kinetics
         Etot = Ev+Ek
-        print step*dt,Etot,Ev,Ek,T
+        print(step*dt,Etot,Ev,Ek,T)
         dat.write("%10.4f %10.4f %10.4f %10.4f %10.4f\n" %
                   (step*dt,Etot,Ev,Ek,T))
         dat.flush()

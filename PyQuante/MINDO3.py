@@ -65,20 +65,20 @@ def get_F0_old(atoms):
     F0 = zeros((nbf,nbf),'d')
 
     ibf = 0 # bf number of the first bfn on iat
-    for iat in xrange(nat):
+    for iat in range(nat):
         atomi = atoms[iat]
-        for i in xrange(atomi.nbf):
+        for i in range(atomi.nbf):
             bfi = atomi.basis[i]
             F0[ibf+i,ibf+i] = bfi.u
             
             jbf = 0
-            for jat in xrange(nat):
+            for jat in range(nat):
                 atomj = atoms[jat]
                 if iat != jat:
                     gammaij = get_gamma(atomi,atomj)
                     betaij = get_beta0(atomi.atno,atomj.atno)
                     F0[ibf+i,ibf+i] -= gammaij*atomj.Z
-                    for j in xrange(atomj.nbf):
+                    for j in range(atomj.nbf):
                         bfj = atomj.basis[j]
                         Sij = bfi.cgbf.overlap(bfj.cgbf)
                         #Sij = mopac_overlap(bfi,bfj)
@@ -102,27 +102,27 @@ def get_F0(atoms):
             basis.append(bf)
 
     # U term 
-    for i in xrange(nbf):
+    for i in range(nbf):
         F0[i,i] = basis[i].u
 
     # Nuclear attraction
     ibf = 0 # bf number of the first bfn on iat
-    for iat in xrange(nat):
+    for iat in range(nat):
         atomi = atoms[iat]
-        for jat in xrange(nat):
+        for jat in range(nat):
             atomj = atoms[jat]
             if iat == jat: continue
             gammaij = get_gamma(atomi,atomj)
-            for i in xrange(atomi.nbf):
+            for i in range(atomi.nbf):
                 F0[ibf+i,ibf+i] -= gammaij*atomj.Z
         ibf += atomi.nbf
 
     # Off-diagonal term
-    for ibf in xrange(nbf):
+    for ibf in range(nbf):
         bfi = basis[ibf]
         ati = bfi.atom
         atnoi = ati.atno
-        for jbf in xrange(ibf):
+        for jbf in range(ibf):
             bfj = basis[jbf]
             atj = bfj.atom
             atnoj = atj.atno
@@ -141,15 +141,15 @@ def get_F1(atoms,D):
     F1 = zeros((nbf,nbf),'d')
 
     ibf = 0 # bf number of the first bfn on iat
-    for iat in xrange(nat):
+    for iat in range(nat):
         atomi = atoms[iat]
-        for i in xrange(atomi.nbf):
+        for i in range(atomi.nbf):
             bfi = atomi.basis[i]
             gii = get_g(bfi,bfi)
             qi =  D[ibf+i,ibf+i]
             F1[ibf+i,ibf+i] = 0.5*qi*gii
             
-            for j in xrange(atomi.nbf):  # ij on same atom
+            for j in range(atomi.nbf):  # ij on same atom
                 if j != i:
                     bfj = atomi.basis[j]
                     qj = D[ibf+j,ibf+j]
@@ -171,16 +171,16 @@ def get_F1_open(atoms,Da,Db):
     F1 = zeros((nbf,nbf),'d')
 
     ibf = 0 # bf number of the first bfn on iat
-    for iat in xrange(nat):
+    for iat in range(nat):
         atomi = atoms[iat]
-        for i in xrange(atomi.nbf):
+        for i in range(atomi.nbf):
             gii = get_g(atomi.basis[i],atomi.basis[i])
             qib =  Db[ibf+i,ibf+i]
             #electron only interacts with the other electron in orb,
             # not with itself
             F1[ibf+i,ibf+i] = qib*gii 
             
-            for j in xrange(atomi.nbf):  # ij on same atom
+            for j in range(atomi.nbf):  # ij on same atom
                 if j != i:
                     qja = Da[ibf+j,ibf+j]
                     qjb = Db[ibf+j,ibf+j]
@@ -209,28 +209,28 @@ def get_F2(atoms,D,use_cache=False):
     # Optionally cache Gamma values
     if use_cache and Gij_cache is None:
         Gij_cache = zeros((nat,nat),'d')
-        for iat in xrange(nat):
+        for iat in range(nat):
             atomi = atoms[iat]
-            for jat in xrange(iat):
+            for jat in range(iat):
                 atomj = atoms[jat]
                 Gij_cache[iat,jat] = get_gamma(atomi,atomj)
                 Gij_cache[jat,iat] = Gij_cache[iat,jat]
 
     ibf = 0 # bf number of the first bfn on iat
-    for iat in xrange(nat):
+    for iat in range(nat):
         atomi = atoms[iat]
         jbf = 0
-        for jat in xrange(nat):
+        for jat in range(nat):
             atomj = atoms[jat]
             if iat != jat:
                 if use_cache:
                     gammaij = Gij_cache[iat,jat]
                 else:
                     gammaij = get_gamma(atomi,atomj)
-                for i in xrange(atomi.nbf):
+                for i in range(atomi.nbf):
                     qi = D[ibf+i,ibf+i]
                     qj = 0
-                    for j in xrange(atomj.nbf):
+                    for j in range(atomj.nbf):
                         pij = D[ibf+i,jbf+j]
                         F2[ibf+i,jbf+j] -= 0.25*pij*gammaij
                         F2[jbf+j,ibf+i] = F2[ibf+i,jbf+j]
@@ -249,15 +249,15 @@ def get_F2_open(atoms,Da,Db):
     F2 = zeros((nbf,nbf),'d')
 
     ibf = 0 # bf number of the first bfn on iat
-    for iat in xrange(nat):
+    for iat in range(nat):
         atomi = atoms[iat]
         jbf = 0
-        for jat in xrange(nat):
+        for jat in range(nat):
             atomj = atoms[jat]
             if iat != jat:
                 gammaij = get_gamma(atomi,atomj)
-                for i in xrange(atomi.nbf):
-                    for j in xrange(atomj.nbf):
+                for i in range(atomi.nbf):
+                    for j in range(atomj.nbf):
                         pija = Da[ibf+i,jbf+j] 
                         pijb = Db[ibf+i,jbf+j] 
                         pij = pija+pijb
@@ -285,9 +285,9 @@ def get_nel(atoms,charge=0):
 def get_enuke(atoms):
     "Compute the nuclear repulsion energy"
     enuke = 0
-    for i in xrange(len(atoms)):
+    for i in range(len(atoms)):
         atomi = atoms[i]
-        for j in xrange(i):
+        for j in range(i):
             atomj = atoms[j]
             R2 = atomi.dist2(atomj)*bohr2ang**2
             R = sqrt(R2)
@@ -317,7 +317,7 @@ def get_guess_D(atoms):
     ibf = 0
     for atom in atoms:
         atno = atom.atno
-        for i in xrange(atom.nbf):
+        for i in range(atom.nbf):
             if atno == 1:
                 D[ibf+i,ibf+i] = atom.Z/1.
             else:                      
@@ -365,8 +365,8 @@ def scf(atoms,**opts):
     nbf = get_nbf(atoms)
     eref = get_reference_energy(atoms)
     if verbose:
-        print "Nel = %d, Nclosed = %d, Nopen = %d," % (nel,nclosed,nopen), \
-              "Enuke = %10.4f, Nbf = %d" % (Enuke,nbf)
+        print("Nel = %d, Nclosed = %d, Nopen = %d," % (nel,nclosed,nopen), \
+              "Enuke = %10.4f, Nbf = %d" % (Enuke,nbf))
     F0 = get_F0(atoms)
     if nopen:
         Eel = scfopen(atoms,F0,nclosed+nopen,nclosed,**opts)
@@ -374,7 +374,7 @@ def scf(atoms,**opts):
         Eel = scfclosed(atoms,F0,nclosed,**opts)
     Etot = Eel+Enuke
     Hf = Etot*ev2kcal+eref
-    if verbose: print "Final Heat of Formation = ",Hf
+    if verbose: print("Final Heat of Formation = ",Hf)
     return Hf
 
 def scfclosed(atoms,F0,nclosed,**opts):
@@ -385,17 +385,17 @@ def scfclosed(atoms,F0,nclosed,**opts):
     D = get_guess_D(atoms)
     Eold = 0
     if do_avg: avg = SimpleAverager(do_avg)
-    for i in xrange(maxiter):
+    for i in range(maxiter):
         if do_avg: D = avg.getD(D)
         F1 = get_F1(atoms,D)
         F2 = get_F2(atoms,D)
         F = F0+F1+F2
         Eel = 0.5*trace2(D,F0+F)
-        if verbose: print i+1,Eel,get_Hf(atoms,Eel)
+        if verbose: print(i+1,Eel,get_Hf(atoms,Eel))
         #if verbose: print i+1,Eel
         if abs(Eel-Eold) < 0.001:
             if verbose:
-                print "Exiting because converged",i+1,Eel,Eold
+                print("Exiting because converged",i+1,Eel,Eold)
             break
         Eold = Eel
         orbe,orbs = eigh(F)
@@ -409,7 +409,7 @@ def scfopen(atoms,F0,nalpha,nbeta,**opts):
     Da = 0.5*D
     Db = 0.5*D
     Eold = 0
-    for i in xrange(10):
+    for i in range(10):
         F1a = get_F1_open(atoms,Da,Db)
         F1b = get_F1_open(atoms,Db,Da)
         F2a = get_F2_open(atoms,Da,Db)
@@ -417,7 +417,7 @@ def scfopen(atoms,F0,nalpha,nbeta,**opts):
         Fa = F0+F1a+F2a
         Fb = F0+F1b+F2b
         Eel = 0.5*trace2(Da,F0+Fa)+0.5*trace2(Db,F0+Fb)
-        if verbose: print i,Eel
+        if verbose: print(i,Eel)
         if abs(Eel-Eold) < 0.001: break
         Eold = Eel
         orbea,orbsa = eigh(Fa)
@@ -448,7 +448,7 @@ def initialize(atoms):
         atom.gppp = gppp[atom.atno]
         atom.hsp = hsp[atom.atno]
         atom.hppp = hppp[atom.atno]
-        for i in xrange(atom.nbf):
+        for i in range(atom.nbf):
             bfunc = Bunch()
             atom.basis.append(bfunc)
             bfunc.index = ibf # pointer to overall basis function index
@@ -466,7 +466,7 @@ def initialize(atoms):
                 zeta = zetas[atom.atno]
                 bfunc.u = Uss[atom.atno]
                 bfunc.ip = IPs[atom.atno]
-            for j in xrange(len(zi)):
+            for j in range(len(zi)):
                 bfunc.cgbf.add_primitive(zi[j]*zeta*zeta,ci[j])
             bfunc.cgbf.normalize()
     return atoms
@@ -493,19 +493,19 @@ def energy_forces_factories(atoms,**kwargs):
     numeric_forces = kwargs.get('numeric_forces',False)
     nat = len(atoms)
     coords = zeros(3*nat,'d')
-    for i in xrange(nat):
-        for j in xrange(3):
+    for i in range(nat):
+        for j in range(3):
             coords[3*i+j] = atoms[i].r[j]
 
     def Efunc(cnew):
-        for i in xrange(nat):
-            for j in xrange(3):
+        for i in range(nat):
+            for j in range(3):
                 atoms[i].r[j] = cnew[3*i+j]
         Hf,F = get_energy_forces(atoms,doforces=False)
         if verbose_level > 1:
-            print "MINDO3 energy calculation requested:"
-            print atoms
-            print Hf
+            print("MINDO3 energy calculation requested:")
+            print(atoms)
+            print(Hf)
         # Recompute the total energy:
         eref = get_reference_energy(atoms)
         Etot = (Hf-eref)/ev2kcal
@@ -513,18 +513,18 @@ def energy_forces_factories(atoms,**kwargs):
         return Hf
 
     def Ffunc(cnew):
-        for i in xrange(nat):
-            for j in xrange(3):
+        for i in range(nat):
+            for j in range(3):
                 atoms[i].r[j] = cnew[3*i+j]
         Hf,Forces = get_energy_forces(atoms,doforces=True)
         F = zeros(3*nat,'d')
-        for i in xrange(nat):
-            for j in xrange(3):
+        for i in range(nat):
+            for j in range(3):
                 F[3*i+j] = Forces[i,j]
         if verbose_level > 0:
-            print "MINDO3 gradient calculation requested:"
-            print atoms
-            print Hf
+            print("MINDO3 gradient calculation requested:")
+            print(atoms)
+            print(Hf)
         return F
 
     def Ffunc_num(cnew):
@@ -532,16 +532,16 @@ def energy_forces_factories(atoms,**kwargs):
         F = zeros(3*nat,'d')
         ei = zeros(3*nat,'d')
         dx = 1e-7
-        for i in xrange(nat):
-            for j in xrange(3):
+        for i in range(nat):
+            for j in range(3):
                 ei[3*i+j] = 1.0
                 E1 = Efunc(cnew+ei*dx)
                 ei[3*i+j] = 0.0
                 F[3*i+j] = (E1-E0)/dx
         if verbose_level > 0:
-            print "MINDO3 gradient calculation requested:"
-            print atoms
-            print Hf
+            print("MINDO3 gradient calculation requested:")
+            print(atoms)
+            print(Hf)
         return F
 
     if numeric_forces: return coords,Efunc,Ffunc_num
@@ -551,7 +551,7 @@ def opt(atoms,**kwargs):
     from PyQuante.optimize import fminBFGS
     c0,Efunc,Ffunc = energy_forces_factories(atoms,**kwargs)
 
-    print "C0 = ",c0
+    print("C0 = ",c0)
 
     # Currently optimization works when I use Energies and numerical
     #  forces, but not using the analytical forces. Obviously something
@@ -577,8 +577,8 @@ def numeric_forces(atoms,D=None,**opts):
     nat = len(atoms)
     Forces = zeros((nat,3),'d')
     E0 = scf(atoms)
-    for iat in xrange(nat):
-        for idir in xrange(3):
+    for iat in range(nat):
+        for idir in range(3):
             dr = zeros(3,'d')
             dr[idir] = dx
             atoms[iat].translate(dr)
@@ -596,14 +596,14 @@ def numeric_forces(atoms,D=None,**opts):
 
 def forces(atoms,D):
     "Compute analytic forces on list of atoms"
-    print "Warning: Analytical forces not tested yet!"
+    print("Warning: Analytical forces not tested yet!")
     nat = len(atoms)
     Forces = zeros((nat,3),'d')
     # Loop over all pairs of atoms and compute the force between them
     #cached_dSij = full_dSij(atoms)
-    for iat in xrange(nat):
+    for iat in range(nat):
         atomi = atoms[iat]
-        for jat in xrange(iat):
+        for jat in range(iat):
             atomj = atoms[jat]
             alpha = get_alpha(atomi.atno,atomj.atno)
             beta = get_beta0(atomi.atno,atomj.atno)
@@ -611,7 +611,7 @@ def forces(atoms,D):
             R = sqrt(R2)
             c2 = 0.25*pow(atomi.rho+atomj.rho,2)
 
-            for dir in xrange(3):
+            for dir in range(3):
                 Fij = 0 # Force between atoms iat and jat in direction dir
                 # initialize some constants
                 delta = atomi.r[dir]-atomj.r[dir]
@@ -784,8 +784,8 @@ def test_olap():
         dSijx4 = -bfi.cgbf.doverlap_num(bfj.cgbf,0)/bohr2ang
         dSijy4 = -bfi.cgbf.doverlap_num(bfj.cgbf,1)/bohr2ang
         dSijz4 = -bfi.cgbf.doverlap_num(bfj.cgbf,2)/bohr2ang
-        print "%2d %6.3f %6.3f %6.3f  %6.3f %6.3f %6.3f  " %\
-              (theta,dSijx,dSijy,dSijz,dSijx2,dSijy2,dSijz2)
+        print("%2d %6.3f %6.3f %6.3f  %6.3f %6.3f %6.3f  " %\
+              (theta,dSijx,dSijy,dSijz,dSijx2,dSijy2,dSijz2))
     return
 
 def write_mopac_input(atoms,fname=None):
@@ -809,9 +809,9 @@ if __name__ == '__main__':
     ch4 = Molecule('Methane', atomlist =
                    [(6,(0,0,0)),(1,(1.,0,0)),(1,(0,1.,0)),
                     (1,(0,0,1.)),(1,(0,0,-1.))])
-    print scf(h2o)
-    print scf(oh)
-    print scf(ch4)
+    print(scf(h2o))
+    print(scf(oh))
+    print(scf(ch4))
     #E,F = get_energy_forces(ch4)
     #for Fi in F: print Fi
     #import profile,pstats

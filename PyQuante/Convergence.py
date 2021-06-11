@@ -46,7 +46,7 @@ class AndersonAverager:
             err = Dold_out-Dold_in
             err12 = err-self.err_old
             beta = dot1d(err,err12)/dot1d(err12,err12)
-            print "beta = ",beta
+            print("beta = ",beta)
             Dbar_in = (1-beta)*Dold_in + beta*self.Dold_in
             Dbar_out = (1-beta)*Dold_out + beta*self.Dold_out
             D = (1-self.alpha)*Dbar_in + self.alpha*Dbar_out
@@ -94,7 +94,7 @@ class DIIS:
         self.maxerr = maxerr
 
         if maxerr < self.errcutoff and not self.started:
-            if VERBOSE: print "Starting DIIS: Max Err = ",maxerr
+            if VERBOSE: print("Starting DIIS: Max Err = ",maxerr)
             self.started = 1
 
         if not self.started:
@@ -156,7 +156,7 @@ class DIIS2:
         maxerr = max(abs(err))
 
         if maxerr < self.errcutoff and not self.started:
-            if VERBOSE: print "Starting DIIS: Max Err = ",maxerr
+            if VERBOSE: print("Starting DIIS: Max Err = ",maxerr)
             self.started = 1
 
         if not self.started:
@@ -186,7 +186,7 @@ class DIIS2:
 
         # Handle a few special cases:
         alpha = c[1]
-        print alpha,c
+        print(alpha,c)
         #if alpha < 0: alpha = 0
         #if alpha > 1: alpha = 1
 
@@ -225,7 +225,7 @@ def test():
         F = avg.getF(F,D) # do the DIIS extrapolation
         orbe,orbs = geigh(F,S)
         energy = get_energy(h,F,D,enuke)
-        print i+1,energy
+        print(i+1,energy)
         if abs(energy-eold) < ConvCriteria: break
         eold = energy
 

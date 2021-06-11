@@ -1,3 +1,4 @@
+#!/usr/bin/python
 """PyQuante: Quantum Chemistry in Python
 
 PyQuante is an open-source suite of programs for developing quantum
@@ -107,14 +108,14 @@ if enable_libint:
 
 
 
-setup(name="PyQuante",
-      version="1.0.2-BBG",
+setup(name="PyQuante-BBG",
+      version="2.0.0",
       description = doclines[0],
       author = "Rick Muller",
       author_email = "rmuller@sandia.gov",
       long_description = "\n".join(doclines[2:]),
       url = "http://pyquante.sourceforge.net",
-      licence = "BSD",
+      license = "BSD",
       platforms = ["any"],
       classifiers = filter(None,classifiers.split("\n")),
       packages = ['PyQuante','PyQuante.Basis','PyQuante.IO','PyQuante.IO.FormatHandlers'],

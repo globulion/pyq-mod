@@ -37,9 +37,9 @@ class Sigma2:
         self.orbs = orbs
         self.norb = norb
         self.nocc = nocc
-        print "Transforming 2e ints"
+        print("Transforming 2e ints")
         self.moints = TransformInts(ints,orbs)
-        print "...done"
+        print("...done")
         return
 
     def eval0(self,i,E):
@@ -67,12 +67,12 @@ class Sigma2:
         del0 = self.eval0(i,self.e0[i])
         dele = del0
         delold = dele
-        for j in xrange(60):
+        for j in range(60):
             dele = self.eval0(i,self.e0[i]+dele)
             if abs(dele-delold)<1e-5: break
             delold = dele
         else:
-            print "Warning: maxiter reached in Sigma2::eval for %d" % i
+            print("Warning: maxiter reached in Sigma2::eval for %d" % i)
         return del0,dele
 
     def fulleval(self,E):
@@ -106,14 +106,14 @@ class Sigma2:
         return det(g)
 
 def print_orbe(orbe,nclosed,nvirt,tag=None):
-    if tag: print tag
-    print "   N  Occ    Energy"
-    print "---------------------"
-    for i in xrange(nclosed):
-        print "%4d  1   %10.4f" % (i+1,orbe[i])
+    if tag: print(tag)
+    print("   N  Occ    Energy")
+    print("---------------------")
+    for i in range(nclosed):
+        print("%4d  1   %10.4f" % (i+1,orbe[i]))
     nv = min(nvirt,10) 
-    for i in xrange(nclosed, nclosed+nv):
-        print "%4d  0   %10.4f" % (i+1,orbe[i])
+    for i in range(nclosed, nclosed+nv):
+        print("%4d  0   %10.4f" % (i+1,orbe[i]))
     return
     
 
@@ -129,9 +129,9 @@ def HFGF(atoms,charge=0):
     sigma = Sigma2(hf_orbe,hf_orbs,Ints,len(bfs),nclosed)
     
     for i in [4,5,6,7,8,9]:
-        print "Correcting orbital %d, HF Eorb = %f" % (i+1,hf_orbe[i])
+        print("Correcting orbital %d, HF Eorb = %f" % (i+1,hf_orbe[i]))
         del0,dele = sigma.eval(i)
-        print "-> Eorb = %f %f" % (hf_orbe[i]+del0,hf_orbe[i]+dele)
+        print("-> Eorb = %f %f" % (hf_orbe[i]+del0,hf_orbe[i]+dele))
 
     return
 

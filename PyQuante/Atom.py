@@ -13,10 +13,10 @@
 # My goal is to keep everything generic,i.e. not specific to
 #  MINDO, HF, DFT, etc.
 
-from NumWrap import array
-from PyQuante.cints import dist2,dist
-from Element import mass,symbol
-from Constants import bohr2ang
+from .NumWrap import array
+from  PyQuante.cints import dist2,dist
+from .Element import mass,symbol
+from .Constants import bohr2ang
 
 # Careful about units! I'm not doing anything about them here;
 #  whatever you store you get back.
@@ -60,7 +60,9 @@ class Atom:
     def get_nel_mindo(self): return self.Z
 
     def update_coords(self,xyz): self.r = array(xyz)
-    def update_from_atuple(self,(atno,xyz)): self.update_coords(xyz)
+    def update_from_atuple(self,atno_xyz): 
+        (atno,xyz) = atno_xyz
+        self.update_coords(xyz)
     
     def set_force(self,fxfyfz): self.f = array(fxfyfz)
     def set_velocity(self,vxvyvz): self.vel = array(vxvyvz)
@@ -76,6 +78,6 @@ class Atom:
 def test():
     at1 = Atom(1,0,0,0)
     at2 = Atom(1,1,0,0)
-    print at1.dist(at2)
+    print(at1.dist(at2))
 
 if __name__ == '__main__': test()

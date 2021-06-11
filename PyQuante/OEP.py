@@ -34,13 +34,13 @@ class EXXSolver:
         self.orbs = self.solver.orbs
         self.orbe = self.solver.orbe
         self.Gij = []
-        for g in xrange(self.nbf):
+        for g in range(self.nbf):
             gmat = zeros((self.nbf,self.nbf),'d')
             self.Gij.append(gmat)
             gbf = self.bfs[g]
-            for i in xrange(self.nbf):
+            for i in range(self.nbf):
                 ibf = self.bfs[i]
-                for j in xrange(i+1):
+                for j in range(i+1):
                     jbf = self.bfs[j]
                     gij = three_center(ibf,gbf,jbf)
                     gmat[i,j] = gij
@@ -81,15 +81,15 @@ class EXXSolver:
         Fmo = simx(self.F,self.orbs)
         bp = zeros(self.nbf,'d')
 
-        for g in xrange(self.nbf):
+        for g in range(self.nbf):
             # Transform Gij[g] to MOs. This is done over the whole
             #  space rather than just the parts we need. I can speed
             #  this up later by only forming the i,a elements required
             Gmo = simx(self.Gij[g],self.orbs)
 
             # Now sum the appropriate terms to get the b gradient
-            for i in xrange(self.nclosed):
-                for a in xrange(self.nclosed,self.norb):
+            for i in range(self.nclosed):
+                for a in range(self.nclosed,self.norb):
                     bp[g] = bp[g] + Fmo[i,a]*Gmo[i,a]/(self.orbe[i]-self.orbe[a])
 
         #logging.debug("EXX  Grad: %10.5f" % (sqrt(dot(bp,bp))))
@@ -116,13 +116,13 @@ class UEXXSolver:
         self.orbea = self.solver.orbea
         self.orbeb = self.solver.orbeb
         self.Gij = []
-        for g in xrange(self.nbf):
+        for g in range(self.nbf):
             gmat = zeros((self.nbf,self.nbf),'d')
             self.Gij.append(gmat)
             gbf = self.bfs[g]
-            for i in xrange(self.nbf):
+            for i in range(self.nbf):
                 ibf = self.bfs[i]
-                for j in xrange(i+1):
+                for j in range(i+1):
                     jbf = self.bfs[j]
                     gij = three_center(ibf,gbf,jbf)
                     gmat[i,j] = gij
@@ -179,26 +179,26 @@ class UEXXSolver:
 
         bp = zeros(2*self.nbf,'d')
 
-        for g in xrange(self.nbf):
+        for g in range(self.nbf):
             # Transform Gij[g] to MOs. This is done over the whole
             #  space rather than just the parts we need. I can speed
             #  this up later by only forming the i,a elements required
             Gmo = simx(self.Gij[g],self.orbsa)
 
             # Now sum the appropriate terms to get the b gradient
-            for i in xrange(self.nalpha):
-                for a in xrange(self.nalpha,self.norb):
+            for i in range(self.nalpha):
+                for a in range(self.nalpha,self.norb):
                     bp[g] += Fmoa[i,a]*Gmo[i,a]/(self.orbea[i]-self.orbea[a])
 
-        for g in xrange(self.nbf):
+        for g in range(self.nbf):
             # Transform Gij[g] to MOs. This is done over the whole
             #  space rather than just the parts we need. I can speed
             #  this up later by only forming the i,a elements required
             Gmo = simx(self.Gij[g],self.orbsb)
 
             # Now sum the appropriate terms to get the b gradient
-            for i in xrange(self.nbeta):
-                for a in xrange(self.nbeta,self.norb):
+            for i in range(self.nbeta):
+                for a in range(self.nbeta,self.norb):
                     bp[self.nbf+g] += Fmob[i,a]*Gmo[i,a]/(self.orbeb[i]-self.orbeb[a])
 
         #logging.debug("EXX  Grad: %10.5f" % (sqrt(dot(bp,bp))))
@@ -279,13 +279,13 @@ def oep(atoms,orbs,energy_func,grad_func=None,**opts):
     # N^3 storage -- obviously you don't want to do this for
     #  very large systems
     Gij = []
-    for g in xrange(npbf):
+    for g in range(npbf):
         gmat = zeros((nbf,nbf),'d')
         Gij.append(gmat)
         gbf = pbfs[g]
-        for i in xrange(nbf):
+        for i in range(nbf):
             ibf = bfs[i]
-            for j in xrange(i+1):
+            for j in range(i+1):
                 jbf = bfs[j]
                 gij = three_center(ibf,gbf,jbf)
                 gmat[i,j] = gij
@@ -366,15 +366,15 @@ def get_exx_gradient(b,nbf,nel,nocc,ETemp,Enuke,S,h,Ints,H0,Gij,**opts):
     norb = nbf
     bp = zeros(nbf,'d') # dE/db
 
-    for g in xrange(nbf):
+    for g in range(nbf):
         # Transform Gij[g] to MOs. This is done over the whole
         #  space rather than just the parts we need. I can speed
         #  this up later by only forming the i,a elements required
         Gmo = matrixmultiply(transpose(orbs),matrixmultiply(Gij[g],orbs))
 
         # Now sum the appropriate terms to get the b gradient
-        for i in xrange(nocc):
-            for a in xrange(nocc,norb):
+        for i in range(nocc):
+            for a in range(nocc,norb):
                 bp[g] = bp[g] + Fmo[i,a]*Gmo[i,a]/(orbe[i]-orbe[a])
 
     #logging.debug("EXX  Grad: %10.5f" % (sqrt(dot(bp,bp))))
@@ -389,7 +389,7 @@ def get_Hoep(b,H0,Gij):
     Hoep = H0
     # Add the contributions from the gaussian potential functions
     # H[ij] += b[g]*<ibf|g|jbf>
-    for g in xrange(len(b)):
+    for g in range(len(b)):
         Hoep = Hoep + b[g]*Gij[g]
     return Hoep
 
@@ -458,13 +458,13 @@ def oep_hf_an(atoms,orbs,**opts):
     # N^3 storage -- obviously you don't want to do this for
     #  very large systems
     Gij = []
-    for g in xrange(npbf):
+    for g in range(npbf):
         gmat = zeros((nbf,nbf),'d')
         Gij.append(gmat)
         gbf = pbfs[g]
-        for i in xrange(nbf):
+        for i in range(nbf):
             ibf = bfs[i]
-            for j in xrange(i+1):
+            for j in range(i+1):
                 jbf = bfs[j]
                 gij = three_center(ibf,gbf,jbf)
                 gmat[i,j] = gij
@@ -483,7 +483,7 @@ def oep_hf_an(atoms,orbs,**opts):
     b = zeros(nbf,'d')
     eold = 0
 
-    for iter in xrange(maxiter):
+    for iter in range(maxiter):
         Hoep = get_Hoep(b,H0,Gij)
         orbe,orbs = geigh(Hoep,S)
         
@@ -504,17 +504,17 @@ def oep_hf_an(atoms,orbs,**opts):
         c = zeros(nbf,'d')
         Gkt = zeros((nbf,nbf),'d')
 
-        for k in xrange(nbf):
+        for k in range(nbf):
             # This didn't work; in fact, it made things worse:
             Gk = matrixmultiply(transpose(orbs),matrixmultiply(Gij[k],orbs))
-            for i in xrange(nocc):
-                for a in xrange(nocc,norb):
+            for i in range(nocc):
+                for a in range(nocc,norb):
                     c[k] += dV[i,a]*Gk[i,a]/(orbe[i]-orbe[a])
                     
-            for l in xrange(nbf):
+            for l in range(nbf):
                 Gl = matrixmultiply(transpose(orbs),matrixmultiply(Gij[l],orbs))
-                for i in xrange(nocc):
-                    for a in xrange(nocc,norb):
+                for i in range(nocc):
+                    for a in range(nocc,norb):
                         X[k,l] += Gk[i,a]*Gl[i,a]/(orbe[i]-orbe[a])
         # This should actually be a pseudoinverse...
         b = solve(X,c)
@@ -581,13 +581,13 @@ def oep_uhf_an(atoms,orbsa,orbsb,**opts):
     # N^3 storage -- obviously you don't want to do this for
     #  very large systems
     Gij = []
-    for g in xrange(npbf):
+    for g in range(npbf):
         gmat = zeros((nbf,nbf),'d')
         Gij.append(gmat)
         gbf = pbfs[g]
-        for i in xrange(nbf):
+        for i in range(nbf):
             ibf = bfs[i]
-            for j in xrange(i+1):
+            for j in range(i+1):
                 jbf = bfs[j]
                 gij = three_center(ibf,gbf,jbf)
                 gmat[i,j] = gij
@@ -605,7 +605,7 @@ def oep_uhf_an(atoms,orbsa,orbsb,**opts):
 
     eold = 0
 
-    for iter in xrange(maxiter):
+    for iter in range(maxiter):
         Hoepa = get_Hoep(ba,H0,Gij)
         Hoepb = get_Hoep(ba,H0,Gij)
 
@@ -645,17 +645,17 @@ def oep_uhf_an(atoms,orbsa,orbsb,**opts):
         dV = matrixmultiply(orbsa,matrixmultiply(dV_ao,transpose(orbsa)))
         X = zeros((nbf,nbf),'d')
         c = zeros(nbf,'d')
-        for k in xrange(nbf):
+        for k in range(nbf):
             Gk = matrixmultiply(orbsa,matrixmultiply(Gij[k],
                                                     transpose(orbsa)))
-            for i in xrange(nalpha):
-                for a in xrange(nalpha,norb):
+            for i in range(nalpha):
+                for a in range(nalpha,norb):
                     c[k] += dV[i,a]*Gk[i,a]/(orbea[i]-orbea[a])
-            for l in xrange(nbf):
+            for l in range(nbf):
                 Gl = matrixmultiply(orbsa,matrixmultiply(Gij[l],
                                                         transpose(orbsa)))
-                for i in xrange(nalpha):
-                    for a in xrange(nalpha,norb):
+                for i in range(nalpha):
+                    for a in range(nalpha,norb):
                         X[k,l] += Gk[i,a]*Gl[i,a]/(orbea[i]-orbea[a])
         # This should actually be a pseudoinverse...
         ba = solve(X,c)
@@ -664,17 +664,17 @@ def oep_uhf_an(atoms,orbsa,orbsb,**opts):
         dV = matrixmultiply(orbsb,matrixmultiply(dV_ao,transpose(orbsb)))
         X = zeros((nbf,nbf),'d')
         c = zeros(nbf,'d')
-        for k in xrange(nbf):
+        for k in range(nbf):
             Gk = matrixmultiply(orbsb,matrixmultiply(Gij[k],
                                                     transpose(orbsb)))
-            for i in xrange(nbeta):
-                for a in xrange(nbeta,norb):
+            for i in range(nbeta):
+                for a in range(nbeta,norb):
                     c[k] += dV[i,a]*Gk[i,a]/(orbeb[i]-orbeb[a])
-            for l in xrange(nbf):
+            for l in range(nbf):
                 Gl = matrixmultiply(orbsb,matrixmultiply(Gij[l],
                                                         transpose(orbsb)))
-                for i in xrange(nbeta):
-                    for a in xrange(nbeta,norb):
+                for i in range(nbeta):
+                    for a in range(nbeta,norb):
                         X[k,l] += Gk[i,a]*Gl[i,a]/(orbeb[i]-orbeb[a])
         # This should actually be a pseudoinverse...
         bb = solve(X,c)
@@ -695,9 +695,9 @@ def test_old():
     
     bfs = getbasis(mol)
     S,h,Ints = getints(bfs,mol)
-    print "after integrals"
+    print("after integrals")
     E_hf,orbe_hf,orbs_hf = rhf(mol,bfs=bfs,integrals=(S,h,Ints),DoAveraging=True)
-    print "RHF energy = ",E_hf
+    print("RHF energy = ",E_hf)
     E_exx,orbe_exx,orbs_exx = exx(mol,orbs_hf,bfs=bfs,integrals=(S,h,Ints))
     return
 
@@ -707,10 +707,10 @@ def test():
     mol = Molecule("He",[(2,(0,0,0))])
     solver = HFSolver(mol)
     solver.iterate()
-    print "HF energy = ",solver.energy
+    print("HF energy = ",solver.energy)
     dft_solver = DFTSolver(mol)
     dft_solver.iterate()
-    print "DFT energy = ",dft_solver.energy
+    print("DFT energy = ",dft_solver.energy)
     oep = EXXSolver(solver)
     # Testing 0 temp
     oep.iterate()
@@ -725,10 +725,10 @@ def utest():
     mol = Molecule("Li",[(3,(0,0,0))],multiplicity=2)
     solver = UHFSolver(mol)
     solver.iterate()
-    print "HF energy = ",solver.energy
+    print("HF energy = ",solver.energy)
     dft_solver = DFTSolver(mol)
     dft_solver.iterate()
-    print "DFT energy = ",dft_solver.energy
+    print("DFT energy = ",dft_solver.energy)
     oep = UEXXSolver(solver)
     # Testing 0 temp
     oep.iterate()

@@ -45,7 +45,7 @@ def dist(A,B): return sqrt(dist2(A,B))
 def binomial_prefactor(s,ia,ib,xpa,xpb):
     "From Augspurger and Dykstra"
     sum = 0
-    for t in xrange(s+1):
+    for t in range(s+1):
         if s-ia <= t <= ib:
             sum = sum + binomial(ia,s-t)*binomial(ib,t)* \
                   pow(xpa,ia-s+t)*pow(xpb,ib-t)
@@ -71,7 +71,7 @@ def gammln(x):
     tmp=x+5.5
     tmp = tmp - (x+0.5)*log(tmp)
     ser=1.000000000190015 # don't you just love these numbers?!
-    for j in xrange(6):
+    for j in range(6):
         y = y+1
         ser = ser+cof[j]/y
     return -tmp+log(2.5066282746310005*ser/x);
@@ -103,13 +103,13 @@ def _gser(a,x):
 
     ap = a
     delt = sum = 1./a
-    for i in xrange(ITMAX):
+    for i in range(ITMAX):
         ap=ap+1.
         delt=delt*x/ap
         sum=sum+delt
         if abs(delt) < abs(sum)*EPS: break
     else:
-        print 'a too large, ITMAX too small in gser'
+        print('a too large, ITMAX too small in gser')
     gamser=sum*exp(-x+a*log(x)-gln)
     return gamser,gln
 
@@ -124,7 +124,7 @@ def _gcf(a,x):
     c=1./FPMIN
     d=1./b
     h=d
-    for i in xrange(1,ITMAX+1):
+    for i in range(1,ITMAX+1):
         an=-i*(i-a)
         b=b+2.
         d=an*d+b
@@ -136,7 +136,7 @@ def _gcf(a,x):
         h=h*delt
         if abs(delt-1.) < EPS: break
     else:
-        print 'a too large, ITMAX too small in gcf'
+        print('a too large, ITMAX too small in gcf')
     gammcf=exp(-x+a*log(x)-gln)*h
     return gammcf,gln
     
@@ -161,7 +161,10 @@ def B0(i,r,g): return fact_ratio2(i,r)*pow(4*g,r-i)
 
 def fact_ratio2(a,b): return fact(a)/fact(b)/fact(a-2*b)
 
-def kinetic(alpha1,(l1,m1,n1),A,alpha2,(l2,m2,n2),B):
+def kinetic(alpha1,l1_m1_n1,A,alpha2,l2_m2_n2,B):
+    (l1,m1,n1) = l1_m1_n1
+    (l2,m2,n2) = l2_m2_n2
+
     term0 = alpha2*(2*(l2+m2+n2)+3)*\
             overlap(alpha1,(l1,m1,n1),A,\
                            alpha2,(l2,m2,n2),B)
@@ -181,7 +184,10 @@ def kinetic(alpha1,(l1,m1,n1),A,alpha2,(l2,m2,n2),B):
     return term0+term1+term2
     
 
-def overlap(alpha1,(l1,m1,n1),A,alpha2,(l2,m2,n2),B):
+def overlap(alpha1,l1_m1_n1,A,alpha2,l2_m2_n2,B):
+    (l1,m1,n1) = l1_m1_n1
+    (l2,m2,n2) = l2_m2_n2
+
     "Taken from THO eq. 2.12"
     rab2 = dist2(A,B)
     gamma = alpha1+alpha2
@@ -194,11 +200,15 @@ def overlap(alpha1,(l1,m1,n1),A,alpha2,(l2,m2,n2),B):
     wz = overlap_1D(n1,n2,P[2]-A[2],P[2]-B[2],gamma)
     return pre*wx*wy*wz
 
-def multipole_ints((kx,ky,kz),alpha1,(l1,m1,n1),A1,alpha2,(l2,m2,n2),A2):
+def multipole_ints(kx_ky_kz,alpha1,l1_m1_n1,A1,alpha2,l2_m2_n2,A2):
+    (kx,ky,kz) = kx_ky_kz
+    (l1,m1,n1) = l1_m1_n1
+    (l2,m2,n2) = l2_m2_n2
+
     total = 0
-    for ix in xrange(kx+1):
-        for iy in xrange(ky+1):
-            for iz in xrange(kz+1):
+    for ix in range(kx+1):
+        for iy in range(ky+1):
+            for iz in range(kz+1):
                 total += binomial(kx,ix)*binomial(ky,iy)*binomial(kz,iz)*\
                          A1[0]**(kx-ix)*A1[1]**(ky-iy)*A1[2]**(kz-iz)*\
                          overlap(alpha1,(l1+ix,m1+iy,n1+iz),A1,
@@ -208,7 +218,7 @@ def multipole_ints((kx,ky,kz),alpha1,(l1,m1,n1),A1,alpha2,(l2,m2,n2),A2):
 def overlap_1D(l1,l2,PAx,PBx,gamma):
     "Taken from THO eq. 2.12"
     sum = 0
-    for i in xrange(1+int(floor(0.5*(l1+l2)))):
+    for i in range(1+int(floor(0.5*(l1+l2)))):
         sum = sum + binomial_prefactor(2*i,l1,l2,PAx,PBx)* \
               fact2(2*i-1)/pow(2*gamma,i)
     return sum
@@ -220,9 +230,15 @@ def gaussian_product_center(alpha1,A,alpha2,B):
            (alpha1*A[1]+alpha2*B[1])/gamma,\
            (alpha1*A[2]+alpha2*B[2])/gamma
 
-def nuclear_attraction((x1,y1,z1),norm1,(l1,m1,n1),alpha1,
-                       (x2,y2,z2),norm2,(l2,m2,n2),alpha2,
-                       (x3,y3,z3)):
+def nuclear_attraction(x1_y1_z1,norm1,l1_m1_n1,alpha1,
+                       x2_y2_z2,norm2,l2_m2_n2,alpha2,
+                       x3_y3_z3):
+
+        (x1,y1,z1) = x1_y1_z1 
+        (x2,y2,z2) = x2_y2_z2 
+        (x3,y3,z3) = x3_y3_z3 
+        (l1,m1,n1) = l1_m1_n1
+        (l2,m2,n2) = l2_m2_n2
 
         gamma = alpha1+alpha2
 
@@ -235,9 +251,9 @@ def nuclear_attraction((x1,y1,z1),norm1,(l1,m1,n1),alpha1,
         Az = A_array(n1,n2,zp-z1,zp-z2,zp-z3,gamma)
 
         sum = 0.
-        for I in xrange(l1+l2+1):
-            for J in xrange(m1+m2+1):
-                for K in xrange(n1+n2+1):
+        for I in range(l1+l2+1):
+            for J in range(m1+m2+1):
+                for K in range(n1+n2+1):
                     sum = sum + Ax[I]*Ay[J]*Az[K]*Fgamma(I+J+K,rcp2*gamma)
 
         return -norm1*norm2*\
@@ -253,9 +269,9 @@ def A_array(l1,l2,PA,PB,CP,g):
     "THO eq. 2.18 and 3.1"
     Imax = l1+l2+1
     A = [0]*Imax
-    for i in xrange(Imax):
-        for r in xrange(int(floor(i/2)+1)):
-            for u in xrange(int(floor((i-2*r)/2)+1)):
+    for i in range(Imax):
+        for r in range(int(floor(i/2)+1)):
+            for u in range(int(floor((i-2*r)/2)+1)):
                 I = i-2*r-u
                 A[I] = A[I] + A_term(i,r,u,l1,l2,PA,PB,CP,g)
     return A
@@ -264,18 +280,24 @@ def grad_A_array(l1,l2,PA,PB,CP,g):
     "several pages of algebra were necessary to find this result..."
     Imax = l1+l2+1
     A = [0]*Imax
-    for i in xrange(Imax):
-        for r in xrange(int(floor(i/2)+1)):
-            for u in xrange(int(floor((i-2*r)/2.)+1)):
+    for i in range(Imax):
+        for r in range(int(floor(i/2)+1)):
+            for u in range(int(floor((i-2*r)/2.)+1)):
                 I = i-2*r-u
                 A[I] = A[I] + (i-2.*r+1.)/(i-2.*r-2.*u+1.)*CP*A_term(i,r,u,l1,l2,PA,PB,CP,g)
     return A
                
 
-def grad_nuc_att((x1,y1,z1),(l1,m1,n1),alpha1,
-                 (x2,y2,z2),(l2,m2,n2),alpha2,
-                 (x3,y3,z3)):
-                 
+def grad_nuc_att(x1_y1_z1,l1_m1_n1,alpha1,
+                 x2_y2_z2,l2_m2_n2,alpha2,
+                 x3_y3_z3):
+
+    (x1,y1,z1) = x1_y1_z1 
+    (x2,y2,z2) = x2_y2_z2 
+    (x3,y3,z3) = x3_y3_z3 
+    (l1,m1,n1) = l1_m1_n1
+    (l2,m2,n2) = l2_m2_n2
+                
     gamma = alpha1+alpha2
 
     xp,yp,zp = gaussian_product_center(alpha1,(x1,y1,z1),alpha2,(x2,y2,z2))
@@ -293,9 +315,9 @@ def grad_nuc_att((x1,y1,z1),(l1,m1,n1),alpha1,
     sum_x = 0.
     sum_y = 0.
     sum_z = 0.
-    for I in xrange(l1+l2+1):
-        for J in xrange(m1+m2+1):
-            for K in xrange(n1+n2+1):
+    for I in range(l1+l2+1):
+        for J in range(m1+m2+1):
+            for K in range(n1+n2+1):
                 sum_x += grad_Ax[I]*Ay[J]*Az[K]*Fgamma(I+J+K+1,rcp2*gamma)
                 sum_y += Ax[I]*grad_Ay[J]*Az[K]*Fgamma(I+J+K+1,rcp2*gamma)
                 sum_z += Ax[I]*Ay[J]*grad_Az[K]*Fgamma(I+J+K+1,rcp2*gamma)
@@ -313,10 +335,10 @@ def contr_coulomb(aexps,acoefs,anorms,xyza,powa,
                   dexps,dcoefs,dnorms,xyzd,powd):
 
     Jij = 0.
-    for i in xrange(len(aexps)):
-        for j in xrange(len(bexps)):
-            for k in xrange(len(cexps)):
-                for l in xrange(len(dexps)):
+    for i in range(len(aexps)):
+        for j in range(len(bexps)):
+            for k in range(len(cexps)):
+                for l in range(len(dexps)):
                     incr = coulomb_repulsion(xyza,anorms[i],powa,aexps[i],
                                              xyzb,bnorms[j],powb,bexps[j],
                                              xyzc,cnorms[k],powc,cexps[k],
@@ -325,10 +347,19 @@ def contr_coulomb(aexps,acoefs,anorms,xyza,powa,
     return Jij
     
 
-def coulomb_repulsion((xa,ya,za),norma,(la,ma,na),alphaa,
-                      (xb,yb,zb),normb,(lb,mb,nb),alphab,
-                      (xc,yc,zc),normc,(lc,mc,nc),alphac,
-                      (xd,yd,zd),normd,(ld,md,nd),alphad):
+def coulomb_repulsion(xa_ya_za,norma,la_ma_na,alphaa,
+                      xb_yb_zb,normb,lb_mb_nb,alphab,
+                      xc_yc_zc,normc,lc_mc_nc,alphac,
+                      xd_yd_zd,normd,ld_md_nd,alphad):
+
+    (xa,ya,za) = xa_ya_za
+    (xb,yb,zb) = xb_yb_zb
+    (xc,yc,zc) = xc_yc_zc
+    (xd,yd,zd) = xd_yd_zd
+    (la,ma,na) = la_ma_na
+    (lb,mb,nb) = lb_mb_nb
+    (lc,mc,nc) = lc_mc_nc
+    (ld,md,nd) = ld_md_nd
 
     rab2 = dist2((xa,ya,za),(xb,yb,zb))
     rcd2 = dist2((xc,yc,zc),(xd,yd,zd))
@@ -344,9 +375,9 @@ def coulomb_repulsion((xa,ya,za),norma,(la,ma,na),alphaa,
     Bz = B_array(na,nb,nc,nd,zp,za,zb,zq,zc,zd,gamma1,gamma2,delta)
 
     sum = 0.
-    for I in xrange(la+lb+lc+ld+1):
-        for J in xrange(ma+mb+mc+md+1):
-            for K in xrange(na+nb+nc+nd+1):
+    for I in range(la+lb+lc+ld+1):
+        for J in range(ma+mb+mc+md+1):
+            for K in range(na+nb+nc+nd+1):
                 sum = sum + Bx[I]*By[J]*Bz[K]*Fgamma(I+J+K,0.25*rpq2/delta)
 
     return 2*pow(pi,2.5)/(gamma1*gamma2*sqrt(gamma1+gamma2)) \
@@ -364,11 +395,11 @@ def B_term(i1,i2,r1,r2,u,l1,l2,l3,l4,Px,Ax,Bx,Qx,Cx,Dx,gamma1,gamma2,delta):
 def B_array(l1,l2,l3,l4,p,a,b,q,c,d,g1,g2,delta):
     Imax = l1+l2+l3+l4+1
     B = [0]*Imax
-    for i1 in xrange(l1+l2+1):
-        for i2 in xrange(l3+l4+1):
-            for r1 in xrange(i1/2+1):
-                for r2 in xrange(i2/2+1):
-                    for u in xrange((i1+i2)/2-r1-r2+1):
+    for i1 in range(l1+l2+1):
+        for i2 in range(l3+l4+1):
+            for r1 in range(i1/2+1):
+                for r2 in range(i2/2+1):
+                    for u in range((i1+i2)/2-r1-r2+1):
                         I = i1+i2-2*(r1+r2)-u
                         B[I] = B[I] + B_term(i1,i2,r1,r2,u,l1,l2,l3,l4,
                                              p,a,b,q,c,d,g1,g2,delta)
@@ -386,9 +417,9 @@ def three_center_1D(xi,ai,alphai,xj,aj,alphaj,xk,ak,alphak):
     xpj = px-xj
     xpk = px-xk
     int = 0
-    for q in xrange(ai+1):
-        for r in xrange(aj+1):
-            for s in xrange(ak+1):
+    for q in range(ai+1):
+        for r in range(aj+1):
+            for s in range(ak+1):
                 n,rem = divmod(q+r+s,2)
                 if (q+r+s) %2 == 0:
                     i_qrs = binomial(ai,q)*binomial(aj,r)*binomial(ak,s)*\
@@ -398,5 +429,5 @@ def three_center_1D(xi,ai,alphai,xj,aj,alphaj,xk,ak,alphak):
     return dx*int
 
 if __name__ == '__main__':
-    print multipole_ints((0,0,1),1.0,(0,0,0),(0.,0.,0.),1.0,(0,0,0),(0.,0.,1.))
+    print(multipole_ints((0,0,1),1.0,(0,0,0),(0.,0.,0.),1.0,(0,0,0),(0.,0.,1.)))
     

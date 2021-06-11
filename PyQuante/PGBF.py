@@ -163,7 +163,7 @@ class PGBF(PrimitiveGTO):
 
     # Other overloads
     def __str__(self):
-	return "PGBF(%.2f," % self.exp +\
+        return "PGBF(%.2f," % self.exp +\
                "(%.2f,%.2f,%.2f)," % self.origin +\
                "(%d,%d,%d)," % self.powers +\
                "%.2f)" % self.norm
@@ -268,9 +268,9 @@ def tester(gA,gB):
     tc0ba = three_center(g0,gB,gA)
     diff = 0
     vals = [olab,olba,tcab0,tcba0,tca0b,tcb0a,tc0ab,tc0ba]
-    for i in xrange(len(vals)):
-        for j in xrange(i):
+    for i in range(len(vals)):
+        for j in range(i):
             diff = max(diff,abs(vals[i]-vals[j]))
-    print "For ints %s %s max diff is %f" % (gA,gB,diff)
+    print("For ints %s %s max diff is %f" % (gA,gB,diff))
 
 if __name__ == '__main__':  test_3cent()

@@ -181,20 +181,20 @@ def dft(atoms,**kwargs):
     nclosed,nopen = atoms.get_closedopen()
 
     if verbose:
-        print "DFT calculation on %s using functional %s" % (
-            atoms.name,functional)
-        print "Nbf = %d" % len(bfs)
-        print "Nclosed = %d" % nclosed
-        print "Nopen = %d" % nclosed
-        if nopen: print "Using spin-averaged dft for open shell calculation"
+        print("DFT calculation on %s using functional %s" % (
+            atoms.name,functional))
+        print("Nbf = %d" % len(bfs))
+        print("Nclosed = %d" % nclosed)
+        print("Nopen = %d" % nclosed)
+        if nopen: print("Using spin-averaged dft for open shell calculation")
 
     eold = 0.
     if DoAveraging:
-        if verbose: print"Using DIIS averaging"
+        if verbose: print("Using DIIS averaging")
         avg=DIIS(S)
 
     # Converge the LDA density for the system:
-    if verbose: print "Optimization of DFT density"
+    if verbose: print("Optimization of DFT density")
     for i in xrange(MaxIter):
         if ETemp:
             efermi = get_efermi(nel,orbe,ETemp)
@@ -219,11 +219,11 @@ def dft(atoms,**kwargs):
         Eone = 2*trace2(D,h)
         energy = Eone + Ej + Exc + enuke
         if ETemp: energy += entropy
-        if verbose: print "%d %10.4f %10.4f %10.4f %10.4f %10.4f" % \
-           (i,energy,Eone,Ej,Exc,enuke)
+        if verbose: print("%d %10.4f %10.4f %10.4f %10.4f %10.4f" % \
+           (i,energy,Eone,Ej,Exc,enuke))
         if abs(energy-eold) < ConvCriteria: break
         eold = energy
-    print "Final %s energy for system %s is %f" % (functional,atoms.name,energy)
+    print("Final %s energy for system %s is %f" % (functional,atoms.name,energy))
     return energy,orbe,orbs
 
 def udft(atoms,**kwargs):
@@ -293,16 +293,16 @@ def udft(atoms,**kwargs):
     nalpha,nbeta = atoms.get_alphabeta()
 
     if verbose: 
-        print "UDFT calculation on %s using functional %s" \
-              % (atoms.name,functional)
-        print "Nbf = %d" % len(bfs)
-        print "Nalpha = %d" % nalpha
-        print "Nbeta = %d" % nbeta
+        print("UDFT calculation on %s using functional %s" \
+              % (atoms.name,functional))
+        print("Nbf = %d" % len(bfs))
+        print("Nalpha = %d" % nalpha)
+        print("Nbeta = %d" % nbeta)
         
     eold = 0.
 
     # Converge the LDA density for the system:
-    if verbose: print "Optimization of DFT density"
+    if verbose: print("Optimization of DFT density")
     for i in xrange(MaxIter):
         Da = mkdens(orbsa,0,nalpha)
         Db = mkdens(orbsb,0,nbeta)
@@ -325,12 +325,12 @@ def udft(atoms,**kwargs):
         Eone = 2*trace2(D,h)
         energy = Eone + Eja + Ejb + Exc + enuke
         if verbose:
-            print "%d %10.4f %10.4f %10.4f %10.4f %10.4f" % (
-                i,energy,Eone,Eja+Ejb,Exc,enuke)
+            print("%d %10.4f %10.4f %10.4f %10.4f %10.4f" % (
+                i,energy,Eone,Eja+Ejb,Exc,enuke))
         if abs(energy-eold) < ConvCriteria: break
         eold = energy
-    print "Final U%s energy for system %s is %f" % (
-        functional,atoms.name,energy)
+    print("Final U%s energy for system %s is %f" % (
+        functional,atoms.name,energy))
     return energy,orbe,orbs
 
 
@@ -414,20 +414,20 @@ def dft_fixed_occ(atoms,occs,**kwargs):
     nclosed,nopen = atoms.get_closedopen()
 
     if verbose: 
-        print "DFT calculation on %s using functional %s" % (
-            atoms.name,functional)
-        print "Nbf = %d" % len(bfs)
-        print "Nclosed = %d" % nclosed
-        print "Nopen = %d" % nclosed
-        if nopen: print "Using spin-averaged dft for open shell calculation"
+        print("DFT calculation on %s using functional %s" % (
+            atoms.name,functional))
+        print("Nbf = %d" % len(bfs))
+        print("Nclosed = %d" % nclosed)
+        print("Nopen = %d" % nclosed)
+        if nopen: print("Using spin-averaged dft for open shell calculation")
 
     eold = 0.
     if DoAveraging:
-        print "Using DIIS averaging"
+        print("Using DIIS averaging")
         avg=DIIS(S)
 
     # Converge the LDA density for the system:
-    if verbose: print "Optimization of DFT density"
+    if verbose: print("Optimization of DFT density")
     for i in xrange(MaxIter):
         #print "SCF Iteration:",i,"Starting Energy:",eold
         #save the starting orbitals
@@ -460,15 +460,15 @@ def dft_fixed_occ(atoms,occs,**kwargs):
         Ej = 2*trace2(D,J)
         Eone = 2*trace2(D,h)
         energy = Eone + Ej + Exc + enuke
-        print i+1,"   ",energy,"    ",Ej,"  ",Exc," ",enuke
+        print(i+1,"   ",energy,"    ",Ej,"  ",Exc," ",enuke)
         if ETemp: energy += entropy
         if verbose:
-            print "%d %10.4f %10.4f %10.4f %10.4f %10.4f" % (
-                i,energy,Eone,Ej,Exc,enuke)
+            print("%d %10.4f %10.4f %10.4f %10.4f %10.4f" % (
+                i,energy,Eone,Ej,Exc,enuke))
         if abs(energy-eold) < ConvCriteria: break
         eold = energy
         
-    print "Final %s energy for system %s is %f" % (functional,atoms.name,energy)
+    print("Final %s energy for system %s is %f" % (functional,atoms.name,energy))
     return energy,orbe,orbs
     
 def udft_fixed_occ(atoms,occa, occb, **kwargs):
@@ -544,16 +544,16 @@ def udft_fixed_occ(atoms,occa, occb, **kwargs):
     nalpha,nbeta = atoms.get_alphabeta()
 
     if verbose:
-        print "UDFT calculation on %s using functional %s" % (
-            atoms.name,functional)
-        print "Nbf = %d" % len(bfs)
-        print "Nalpha = %d" % nalpha
-        print "Nbeta = %d" % nbeta
+        print("UDFT calculation on %s using functional %s" % (
+            atoms.name,functional))
+        print("Nbf = %d" % len(bfs))
+        print("Nalpha = %d" % nalpha)
+        print("Nbeta = %d" % nbeta)
         
     eold = 0.
 
     # Converge the LDA density for the system:
-    print "Optimization of DFT density"
+    print("Optimization of DFT density")
     for i in xrange(MaxIter):
         Da = mk_auger_dens(orbsa, occa)
         Db = mk_auger_dens(orbsb, occb)
@@ -585,13 +585,13 @@ def udft_fixed_occ(atoms,occa, occb, **kwargs):
         
         energy = Eone + Ej + Exc + enuke
         
-        print i+1,"   ",energy,"    ",Ej,"  ",Exc
+        print(i+1,"   ",energy,"    ",Ej,"  ",Exc)
         if verbose: 
-            print "%d %10.4f %10.4f %10.4f" % (i,energy,Ej,Exc)
+            print("%d %10.4f %10.4f %10.4f" % (i,energy,Ej,Exc))
         if abs(energy-eold) < ConvCriteria: break
         eold = energy
-    print "Final U%s energy for system %s is %f" % (
-        functional,atoms.name,energy)
+    print("Final U%s energy for system %s is %f" % (
+        functional,atoms.name,energy))
     return energy,(orbea,orbeb),(orbsa,orbsb)
 
 if __name__ == '__main__':
@@ -601,6 +601,6 @@ if __name__ == '__main__':
                    ( 1,(0,0,-0.35))],
                    units='Angs')
     en = dft(h2)
-    print en
+    print(en)
 
     

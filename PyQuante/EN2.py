@@ -84,7 +84,7 @@ def EN2(molecule,**opts):#
     energy,(orbea,orbeb),(orbsa,orbsb) = uhf(molecule,integrals=(S,h,Ints),
                                              bfs=bfs,**opts)
     EHF = energy
-    print "The Hatree-Fock energy is ",EHF
+    print("The Hatree-Fock energy is ",EHF)
     #compute the transformed molecular orbital integrals
 
     aamoints, nbf = TransformInts(Ints,orbsa,orbsa, nalpha)
@@ -136,8 +136,8 @@ def EN2(molecule,**opts):#
 
                     x = -Eio/delta
                     if abs(x) > 1:
-                        print "Warning a large x value has been ",\
-                              "discovered with x = ",x
+                        print("Warning a large x value has been ",\
+                              "discovered with x = ",x)
                     x = choose(x < 1, (1,x))
                     x = choose(x > -1, (-1,x))                   
                     sum += x*x
@@ -177,8 +177,8 @@ def EN2(molecule,**opts):#
                     Eio = (arbs - asbr)
 
                     x = -Eio/delta
-                    if abs(x) > 1: print "Warning a large x value has ",\
-                       "been discovered with x = ",x
+                    if abs(x) > 1: print("Warning a large x value has ",\
+                       "been discovered with x = ",x)
                     x = choose(x < 1, (1,x))
                     x = choose(x > -1, (-1,x))                   
                     sum += x*x
@@ -211,8 +211,8 @@ def EN2(molecule,**opts):#
                     Eio = arbs
 
                     x = -Eio/delta
-                    if abs(x) > 1: print "Warning a large x value has ",\
-                       "been discovered with x = ",x
+                    if abs(x) > 1: print("Warning a large x value has ",\
+                       "been discovered with x = ",x)
                     x = choose(x < 1, (1,x))
                     x = choose(x > -1, (-1,x))                   
                     sum += x*x
@@ -233,9 +233,9 @@ def EN2(molecule,**opts):#
 
     #print the energy and its corrections
     E = energy + Ec1
-    print "The total sum of excitations is ",sum
-    print "The primary correlation correction is ",Ec1
-    print "The total energy is ", E
+    print("The total sum of excitations is ",sum)
+    print("The primary correlation correction is ",Ec1)
+    print("The total energy is ", E)
     return E
 
 

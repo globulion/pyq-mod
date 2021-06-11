@@ -106,7 +106,7 @@ def parse_gamess_basis(file,**kwargs):
             if sym == "L":
                 sprims = []
                 pprims = []
-                for i in xrange(nprim):
+                for i in range(nprim):
                     line = file.next()
                     words = line.split()
                     sprims.append((float(words[1]),float(words[2])))
@@ -115,7 +115,7 @@ def parse_gamess_basis(file,**kwargs):
                 bfs.append(("P",pprims))
             else:
                 prims = []
-                for i in xrange(nprim):
+                for i in range(nprim):
                     line = file.next()
                     words = line.split()
                     prims.append((float(words[1]),float(words[2])))

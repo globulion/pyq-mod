@@ -153,8 +153,8 @@ def test_mol(mol,**opts):
         h = T+V
 
         orbe,orbs = GHeigenvectors(h,S)
-        print "Eval of h: ",
-        print orbe
+        print("Eval of h: ", end="")
+        print(orbe)
         for i in range(10):
             D = mkdens(orbs,0,nclosed)
             J = getJ(Ints,D)
@@ -164,7 +164,7 @@ def test_mol(mol,**opts):
             ej = TraceProperty(D,J)
             ek = TraceProperty(D,K)
             energy = enuke+2*eone+2*ej-ek
-            print i,energy,enuke,eone,ej,ek
+            print(i,energy,enuke,eone,ej,ek)
     return
     
 

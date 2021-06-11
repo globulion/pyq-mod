@@ -1480,6 +1480,7 @@ static PyObject *nuclear_attraction_vec_wrap(PyObject *self,PyObject *args){
 
 
 /* Python interface */
+#if PY_MAJOR_VERSION >= 3
 static PyMethodDef cints_methods[] = {
   {"fact",fact_wrap,METH_VARARGS},
   {"fact2",fact2_wrap,METH_VARARGS},
@@ -1509,6 +1510,8 @@ static PyMethodDef cints_methods[] = {
   {"three_center_1D",three_center_1D_wrap,METH_VARARGS},
   {NULL,NULL} /* Sentinel */
 };
+#else
+#endif
 
 static void module_init(char* name)
 {

@@ -108,14 +108,14 @@ class Molecule:
     def update_from_atuples(self,geo):
         nat = len(geo)
         assert nat == len(self.atoms)
-        for i in xrange(nat):
+        for i in range(nat):
             self.atoms[i].update_from_atuple(geo[i])
         return
 
     def update_coords(self,coords):
         nat = len(coords)/3
         assert nat == len(self.atoms)
-        for i in xrange(nat):
+        for i in range(nat):
             self.atoms[i].update_coords(coords[3*i:3*i+3])
         return
 
@@ -211,9 +211,9 @@ class Molecule:
     def get_nel(self,charge=None):
         if charge:
             # Deprecation warning inserted 8/2005
-            print "Warning: use of get_nel(charge) has been deprecated"
-            print "Please supply charge at construction of molecule or use"
-            print "mol.set_charge(charge)"
+            print ("Warning: use of get_nel(charge) has been deprecated")
+            print ("Please supply charge at construction of molecule or use")
+            print ("mol.set_charge(charge)")
             self.set_charge(charge)
         nel = -self.charge
         for atom in self.atoms: nel += atom.get_nel()
@@ -222,9 +222,9 @@ class Molecule:
     def get_enuke(self):
         enuke = 0.
         nat = len(self.atoms)
-        for i in xrange(nat):
+        for i in range(nat):
             ati = self.atoms[i]
-            for j in xrange(i):
+            for j in range(i):
                 atj = self.atoms[j]
                 enuke += ati.get_nuke_chg()*atj.get_nuke_chg()/ati.dist(atj)
         return enuke
@@ -237,20 +237,20 @@ class Molecule:
 
         if (nel%2 == 0 and multiplicity%2 == 0) \
                or (nel%2 == 1 and multiplicity%2 == 1):
-            print "Incompatible number of electrons and spin multiplicity"
-            print "nel = ",nel
-            print "multiplicity = ",multiplicity
+            print ("Incompatible number of electrons and spin multiplicity")
+            print ("nel = ",nel)
+            print ("multiplicity = ",multiplicity)
             raise Exception("Incompatible number of electrons and spin multiplicity")
 
         nopen = multiplicity-1
         nclosed,ierr = divmod(nel-nopen,2)
         if ierr:
-            print "Error in Molecule.get_closedopen()"
-            print 'nel = ',nel
-            print 'multiplicity = ',multiplicity
-            print 'nopen = ',nopen
-            print 'nclosed = ',nclosed
-            print 'ierr = ',ierr
+            print ("Error in Molecule.get_closedopen()")
+            print ('nel = ',nel)
+            print ('multiplicity = ',multiplicity)
+            print ('nopen = ',nopen)
+            print ('nclosed = ',nclosed)
+            print ('ierr = ',ierr)
             raise Exception("Error in Molecule.get_closedopen()")
         return nclosed, nopen
 
@@ -274,7 +274,7 @@ class Molecule:
         "Transform to inertial coordinates"
         from PyQuante.NumWrap import zeros,eigh
         rcom = self.com()
-        print "Translating to COM: ",rcom
+        print("Translating to COM: ",rcom)
         self.translate(-rcom)
         I = zeros((3,3),'d')
         for atom in self:
@@ -291,10 +291,10 @@ class Molecule:
             I[1,2] -= m*y*z
             I[2,1] = I[1,2]
         E,U = eigh(I)
-        print "Moments of inertial ",E
+        print("Moments of inertial ",E)
         self.urotate(U)
-        print "New coordinates: "
-        print self
+        print("New coordinates: ")
+        print(self)
         return
 
     def urotate(self,U):
@@ -425,6 +425,6 @@ if __name__ == '__main__':
     h2o = Molecule('h2o',
                    [('O',(0.,0.,0.)),('H',(1.,0.,0.)),('H',(0.,1.,0.))],
                    units='Angstrom')
-    print h2o
-    print h2o.subsystem([0,1])
+    print(h2o)
+    print(h2o.subsystem([0,1]))
     
