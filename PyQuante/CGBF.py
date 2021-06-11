@@ -15,13 +15,14 @@
  distribution. 
 """
 
-import PGBF
-from NumWrap import zeros,array
+from . import PGBF
+from .NumWrap import zeros,array
 from math import sqrt
 
 from PyQuante.cints import overlap
 #from PyQuante.chgp import contr_coulomb
 from PyQuante.crys import contr_coulomb
+#import contracted_gto
 from PyQuante.contracted_gto import ContractedGTO
 
 class CGBF(ContractedGTO):
@@ -222,7 +223,7 @@ def coulomb(a,b,c,d):
     return a.norm*b.norm*c.norm*d.norm*Jij
 
 def three_center(a,b,c):
-    import PGBF
+    from . import PGBF
     sum = 0
     for ac,ap in zip(a.pcoefs,a.prims):
         for bc,bp in zip(b.pcoefs,b.prims):

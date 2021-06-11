@@ -1522,10 +1522,10 @@ static PyMethodDef cints_methods[] = {
 #if PY_MAJOR_VERSION >= 3
   static struct PyModuleDef cints_def = {
     PyModuleDef_HEAD_INIT,
-    "cints", /* m_name */
-    NULL,      /* m_doc */
+    "_cints",            /* m_name */
+    NULL,                /* m_doc */
     -1,                  /* m_size */
-    cints_methods,    /* m_methods */
+    cints_methods,       /* m_methods */
     NULL,                /* m_reload */
     NULL,                /* m_traverse */
     NULL,                /* m_clear */
@@ -1533,12 +1533,19 @@ static PyMethodDef cints_methods[] = {
   };
 #endif
 
+#if PY_MAJOR_VERSION >= 3
 static PyObject* module_init(char* name)
 {
        PyObject* m;
        m = PyModule_Create(&cints_def);
        return m;
 }
+#else
+static void module_init(char* name)
+{
+       (void) Py_InitModule(name,cints_methods);
+}
+#endif
 
 #if PY_MAJOR_VERSION >= 3
     #define MODINIT(name) PyMODINIT_FUNC PyInit_##name(void)
@@ -1552,7 +1559,8 @@ MODINIT(cints)
 __declspec(dllexport)
 #endif
 #if defined(PYQUANTE_FULLY_QUALIFIED_MODULE_NAME)
-void initpyquante_cints_ext(){module_init("pyquante_cints_ext");}
+//void initpyquante_cints_ext(){module_init("pyquante_cints_ext");}
+module_init("pyquante_cints_ext");
 #else
 //void initcints(){module_init("cints");}
 module_init("cints");

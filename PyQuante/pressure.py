@@ -20,7 +20,7 @@ REPORT BUGS
 COPYRIGHT
 
 """
-#from PyQuante.Ints import getbasis
+#from .PyQuante.Ints import getbasis
 #import os
 
 #def threshold():

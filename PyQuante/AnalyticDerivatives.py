@@ -19,10 +19,10 @@ COPYRIGHT
 
 """
 
-from NumWrap import array2string
+from .NumWrap import array2string
 from math import sqrt
-from PGBF import PGBF,coulomb
-from pyints import grad_nuc_att
+from .PGBF import PGBF,coulomb
+from .pyints import grad_nuc_att
 
 def der_Hcore_element(a,bfi,bfj,atoms):
     """

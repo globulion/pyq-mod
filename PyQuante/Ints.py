@@ -10,12 +10,12 @@
  distribution. 
 """
 
-from CGBF import CGBF,coulomb
+from .CGBF import CGBF,coulomb
 #from contracted_gto import coulomb
-from NumWrap import zeros,dot,reshape,array
+from .NumWrap import zeros,dot,reshape,array
 from PyQuante.cints import ijkl2intindex as intindex
 from PyQuante.cints import ijkl2intindexBTF as intindexBTF  # ADDED FOR COULOMB.py!
-from PyQuante.Basis.Tools import get_basis_data
+from .PyQuante.Basis.Tools import get_basis_data
 import settings
 import logging
 
@@ -49,12 +49,12 @@ def getbasis(atoms,basis_data=None,**opts):
     Given a Molecule object and a basis library, form a basis set
     constructed as a list of CGBF basis functions objects.
     """
-    from PyQuante.Basis.basis import BasisSet
+    from .PyQuante.Basis.basis import BasisSet
     return BasisSet(atoms, basis_data, **opts)
     # Option to omit f basis functions from imported basis sets
     omit_f = opts.get('omit_f',False)
     if not basis_data:
-        from PyQuante.Basis.p631ss import basis_data
+        from .PyQuante.Basis.p631ss import basis_data
     elif type(basis_data) == type(''):
         # Assume this is a name of a basis set, e.g. '6-31g**'
         #  and import dynamically

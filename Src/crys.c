@@ -1717,16 +1717,50 @@ static PyMethodDef crys_methods[] = {
   {NULL,NULL} /* Sentinel */
 };
 
+#if PY_MAJOR_VERSION >= 3
+  static struct PyModuleDef crys_def = {
+    PyModuleDef_HEAD_INIT,
+    "_crys",             /* m_name */
+    NULL,                /* m_doc */
+    -1,                  /* m_size */
+    crys_methods,        /* m_methods */
+    NULL,                /* m_reload */
+    NULL,                /* m_traverse */
+    NULL,                /* m_clear */
+    NULL,                /* m_free */
+  };
+#endif
+
+#if PY_MAJOR_VERSION >= 3
+static PyObject* module_init(char* name)
+{
+       PyObject* m;
+       m = PyModule_Create(&crys_def);
+       return m;
+}
+#else
 static void module_init(char* name)
 {
-  (void) Py_InitModule(name,crys_methods);
+       (void) Py_InitModule(name,crys_methods);
 }
+#endif
 
+#if PY_MAJOR_VERSION >= 3
+    #define MODINIT(name) PyMODINIT_FUNC PyInit_##name(void)
+#else
+    #define MODINIT(name) PyMODINIT_FUNC init##name(void)
+#endif
+
+MODINIT(crys)
+{
 #if defined(_WIN32)
 __declspec(dllexport)
 #endif
 #if defined(PYQUANTE_FULLY_QUALIFIED_MODULE_NAME)
-void initpyquante_crys_ext(){module_init("pyquante_crys_ext");}
+//void initpyquante_crys_ext(){module_init("pyquante_crys_ext");}
+module_init("pyquante_crys_ext");
 #else
-void initcrys(){module_init("crys");}
+//void initcrys(){module_init("crys");}
+module_init("crys");
 #endif
+}

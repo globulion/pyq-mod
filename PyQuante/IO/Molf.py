@@ -12,8 +12,8 @@
 """
 
 import re
-from PyQuante.NumWrap import zeros
-from PyQuante.Util import parseline
+from ..PyQuante.NumWrap import zeros
+from ..PyQuante.Util import parseline
 
 def section(fname):
     title_lines = []
@@ -32,7 +32,7 @@ def section(fname):
     return title_lines,atom_lines,basis_lines,orb_lines
 
 def parse_atoms(atom_lines,**opts):
-    from PyQuante.Molecule import Molecule
+    from ..PyQuante.Molecule import Molecule
     
     atomlist = []
     for line in atom_lines[1:]:
@@ -112,8 +112,8 @@ def parse_orbs(lines,nbf):
     return occs,orbe,orbmtx
 
 def make_pyquante_basis(atoms,input_bfs):
-    from PyQuante.Ints import sym2powerlist
-    from PyQuante.CGBF import CGBF
+    from ..PyQuante.Ints import sym2powerlist
+    from ..PyQuante.CGBF import CGBF
     bfs = []
     for atom_index,info in input_bfs:
         x,y,z = atoms[atom_index-1].pos()

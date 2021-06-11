@@ -1,7 +1,7 @@
-from PyQuante.IO.Data import Data
+from .Data import Data
 import xml.dom.minidom as minidom
 
-from PyQuante.Element import sym2no,symbol
+from ...PyQuante.Element import sym2no,symbol
 
 class Handler(object):
     key = "cml"

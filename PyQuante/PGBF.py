@@ -32,18 +32,18 @@
 """
 
 from math import sqrt,pi,pow,exp
-from NumWrap import array, float64
+from .NumWrap import array, float64
 
 from PyQuante.cints import kinetic,overlap,nuclear_attraction,fact2,dist2,multipole
 from PyQuante.cints import binomial, three_center_1D
 from PyQuante.cints import kinetic_1x, kinetic_1y, kinetic_1z
 from PyQuante.cints import overlap_1x, overlap_1y, overlap_1z
-from PyQuante.chgp import coulomb_repulsion
+from .chgp import coulomb_repulsion
 
 #added 2/8/07 by Hatem Helal hhh23@cam.ac.uk
 #probably need to write the C version in cints...
-from PyQuante.pyints import grad_nuc_att
-from primitive_gto import PrimitiveGTO
+from .pyints import grad_nuc_att
+from .primitive_gto import PrimitiveGTO
 
 class PGBF(PrimitiveGTO):
     "Class for Primitive Gaussian Basis Functions."
@@ -103,7 +103,7 @@ class PGBF(PrimitiveGTO):
                          other.exp,other.powers,other.origin,(i,j,k))
 
     def multipole_old(self,other,i,j,k):
-        from pyints import multipole_ints
+        from .pyints import multipole_ints
         return self.norm*other.norm*\
                multipole_ints((i,j,k),
                               self.exp,self.powers,self.origin,

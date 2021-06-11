@@ -14,7 +14,7 @@ class Data(object):
         self.molecules = molecules
         self.orbitals = orbitals
     def build_molecule(self, *a, **kw):
-        from PyQuante import Molecule
+        from ..PyQuante import Molecule
         self.molecule = Molecule(*a, **kw)
     def has(self, name):
         '''

@@ -22,8 +22,8 @@ def get_guess_lines(fname):
     return lines
 
 def split_guess_lines(guess_lines):
-    from PyQuante.Util import parseline
-    from PyQuante.NumWrap import transpose,array
+    from ..PyQuante.Util import parseline
+    from ..PyQuante.NumWrap import transpose,array
     import re
     orbpat = re.compile('Orbital Energy')
     orb = []
@@ -49,9 +49,9 @@ def orbs_from_restart(fname):
 
 def geo_from_output(fname):
     import re
-    from PyQuante.Util import parseline,cleansym
-    from PyQuante.Element import sym2no
-    from PyQuante.Molecule import Molecule
+    from ..PyQuante.Util import parseline,cleansym
+    from ..PyQuante.Element import sym2no
+    from ..PyQuante.Molecule import Molecule
     igeo = re.compile('Input geometry')
     sgeo = re.compile('Symmetrized geometry')
     # Double check the syntax of these last two

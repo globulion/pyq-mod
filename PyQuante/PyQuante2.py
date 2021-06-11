@@ -83,7 +83,7 @@ class SCFIterator:
 
 class Integrals:
     def __init__(self,molecule,basis_set,**opts):
-        from PyQuante.Ints import getints
+        from .PyQuante.Ints import getints
         integrals = opts.get("integrals",None)
         nbf = len(basis_set)
         if integrals:
@@ -100,8 +100,8 @@ class Integrals:
 
 class BasisSet:
     def __init__(self,molecule,**opts):
-        from PyQuante.Ints import getbasis
-        from PyQuante.Basis.Tools import get_basis_data
+        from .PyQuante.Ints import getbasis
+        from .PyQuante.Basis.Tools import get_basis_data
 
         basis_data = opts.get('basis_data')
         bfs = opts.get('bfs')
@@ -152,7 +152,7 @@ class AbstractHamiltonian:
 class HFHamiltonian(AbstractHamiltonian):
     method='HF'
     def __init__(self,molecule,**opts):
-        from PyQuante.Convergence import DIIS
+        from .PyQuante.Convergence import DIIS
         self.molecule = molecule
         logger.info("HF calculation on system %s" % self.molecule.name)
         self.basis_set = BasisSet(molecule,**opts)
@@ -189,8 +189,8 @@ class HFHamiltonian(AbstractHamiltonian):
         return
 
     def update(self,**opts):
-        from PyQuante.LA2 import trace2
-        from PyQuante.Ints import getJ,getK
+        from .PyQuante.LA2 import trace2
+        from .PyQuante.Ints import getJ,getK
 
         if self.DoAveraging and self.dmat is not None:
             self.F = self.Averager.getF(self.F,self.dmat)
@@ -209,8 +209,8 @@ class HFHamiltonian(AbstractHamiltonian):
 class DFTHamiltonian(AbstractHamiltonian):
     method='DFT'
     def __init__(self,molecule,**opts):
-        from PyQuante.Convergence import DIIS
-        from PyQuante.DFunctionals import need_gradients
+        from .PyQuante.Convergence import DIIS
+        from .PyQuante.DFunctionals import need_gradients
         self.molecule = molecule
         logger.info("DFT calculation on system %s" % self.molecule.name)
         self.basis_set = BasisSet(molecule,**opts)
@@ -247,8 +247,8 @@ class DFTHamiltonian(AbstractHamiltonian):
     def iterate(self,**opts): return self.iterator.iterate(self,**opts)
 
     def setup_grid(self,molecule,bfs,**opts):
-        #from PyQuante.MolecularGrid import MolecularGrid
-        from PyQuante.MG2 import MG2 as MolecularGrid
+        #from .PyQuante.MolecularGrid import MolecularGrid
+        from .PyQuante.MG2 import MG2 as MolecularGrid
         grid_nrad = opts.get('grid_nrad',32)
         grid_fineness = opts.get('grid_fineness',1)
         self.gr = MolecularGrid(molecule,grid_nrad,grid_fineness,**opts) 
@@ -256,9 +256,9 @@ class DFTHamiltonian(AbstractHamiltonian):
         return
 
     def update(self,**opts):
-        from PyQuante.LA2 import trace2
-        from PyQuante.Ints import getJ
-        from PyQuante.dft import getXC
+        from .PyQuante.LA2 import trace2
+        from .PyQuante.Ints import getJ
+        from .PyQuante.dft import getXC
 
         #self.DoAveraging = opts.get('DoAveraging',True)
         #if self.DoAveraging:
@@ -318,8 +318,8 @@ class UHFHamiltonian(AbstractHamiltonian):
     def iterate(self,**opts): return self.iterator.iterate(self,**opts)
 
     def update(self,**opts):
-        from PyQuante.LA2 import trace2
-        from PyQuante.Ints import getJ,getK
+        from .PyQuante.LA2 import trace2
+        from .PyQuante.Ints import getJ,getK
 
         self.amat,entropya = self.solvera.solve(self.Fa)
         self.bmat,entropyb = self.solverb.solve(self.Fb)
@@ -372,11 +372,11 @@ class ROHFHamiltonian(AbstractHamiltonian):
     def iterate(self,**opts): return self.iterator.iterate(self,**opts)
 
     def update(self,**opts):
-        from PyQuante.Ints import getJ,getK
-        from PyQuante.LA2 import geigh,mkdens
-        from PyQuante.rohf import ao2mo
-        from PyQuante.hartree_fock import get_energy
-        from PyQuante.NumWrap import eigh,matrixmultiply
+        from .PyQuante.Ints import getJ,getK
+        from .PyQuante.LA2 import geigh,mkdens
+        from .PyQuante.rohf import ao2mo
+        from .PyQuante.hartree_fock import get_energy
+        from .PyQuante.NumWrap import eigh,matrixmultiply
 
         if self.orbs is None:
             self.orbe,self.orbs = geigh(self.h, self.S)
@@ -426,7 +426,7 @@ class ROHFHamiltonian(AbstractHamiltonian):
 class MINDO3Hamiltonian(AbstractHamiltonian):
     method='MINDO3'
     def __init__(self,molecule,**opts):
-        from PyQuante.MINDO3 import initialize, get_nbf, get_reference_energy,\
+        from .PyQuante.MINDO3 import initialize, get_nbf, get_reference_energy,\
              get_F0, get_nel,get_open_closed,get_enuke,get_guess_D
         self.molecule = molecule
         logger.info("MINDO3 calculation on system %s" % self.molecule.name)
@@ -469,7 +469,7 @@ class MINDO3Hamiltonian(AbstractHamiltonian):
         self.update_density()
 
     def update_fock(self):
-        from PyQuante.MINDO3 import get_F1, get_F2
+        from .PyQuante.MINDO3 import get_F1, get_F2
         avg = 0.25
         Fold = self.F
         self.F1 = get_F1(self.molecule,self.D)
@@ -478,23 +478,23 @@ class MINDO3Hamiltonian(AbstractHamiltonian):
         #self.F = avg*self.F + (1-avg)*Fold
         
     def solve_fock(self):
-        from PyQuante.NumWrap import eigh
+        from .PyQuante.NumWrap import eigh
         self.orbe,self.orbs = eigh(self.F)
 
     def update_density(self):
-        from PyQuante.LA2 import mkdens
+        from .PyQuante.LA2 import mkdens
         self.D = 2*mkdens(self.orbs,0,self.nclosed)
         
     def calculate_energy(self):
-        from PyQuante.LA2 import trace2
-        from PyQuante.MINDO3 import ev2kcal
+        from .PyQuante.LA2 import trace2
+        from .PyQuante.MINDO3 import ev2kcal
         self.Eel = 0.5*trace2(self.D,self.F0+self.F)
         self.Etot = self.Eel+self.Enuke
         self.energy = self.Etot*ev2kcal+self.eref
         
 class UMINDO3Hamiltonian(AbstractHamiltonian):
     def __init__(self,molecule,**opts):
-        from PyQuante.MINDO3 import initialize, get_nbf, get_reference_energy,\
+        from .PyQuante.MINDO3 import initialize, get_nbf, get_reference_energy,\
              get_F0, get_nel,get_open_closed,get_enuke,get_guess_D
         self.molecule = molecule
         logger.info("uMINDO3 calculation on system %s" % self.molecule.name)
@@ -539,7 +539,7 @@ class UMINDO3Hamiltonian(AbstractHamiltonian):
         self.calculate_energy()
 
     def update_fock(self):
-        from PyQuante.MINDO3 import get_F1_open, get_F2_open
+        from .PyQuante.MINDO3 import get_F1_open, get_F2_open
         F1a = get_F1_open(self.molecule,self.Da,self.Db)
         F1b = get_F1_open(self.molecule,self.Db,self.Da)
         F2a = get_F2_open(self.molecule,self.Da,self.Db)
@@ -549,13 +549,13 @@ class UMINDO3Hamiltonian(AbstractHamiltonian):
         return
 
     def solve_fock(self):
-        from PyQuante.NumWrap import eigh
-        from PyQuante.LA2 import mkdens
+        from .PyQuante.NumWrap import eigh
+        from .PyQuante.LA2 import mkdens
         self.orbea,self.orbsa = eigh(self.Fa)
         self.orbeb,self.orbsb = eigh(self.Fb)
 
     def update_density(self):
-        from PyQuante.LA2 import mkdens
+        from .PyQuante.LA2 import mkdens
         if self.start:
             self.start = False
         else:
@@ -563,8 +563,8 @@ class UMINDO3Hamiltonian(AbstractHamiltonian):
             self.Db = mkdens(self.orbsb,0,self.nbeta)
 
     def calculate_energy(self):
-        from PyQuante.LA2 import trace2
-        from PyQuante.MINDO3 import ev2kcal
+        from .PyQuante.LA2 import trace2
+        from .PyQuante.MINDO3 import ev2kcal
         self.Eel = 0.5*trace2(self.Da,self.F0+self.Fa)+\
                    0.5*trace2(self.Db,self.F0+self.Fb)
         self.Etot = self.Eel+self.Enuke
@@ -595,7 +595,7 @@ class BasicSolver(AbstractSolver):
         return
 
     def solve(self,H,**opts):
-        from PyQuante.LA2 import geigh,mkdens_spinavg
+        from .PyQuante.LA2 import geigh,mkdens_spinavg
         self.orbe,self.orbs = geigh(H,self.S)
         self.D = mkdens_spinavg(self.orbs,self.nclosed,self.nopen)
         self.entropy = 0
@@ -611,8 +611,8 @@ class FermiDiracSolver(AbstractSolver):
         return
 
     def solve(self,H,**opts):
-        from PyQuante.LA2 import geigh
-        from PyQuante.fermi_dirac import mkdens_fermi
+        from .PyQuante.LA2 import geigh
+        from .PyQuante.fermi_dirac import mkdens_fermi
         self.orbe,self.orbs = geigh(H,self.S)
         self.D,self.entropy = mkdens_fermi(self.nel,self.orbe,
                                            self.orbs,self.etemp)
@@ -633,13 +633,13 @@ class SubspaceSolver(AbstractSolver):
         self.nroots = self.nclosed + self.nopen + self.nvirt
 
         if not self.solver:
-            from PyQuante.NumWrap import eigh
+            from .PyQuante.NumWrap import eigh
             self.solver = eigh
         return
 
     def solve(self,H,**opts):
-        from PyQuante.LA2 import mkdens_spinavg,simx,geigh
-        from PyQuante.NumWrap import matrixmultiply,eigh
+        from .PyQuante.LA2 import mkdens_spinavg,simx,geigh
+        from .PyQuante.NumWrap import matrixmultiply,eigh
         if self.first_iteration:
             self.first_iteration = False
             self.orbe,self.orbs = geigh(H,self.S)
@@ -662,7 +662,7 @@ class DmatSolver(AbstractSolver):
         self.nopen = nopen
         self.solver = opts.get("solver")
         if not self.solver:
-            from PyQuante.DMP import TCP
+            from .PyQuante.DMP import TCP
             self.solver = TCP
         return
 
@@ -675,7 +675,7 @@ class DmatSolver(AbstractSolver):
 
 class UnitTests(unittest.TestCase):
     def setUp(self):
-        from PyQuante.Molecule import Molecule
+        from .PyQuante.Molecule import Molecule
         self.h2 = Molecule('H2',atomlist=[(1,(0.35,0,0)),(1,(-0.35,0,0))],
                            units='Angs')
         self.he = Molecule('He',atomlist = [(2,(0,0,0))])
@@ -758,14 +758,14 @@ class UnitTests(unittest.TestCase):
         self.assertAlmostEqual(h2_hf.energy,-1.130501,4)
     
     def testDavidsonSolver(self):
-        from PyQuante.Solvers import davidson
+        from .PyQuante.Solvers import davidson
         h2_hf = SCF(self.h2,method='HF',SolverConstructor=SubspaceSolver,
                     solver=davidson,pass_nroots=True)
         h2_hf.iterate()
         self.assertAlmostEqual(h2_hf.energy,-1.130501,4)
 
     def testJacobiSolver(self):
-        from PyQuante.Solvers import jacobi
+        from .PyQuante.Solvers import jacobi
         h2_hf = SCF(self.h2,method='HF',SolverConstructor=SubspaceSolver,
                     solver=jacobi)
         h2_hf.iterate()
@@ -777,21 +777,21 @@ class UnitTests(unittest.TestCase):
         self.assertAlmostEqual(h2_hf.energy,-1.130501,4)
 
     def testTRPSolver(self):
-        from PyQuante.DMP import TRP
+        from .PyQuante.DMP import TRP
         h2_hf = SCF(self.h2,method='HF',SolverConstructor=DmatSolver,
                     solver=TRP)
         h2_hf.iterate()
         self.assertAlmostEqual(h2_hf.energy,-1.130501,4)
 
     def testCPSolver(self):
-        from PyQuante.DMP import CP
+        from .PyQuante.DMP import CP
         h2_hf = SCF(self.h2,method='HF',SolverConstructor=DmatSolver,
                     solver=CP)
         h2_hf.iterate()
         self.assertAlmostEqual(h2_hf.energy,-1.130501,4)
     
     def testMCWSolver(self):
-        from PyQuante.DMP import McWeeny
+        from .PyQuante.DMP import McWeeny
         h2_hf = SCF(self.h2,method='HF',SolverConstructor=DmatSolver,
                     solver=McWeeny)
         h2_hf.iterate()

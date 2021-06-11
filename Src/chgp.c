@@ -898,19 +898,53 @@ static PyMethodDef chgp_methods[] = {
   {NULL,NULL} /* Sentinel */
 };
 
+#if PY_MAJOR_VERSION >= 3
+  static struct PyModuleDef chgp_def = {
+    PyModuleDef_HEAD_INIT,
+    "_chgp",             /* m_name */
+    NULL,                /* m_doc */
+    -1,                  /* m_size */
+    chgp_methods,        /* m_methods */
+    NULL,                /* m_reload */
+    NULL,                /* m_traverse */
+    NULL,                /* m_clear */
+    NULL,                /* m_free */
+  };
+#endif
+
+#if PY_MAJOR_VERSION >= 3
+static PyObject* module_init(char* name)
+{
+       PyObject* m;
+       m = PyModule_Create(&chgp_def);
+       return m;
+}
+#else
 static void module_init(char* name)
 {
-  (void) Py_InitModule(name,chgp_methods);
+       (void) Py_InitModule(name,chgp_methods);
 }
+#endif
 
+#if PY_MAJOR_VERSION >= 3
+    #define MODINIT(name) PyMODINIT_FUNC PyInit_##name(void)
+#else
+    #define MODINIT(name) PyMODINIT_FUNC init##name(void)
+#endif
+
+MODINIT(chgp)
+{
 #if defined(_WIN32)
 __declspec(dllexport)
 #endif
 #if defined(PYQUANTE_FULLY_QUALIFIED_MODULE_NAME)
-void initpyquante_chgp_ext(){module_init("pyquante_chgp_ext");}
+//void initpyquante_chgp_ext(){module_init("pyquante_chgp_ext");}
+module_init("pyquante_chgp_ext");
 #else
-void initchgp(){module_init("chgp");}
+//void initchgp(){module_init("chgp");}
+module_init("chgp");
 #endif
+}
 
 #undef ITMAX
 #undef EPS

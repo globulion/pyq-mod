@@ -17,8 +17,8 @@
  distribution. 
 """
 from math import sqrt
-from AtomicGrid import AtomicGrid, Bragg
-from NumWrap import array,reshape,zeros,dot
+from .AtomicGrid import AtomicGrid, Bragg
+from .NumWrap import array,reshape,zeros,dot
 from PyQuante.cints import dist2
 
 class MolecularGrid:
@@ -260,7 +260,7 @@ def becke_atomic_grid_p(iat,xp_yp_zp,atoms,**opts):
 
 if __name__ == '__main__':
     # Test the becke projection grids
-    from PyQuante.Molecule import Molecule
+    from .PyQuante.Molecule import Molecule
     h2 = Molecule('h2',
                   atomlist = [(1,(0.,0.,0.7)),(1,(0.,0.,-0.7))],
                   units = 'Bohr')

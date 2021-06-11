@@ -21,12 +21,12 @@ COPYRIGHT
 
 """
 
-from NumWrap import array,array2string,zeros,reshape,dot
-from Ints import getbasis
-from LA2 import trace2
+from .NumWrap import array,array2string,zeros,reshape,dot
+from .Ints import getbasis
+from .LA2 import trace2
 from math import sqrt
 from PyQuante.cints import ijkl2intindex
-from AnalyticDerivatives import der_Hcore_element,der_overlap_element,der_Jints
+from .AnalyticDerivatives import der_Hcore_element,der_overlap_element,der_Jints
 
 def hf_force(mol,wf,bname):
 # calculates Hartree-Fock derived atomic forces through

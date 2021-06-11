@@ -1,4 +1,4 @@
-from PyQuante.IO.Data import Data
+from .Data import Data
 
 class Handler(object):
     key = "xyz"
