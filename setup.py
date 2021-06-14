@@ -27,7 +27,7 @@ Operating System :: Microsoft :: Windows
 Operating System :: Unix
 Operating System :: MacOS
 """
-from distutils.core import setup, Extension
+#from distutils.core import setup, Extension
 from setuptools import setup, Extension
 import distutils.sysconfig
 sysconfig = distutils.sysconfig.get_config_vars()
@@ -49,30 +49,21 @@ doclines = __doc__.split("\n")
 lib_includes = ["Src/lib"]
 
 lib_utils = ["Src/lib/utils/math.c","Src/lib/utils/swap.c"] # Generic stuff
-lib_pgto = ["Src/lib/primitive-gto.c"] + lib_utils  # PrimitiveGTO code
-lib_cgto = ["Src/lib/contracted-gto.c"] + lib_pgto  # ContractedGTO code
-lib_shell =["Src/lib/shell.c"] + lib_cgto           # Shell code
+lib_pgto  = ["Src/lib/primitive-gto.c"] + lib_utils         # PrimitiveGTO code
+lib_cgto  = ["Src/lib/contracted-gto.c"] + lib_pgto         # ContractedGTO code
+lib_shell = ["Src/lib/shell.c"] + lib_cgto                  # Shell code
 
 # Python extension plus their dependencies
-cgto_ext = ["Src/PyQuante/contracted_gto.c"] + lib_cgto
-pgto_ext = ["Src/PyQuante/primitive_gto.c"] + lib_pgto
+cgto_ext  = ["Src/PyQuante/contracted_gto.c"] + lib_cgto
+pgto_ext  = ["Src/PyQuante/primitive_gto.c"] + lib_pgto
 shell_ext = ["Src/PyQuante/shell.c"] + lib_shell
 
-ext_modules=[Extension("PyQuante.cints",["Src/cints.c"],libraries=libs),
-             Extension("PyQuante.chgp",["Src/chgp.c"],libraries=libs),
-             Extension("PyQuante.crys",["Src/crys.c"],libraries=libs),
-             Extension("PyQuante.contracted_gto",
-                       cgto_ext,
-                       include_dirs=lib_includes,
-                       ),
-             Extension("PyQuante.primitive_gto",
-                       pgto_ext,
-                       include_dirs=lib_includes,
-                       ),
-             Extension("PyQuante.shell",
-                       shell_ext,
-                       include_dirs = lib_includes,)
-             ]
+ext_modules=[Extension("PyQuante.cints"         , ["Src/cints.c"], libraries= libs),
+             Extension("PyQuante.chgp"          , ["Src/chgp.c"] , libraries= libs),
+             Extension("PyQuante.crys"          , ["Src/crys.c"] , libraries= libs),
+             Extension("PyQuante.contracted_gto", cgto_ext , include_dirs= lib_includes),
+             Extension("PyQuante.primitive_gto" , pgto_ext , include_dirs= lib_includes),
+             Extension("PyQuante.shell"         , shell_ext, include_dirs= lib_includes)]
 
 # Fetching command line option
 if "--enable-libint" in sys.argv:

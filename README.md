@@ -1,7 +1,7 @@
 pyq-mod
 =======
 
-It  contains files of [PyQuante package] modified by me with a couple of extensions: 
+It contains files of [PyQuante package] modified by me with a couple of extensions: 
 
   * molecular multipole 1-electron integrals
   * overlap and kinetic 1-electron integral derivatives wrt nuclear coordinates
@@ -13,6 +13,10 @@ It  contains files of [PyQuante package] modified by me with a couple of extensi
 Adding/substituting the source code 
 and running standard PyQuante installing routines is sufficient to install this modified
 version of PyQuante.
+
+## :exclamation: Compatibility
+
+Compatible with Python 3. Compatibility with Python 2 is *not* guaranteed.
 
 [PyQuante package]: http://pyquante.sourceforge.net
 

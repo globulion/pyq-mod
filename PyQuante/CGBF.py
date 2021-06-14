@@ -15,6 +15,9 @@
  distribution. 
 """
 
+import pyximport
+pyximport.install()
+
 from . import PGBF
 from .NumWrap import zeros,array
 from math import sqrt
@@ -22,8 +25,15 @@ from math import sqrt
 from PyQuante.cints import overlap
 #from PyQuante.chgp import contr_coulomb
 from PyQuante.crys import contr_coulomb
-#import contracted_gto
-from PyQuante.contracted_gto import ContractedGTO
+import PyQuante
+#help(PyQuante)
+#from PyQuante import contracted_gto
+print("a")
+#from . import contracted_gto
+import sys
+sys.path.append('./..')
+from . import contracted_gto
+#from PyQuante.contracted_gto import ContractedGTO
 
 class CGBF(ContractedGTO):
     "Class for a contracted Gaussian basis function"
