@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 """PyQuante: Quantum Chemistry in Python
 
 PyQuante is an open-source suite of programs for developing quantum
