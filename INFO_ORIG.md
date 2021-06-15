@@ -1,4 +1,4 @@
-# PyQuante - Python Quantum Chemistry
+# PyQuante - Python Quantum Chemistry (Original Version)
 [Rick Muller](mailto:rmuller@sandia.gov) v1.5.0
 
 ## What is PyQuante?
