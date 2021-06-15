@@ -9,9 +9,9 @@ format with the same naming convention, read and write (They are
 really like StringHandlers, but without the format argument)
 '''
 
-from FormatHandlers import format_handlers # Defined in __init__.py
+from .FormatHandlers import format_handlers # Defined in __init__.py
 
-from Handlers import StringHandler,FileHandler,FormatUnsupported
+from .Handlers import StringHandler,FileHandler,FormatUnsupported
 import os
 
 class PyQuanteStringHandler(StringHandler):

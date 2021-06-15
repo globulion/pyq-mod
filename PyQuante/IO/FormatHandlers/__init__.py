@@ -1,7 +1,7 @@
-from HandlerList import HandlerList # utility
+from .HandlerList import HandlerList # utility
 
-import XYZ
-import CML
+from . import XYZ
+from . import CML
 
 
 format_handlers= HandlerList(XYZ.Handler, CML.Handler)

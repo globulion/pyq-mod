@@ -15,8 +15,8 @@ from .CGBF import CGBF,coulomb
 from .NumWrap import zeros,dot,reshape,array
 from PyQuante.cints import ijkl2intindex as intindex
 from PyQuante.cints import ijkl2intindexBTF as intindexBTF  # ADDED FOR COULOMB.py!
-from .PyQuante.Basis.Tools import get_basis_data
-import settings
+from .Basis.Tools import get_basis_data
+from . import settings
 import logging
 
 logger = logging.getLogger("pyquante")

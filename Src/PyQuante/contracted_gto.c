@@ -1826,10 +1826,10 @@ PyMODINIT_FUNC PyInit_contracted_gto(void)
  * from primitive_gto cimport PrimitiveGTO, cPrimitiveGTO
  * #from primitive_gto import PrimitiveGTO
  */
-  __pyx_1 = __Pyx_Import(__pyx_kp_contracted_gto, 0); if (unlikely(!__pyx_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 2; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_GOTREF(__pyx_1);
-  if (PyObject_SetAttr(__pyx_m, __pyx_kp_contracted_gto, __pyx_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 2; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
-  __Pyx_DECREF(__pyx_1); __pyx_1 = 0;
+//  __pyx_1 = __Pyx_Import(__pyx_kp_contracted_gto, 0); if (unlikely(!__pyx_1)) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 2; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+//  __Pyx_GOTREF(__pyx_1);
+//  if (PyObject_SetAttr(__pyx_m, __pyx_kp_contracted_gto, __pyx_1) < 0) {__pyx_filename = __pyx_f[0]; __pyx_lineno = 2; __pyx_clineno = __LINE__; goto __pyx_L1_error;}
+//  __Pyx_DECREF(__pyx_1); __pyx_1 = 0;
 
   /* "/home/eulero/workspace/pyquante-optints/Src/PyQuante/contracted_gto.pyx":21
  * 

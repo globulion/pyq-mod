@@ -22,13 +22,6 @@ from math import sqrt
 from PyQuante.cints import overlap
 #from PyQuante.chgp import contr_coulomb
 from PyQuante.crys import contr_coulomb
-import PyQuante
-#import sys
-#sys.path.append('./..')
-#help(PyQuante)
-#from PyQuante import contracted_gto
-print("a")
-#from . import contracted_gto
 from PyQuante.contracted_gto import ContractedGTO
 
 class CGBF(ContractedGTO):

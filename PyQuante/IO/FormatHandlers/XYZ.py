@@ -1,4 +1,4 @@
-from .Data import Data
+from .. import Data
 
 class Handler(object):
     key = "xyz"
