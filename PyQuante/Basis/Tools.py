@@ -10,7 +10,7 @@ Copyright (c) 2004, Richard P. Muller. All Rights Reserved.
 """
 
 import re,pprint
-from PyQuante.Element import name2no
+from ..Element import name2no
 
 basis_map = {
     '6-31g':'p631',
@@ -58,7 +58,7 @@ def importname(modulename, name):
 
     (Python Cookbook 2nd ed.)
     """
-    module = __import__(modulename, globals(), locals(), [name])
+    module = __import__(modulename, globals(), locals(), [name], level=1)
     if not module:
         raise ImportError
     return getattr(module, name)

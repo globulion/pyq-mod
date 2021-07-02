@@ -176,7 +176,6 @@ class Molecule:
 
     def add_atuples(self,atoms):
         "Add a list of (atno,(x,y,z)) tuples to the atom list"
-        from Atom import Atom
         for id,(atno,xyz) in enumerate(atoms):
             self.add_atuple(atno,xyz,id); id+=1
         return
