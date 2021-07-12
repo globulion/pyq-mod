@@ -48,9 +48,13 @@ Notes:
                     LIST1.append(n)                  # GLOBULION ADD
                     LIST2.append(A[ni])
                 if omit_f and sym == "F": continue
+               #print(sym)
+               #help(Shell)
                 shell = Shell(sym)
                 for power in sym2powerlist[sym]:
+                   #print("p= ", power)
                     cgbf = CGBF(atom.pos(), power, atom.atid)
+                   #print(cgbf)
                     
                     #exps,coefs = zip(*prims)
                     #primlist = [PrimitiveGTO(alpha,atom.pos(),power) for alpha in exps]
